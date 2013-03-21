@@ -15,7 +15,11 @@ Eclipse WTP/XML Search provides several modules:
  * **web** : manage  completion, hyperlink, validation and Ctrl+Shift+G) in the web.xml.
  * **jetty** : manage  completion, hyperlink, validation and Ctrl+Shift+G) in the XML jetty files.
  * **struts2** : manage  completion, hyperlink, validation and Ctrl+Shift+G) in the struts.xml and JSP.
-  
+
+# Overview
+
+TODO : create an update site.
+
 # Articles
  
  You can read those [articles](http://angelozerr.wordpress.com/about/eclipse-wtp-xml-search/) about Eclipse WTP/XML Search.
