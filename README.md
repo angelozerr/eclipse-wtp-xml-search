@@ -1,4 +1,4 @@
-Eclipse WTP/XMl Search
+Eclipse WTP/XML Search
 ======================
 
 # Overview
