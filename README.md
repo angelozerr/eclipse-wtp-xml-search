@@ -3,7 +3,7 @@ Eclipse WTP/XML Search
 
 # Overview
 
- Eclipse WTP/XMl Search is set of plugins which gives you 2 features : 
+ Eclipse WTP/XML Search is set of plugins which gives you 2 features : 
  
  * it provides a XML/Search dialog (like File/Search). You can launch a search in your XML files of your workspaces by using XPath.
  * develop your own plugin to manage (easily) completion, hyperlink, validation and Ctrl+Shift+G (to retrieve referenced nodes) in your 
