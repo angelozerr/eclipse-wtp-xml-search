@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+
+  	<!-- XML Struts2 content type declaration --> 
+	<extension
+         point="org.eclipse.core.contenttype.contentTypes">
+      <content-type 
+            base-type="org.eclipse.core.runtime.xml"
+            file-extensions="xml" 
+            id="org.apache.struts2.ide.contenttype.xworkValidator"
+            name="%validatorName"
+            priority="high">
+         <describer
+               class="org.eclipse.core.runtime.content.XMLRootElementContentDescriber2">      
+               <parameter
+                     name="element"
+                     value="validators/http://www.opensymphony.com/xwork/xwork-validator-1.0.dtd">
+               </parameter>                        
+               <parameter
+                     name="element"
+                     value="validators/http://www.opensymphony.com/xwork/xwork-validator-1.0.2.dtd">
+               </parameter>
+               <parameter
+                     name="element"
+                     value="validators/http://www.opensymphony.com/xwork/xwork-validator-1.0.3.dtd">
+               </parameter>                              
+         </describer>
+      </content-type>
+      
+      <content-type 
+            base-type="org.eclipse.core.runtime.xml"
+            file-extensions="xml" 
+            id="org.apache.struts2.ide.contenttype.xworkValidatorConfig"
+            name="%validatorConfigName"
+            priority="high">
+         <describer
+               class="org.eclipse.core.runtime.content.XMLRootElementContentDescriber2">      
+               <parameter
+                     name="element"
+                     value="validators/http://www.opensymphony.com/xwork/xwork-validator-config-1.0.dtd">
+               </parameter>                        
+         </describer>
+      </content-type>
+      
+    </extension>
+           
+           
+    <!-- Register the DTD XWork validators DTD in the WTP catalog -->
+	<extension 
+  		point="org.eclipse.wst.xml.core.catalogContributions"> 
+  		<catalogContribution 
+  			id="org.apache.struts2.ide.catalog">
+  			<!-- DTD validators --> 
+  			<public 
+  				publicId="-//OpenSymphony Group//XWork Validator 1.0//EN" 
+  				uri="dtds/xwork-validator-1.0.dtd"
+  				webURL="http://www.opensymphony.com/xwork/xwork-validator-1.0.dtd" > 
+  			</public>
+  			<public 
+  				publicId="-//OpenSymphony Group//XWork Validator 1.0.2//EN" 
+  				uri="dtds/xwork-validator-1.0.2.dtd"
+  				webURL="http://www.opensymphony.com/xwork/xwork-validator-1.0.2.dtd" > 
+  			</public> 
+  			<public 
+  				publicId="-//OpenSymphony Group//XWork Validator 1.0.3//EN" 
+  				uri="dtds/xwork-validator-1.0.3.dtd"
+  				webURL="http://www.opensymphony.com/xwork/xwork-validator-1.0.3.dtd" > 
+  			</public>
+  			<!-- DTD Config Validators --> 
+  			<public 
+  				publicId="-//OpenSymphony Group//XWork Validator Config 1.0//EN" 
+  				uri="dtds/xwork-validator-config-1.0.dtd"
+  				webURL="http://www.opensymphony.com/xwork/xwork-validator-config-1.0.dtd" > 
+  			</public>  			   			
+  		</catalogContribution> 
+	</extension> 
+   
+	<!-- Declaration of references between XML nodes --> 
+    <extension
+         point="org.eclipse.wst.xml.search.editor.xmlReferences">
+         <references
+               contentTypeIds="org.apache.struts2.ide.contenttype.xworkValidator">
+            
+			<!-- references field/@name => Java method -->
+           	<reference>
+              <from
+                    path="//field"
+                    targetNodes="@name" />
+              <toJavaMethod querySpecificationId="struts2.validators.javamethod.get.querySpecification" />
+           	</reference>
+
+			<!-- references field-validator/@type => validator/@name -->
+           	<reference>
+              <from
+                    path="//field-validator"
+                    targetNodes="@type"
+                    querySpecificationId="struts2.jsp.querySpecification" />
+              <to path="//validator" 
+              	  targetNodes="@name"
+              	  querySpecificationId="struts2.validators_config.querySpecification" />
+           	</reference>
+           	                       
+		   	<!-- references message/@key => properties file -->
+           	<reference validatorId="struts2.messageKey.validator" >
+              <from
+                    path="//message"
+                    targetNodes="@key"
+                    querySpecificationId="struts2.jsp.querySpecification" >
+              </from>
+              <toProperty querySpecificationId="struts2.applicationResources.querySpecification" />
+           	</reference>
+               																			
+         </references>
+   </extension>
+   
+   <!-- JavaMethod Query specification -->   		
+   <extension
+          point="org.eclipse.wst.xml.search.editor.javaMethodQuerySpecifications">
+		<querySpecification
+       		 id="struts2.validators.javamethod.get.querySpecification"
+             class="org.apache.struts2.ide.validators.core.internal.search.javamethod.GetJavaMethodQuerySpecification" />          
+    </extension>   
+   
+      <extension
+         point="org.eclipse.wst.xml.search.core.querySpecifications">
+        <querySpecification id="struts2.validators_config.querySpecification" 
+        				    class="org.apache.struts2.ide.validators.core.internal.search.xml.ValidatorConfigQuerySpecification" />
+   </extension>
+      
+   
+</plugin>

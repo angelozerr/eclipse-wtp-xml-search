@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+
+  	<!-- XML Jetty content type declaration --> 
+	<extension
+         point="org.eclipse.core.contenttype.contentTypes">
+      <content-type 
+            base-type="org.eclipse.core.runtime.xml"
+            file-extensions="xml" 
+            id="org.eclipse.jst.server.jetty.xml.contenttype.jettyConfigFile"
+            name="%configFileContentTypeName"
+            priority="high">
+         <describer
+               class="org.eclipse.core.runtime.content.XMLRootElementContentDescriber2">
+               <parameter
+                     name="element"
+                     value="Configure/http://www.eclipse.org/jetty/configure.dtd">
+               </parameter>
+         </describer>
+      </content-type>
+    </extension>
+    
+    <!-- Register the DTD Jetty configure.dtd in the WTP catalog -->
+	<extension 
+  		point="org.eclipse.wst.xml.core.catalogContributions"> 
+  		<catalogContribution 
+  			id="org.eclipse.wst.xml.examples.shapes.catalog"> 
+  			<public 
+  				publicId="http://www.eclipse.org/jetty/configure.dtd" 
+  				uri="dtd/configure.dtd"> 
+  			</public> 
+  		</catalogContribution> 
+	</extension> 
+      
+   <!-- Declaration of references between XML nodes --> 
+   <extension
+         point="org.eclipse.wst.xml.search.core.references">
+         <!-- reference with class attribute -->
+		<reference>			
+			<from path="/Configure//"
+				  targetNodes="@class"
+				  querySpecificationId="jetty.querySpecification" />
+			<toJava />
+		</reference>			
+		<!-- reference with Ref id attribute -->
+		<reference>
+			<from path="/Configure//Ref"
+				  targetNodes="@id"
+				  querySpecificationId="jetty.querySpecification" />
+			<to path="/Configure//" 
+				targetNodes="@id"
+				id="jetty.querySpecification"
+				querySpecificationId="jetty.querySpecificationIgnoreRef" />							
+		</reference> 		
+   </extension>     
+	
+	<!-- Personalisation du containeur dans lequel les fichiers XML docflows doivent être cherché + filtre sur le contentTypes  -->
+   <extension
+         point="org.eclipse.wst.xml.search.core.querySpecifications">
+        <querySpecification id="jetty.querySpecification" 
+        				    class="org.eclipse.jst.server.jetty.xml.core.internal.search.JettyQuerySpecification" />
+		<querySpecification id="jetty.querySpecificationIgnoreRef" 
+        				    class="org.eclipse.jst.server.jetty.xml.core.internal.search.JettyQuerySpecificationIgnoreRef" />             				                           
+   </extension>
+   		
+</plugin>

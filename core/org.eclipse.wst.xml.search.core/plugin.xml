@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+		
+	<extension-point id="querySpecifications" name="%querySpecificationsContributionName"
+		schema="schema/querySpecifications.exsd" />		
+	<extension-point id="propertiesQuerySpecifications" name="%propertiesQuerySpecificationsContributionName"
+		schema="schema/propertiesQuerySpecifications.exsd" />	
+	<extension-point id="resourceQuerySpecifications" name="%resourceQuerySpecificationsContributionName"
+		schema="schema/resourceQuerySpecifications.exsd" />	
+	<extension-point id="staticValueQuerySpecifications" name="%staticValueQuerySpecificationsContributionName"
+		schema="schema/staticValueQuerySpecifications.exsd" />		                            			       
+	<extension-point id="xpathProcessors" name="%xpathProcessorsContributionName"
+		schema="schema/xpathProcessors.exsd" />
+	<extension-point id="namespaces" name="%namespacesContributionName"
+		schema="schema/namespaces.exsd" />
+				
+	<extension
+	      point="org.eclipse.wst.xml.search.core.xpathProcessors">
+	    <processor
+	          class="org.eclipse.wst.xml.search.core.xpath.DefaultXPathProcessor"
+	          id="org.eclipse.wst.xml.search.core.xpath.DefaultXPathProcessor"
+	          name="%standardXPathProcessor">
+	    </processor>
+	</extension>
+	
+	<extension point="org.eclipse.core.runtime.preferences">
+		<initializer
+			class="org.eclipse.wst.xml.search.core.internal.preferences.PreferenceInitializer" />
+	</extension>
+	
+</plugin>

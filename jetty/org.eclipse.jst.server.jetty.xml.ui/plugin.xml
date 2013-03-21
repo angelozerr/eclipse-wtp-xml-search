@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+
+	<!-- Set the jetty.gif as icon in the Project Explorer for XML Jetty files -->
+   <extension
+         point="org.eclipse.ui.decorators">
+	     <decorator
+	       adaptable="true" 
+	       icon="icons/obj16/jetty.gif"
+	       id="org.eclipse.jst.server.jetty.xml.ui.icondecorator"
+	       label="%configFileContentTypeDecorator"
+	       lightweight="true"
+	       location="TOP_LEFT"
+	       state="true" >
+	       <enablement>
+	         <and>
+	           <objectClass
+	             name="org.eclipse.core.resources.IFile">
+	           </objectClass>
+	           <objectState
+	             name="contentTypeId"
+	             value="org.eclipse.jst.server.jetty.xml.contenttype.jettyConfigFile">
+	           </objectState>
+	         </and>	     
+	       </enablement>
+	     </decorator>    
+   </extension>
+   		
+   <extension point="org.eclipse.wst.sse.ui.editorConfiguration">
+		<sourceViewerConfiguration
+			class="org.eclipse.wst.xml.search.editor.XMLReferencesStructuredTextViewerConfiguration"
+			target="org.eclipse.jst.server.jetty.xml.contenttype.jettyConfigFile" />   			
+	</extension>
+
+   <!-- Source validation for XML jetty files  -->
+   <extension point="org.eclipse.wst.sse.ui.sourcevalidation">
+		<validator
+			scope="partial"
+			class="org.eclipse.wst.xml.ui.internal.validation.MarkupValidator"
+			id="org.eclipse.jst.server.jetty.xml.validation.MarkupJettyValidator">
+			<contentTypeIdentifier id="org.eclipse.jst.server.jetty.xml.contenttype.jettyConfigFile">
+				<partitionType id="org.eclipse.wst.xml.XML_DEFAULT">
+				</partitionType>
+			</contentTypeIdentifier>
+		</validator>
+	</extension>
+   <extension point="org.eclipse.wst.sse.ui.sourcevalidation">
+		<validator
+			scope="partial"
+			class="org.eclipse.wst.xml.ui.internal.validation.DelegatingSourceValidatorForXML"
+			id="org.eclipse.jst.server.jetty.xml.validation.DelegatingSourceJettyValidatorForXML">
+			<contentTypeIdentifier id="org.eclipse.jst.server.jetty.xml.contenttype.jettyConfigFile">
+				<partitionType id="org.eclipse.wst.xml.XML_DEFAULT">
+				</partitionType>
+			</contentTypeIdentifier>
+		</validator>
+	</extension>	   	
+   <extension point="org.eclipse.wst.sse.ui.sourcevalidation">
+		<validator
+			scope="partial"
+			class="org.eclipse.wst.xml.search.editor.validation.XMLReferencesValidator"
+			id="org.eclipse.jst.server.jetty.xml.validation.JettyValidator">
+			<contentTypeIdentifier id="org.eclipse.jst.server.jetty.xml.contenttype.jettyConfigFile">
+				<partitionType id="org.eclipse.wst.xml.XML_DEFAULT">
+				</partitionType>
+			</contentTypeIdentifier>
+		</validator>
+	</extension>
+		   	
+    <!-- Display info when completion is activated for XML reference (ex : Ref->New) -->		   		   
+	<extension
+         point="org.eclipse.wst.xml.search.editor.contentAssists">
+        <additionalProposalInfoProvider referenceId="jetty.querySpecification"
+        		  class="org.eclipse.jst.server.jetty.xml.ui.internal.contentassist.JettyContentAssistAdditionalProposalInfoProvider" >
+        </additionalProposalInfoProvider>
+   </extension>
+   		   		
+</plugin>

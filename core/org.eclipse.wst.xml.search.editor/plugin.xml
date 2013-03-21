@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+		
+	<extension-point id="xmlReferences" name="%referencesContributionName"
+		schema="schema/xml2x/xmlReferences.exsd" />
+	<extension-point id="referenceFilters" name="%referenceFiltersContributionName"
+		schema="schema/referenceFilters.exsd" />		
+	<extension-point id="referenceValidators" name="%referenceValidatorsContributionName"
+		schema="schema/referenceValidators.exsd" />						
+	<extension-point id="contentAssists" name="%contentAssistsContributionName"
+		schema="schema/contentAssists.exsd" />
+	<extension-point id="searchers" name="%searchersContributionName"
+		schema="schema/searchers.exsd" />		
+	<extension-point id="javaQuerySpecifications" name="%javaQuerySpecificationsContributionName"
+		schema="schema/javaQuerySpecifications.exsd" />						
+	<extension-point id="javaMethodQuerySpecifications" name="%javaMethodQuerySpecificationsContributionName"
+		schema="schema/javaMethodQuerySpecifications.exsd" />		
+	<extension-point id="expressionParsers" name="%expressionParsersContributionName"
+		schema="schema/expressionParsers.exsd" />		
+	<extension-point id="javaReferences" name="%javaReferencesContributionName"
+		schema="schema/javaReferences.exsd" />
+	<extension-point id="javaReferencesMatchers" name="%javaReferencesMatchersContributionName"
+		schema="schema/javaReferencesMatchers.exsd" />												
+				 
+   <extension
+         point="org.eclipse.wst.xml.search.editor.expressionParsers">
+         <parser
+               id="org.eclipse.wst.xml.search.editor.expressions.multiattrvalues"
+               class="org.eclipse.wst.xml.search.editor.searchers.expressions.MultiAttrValuesExpressionParser"               >
+         </parser>
+   </extension>
+   		 
+	<extension
+         point="org.eclipse.jdt.ui.queryParticipants">
+      <queryParticipant
+            class="org.eclipse.wst.xml.search.editor.internal.jdt.search.XMLReferenceJavaSearchParticipant"
+            id="org.eclipse.wst.xml.search.editor.jdt.search.ClassSearchParticipant"
+            name="%queryParticipant.name.0"
+            nature="org.eclipse.jdt.core.javanature"/>
+   </extension>
+   		          
+   <extension
+         point="org.eclipse.wst.xml.search.editor.searchers">
+         <searcher
+               id="org.eclipse.wst.xml.search.editor.searcher.resource"
+               class="org.eclipse.wst.xml.search.editor.searchers.resource.XMLSearcherForResource" >
+         </searcher>
+         <searcher
+               id="org.eclipse.wst.xml.search.editor.searcher.java"
+               class="org.eclipse.wst.xml.search.editor.searchers.java.XMLSearcherForJava" >
+         </searcher>
+         <searcher
+               id="org.eclipse.wst.xml.search.editor.searcher.javamethod"
+               class="org.eclipse.wst.xml.search.editor.searchers.javamethod.XMLSearcherForJavaMethod" >
+         </searcher>
+         <searcher
+               id="org.eclipse.wst.xml.search.editor.searcher.properties"
+               class="org.eclipse.wst.xml.search.editor.searchers.properties.XMLSearcherForProperties" >
+         </searcher>         
+         <searcher
+               id="org.eclipse.wst.xml.search.editor.searcher.statics"
+               class="org.eclipse.wst.xml.search.editor.searchers.statics.XMLSearcherForStatic" >
+         </searcher>
+         <searcher
+               id="org.eclipse.wst.xml.search.editor.searcher.xml"
+               class="org.eclipse.wst.xml.search.editor.searchers.xml.XMLSearcherForXML" >
+         </searcher>
+       <searcher
+               id="org.eclipse.wst.xml.search.editor.searcher.expression"
+               class="org.eclipse.wst.xml.search.editor.searchers.expressions.XMLSearcherForExpression" >
+         </searcher>         
+   </extension>                  			        
+
+   <extension
+         point="org.eclipse.wst.xml.search.editor.referenceValidators">
+         <validator
+               id="org.eclipse.wst.xml.search.editor.referenceValidators.default"
+               class="org.eclipse.wst.xml.search.editor.references.validators.DefaultDOMNodeValidator" >
+         </validator>
+   </extension>                  			        
+     
+	<extension point="org.eclipse.ui.commands">
+		<command
+            name="%ActionDefinition.referencesInContainer.name"
+            description="%ActionDefinition.referencesInContainer.description"
+			categoryId="org.eclipse.search.ui.category.search"
+			id="org.eclipse.wst.xml.search.references.in.container">
+		</command>
+   </extension> 
+		            	
+   <extension
+       point="org.eclipse.ui.handlers">
+       <handler
+             class="org.eclipse.wst.xml.search.editor.internal.handlers.ReferencesInContainerHandler"
+             commandId="org.eclipse.wst.xml.search.references.in.container">
+       </handler>
+   </extension> 
+   
+	<!--<extension point="org.eclipse.ui.menus">   
+	     <menuContribution
+	           locationURI="popup:sourcePopupMenuId?after=sourceBegin">
+				<command
+			           commandId="org.eclipse.wst.xml.search.references.in.container"
+			           id="ReferencesInContainer"
+			           style="push">
+					<visibleWhen checkEnabled="false">
+						<reference definitionId="org.eclipse.wst.sse.ui.sseActiveContext.definition"></reference>
+					</visibleWhen>
+			    </command>
+	     </menuContribution>			    
+   </extension>--> 
+
+   <extension
+         point="org.eclipse.ui.bindings">
+      <!--  win32:  M1=CTRL,    M2=SHIFT, M3=ALT, M4=-
+            carbon: M1=COMMAND, M2=SHIFT, M3=ALT, M4=CTRL -->
+
+<!-- search -->
+      <key
+            sequence="M1+M2+G"
+            contextId="org.eclipse.wst.sse.ui.structuredTextEditorScope"
+            commandId="org.eclipse.wst.xml.search.references.in.container"
+            schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"/>
+   </extension>    
+  
+  <!-- XML references batch validator -->
+
+  <extension
+         id="validationMarker"
+         name="%_validationMarker.name"
+         point="org.eclipse.core.resources.markers">
+      <super type="org.eclipse.wst.validation.problemmarker"/>
+      <persistent value="true"/>
+ </extension>
+    
+	<extension id="xmlReferncesBatchValidator" name="%XMLReferencesBatchValidator_description" point="org.eclipse.wst.validation.validatorV2">
+      <validator
+            build="true"
+            class="org.eclipse.wst.xml.search.editor.validation.XMLReferencesBatchValidator"
+            manual="true"            
+            version="1"
+            markerId="org.eclipse.wst.xml.search.editor.validationMarker">
+         <include>
+            <rules>
+               <fileext
+                     caseSensitive="false"
+                     ext="xml">
+               </fileext>
+            </rules>
+         </include>
+         <exclude>
+            <rules>
+				<projectNature id="org.eclipse.jst.j2ee.ejb.EJBNature"/>
+				<projectNature id="org.eclipse.jst.j2ee.EARNature"/>
+    			<file caseSensitive="true" name=".project" type="file"/>
+    			<file caseSensitive="true" name=".classpath" type="file"/>
+    			<file caseSensitive="true" name=".settings"  type="folder"/>
+            </rules>
+         </exclude>
+      </validator>
+   </extension>    
+     
+	<!-- initialize xml search editor preferences -->
+	<extension point="org.eclipse.core.runtime.preferences">
+		<initializer
+			class="org.eclipse.wst.xml.search.editor.internal.preferences.XMLSearchEditorPreferenceInitializer" />
+	</extension>
+	     
+	<extension point="org.eclipse.ui.preferencePages">
+		<page
+			name="%XML_Source.name"
+			category="org.eclipse.wst.xml.search.references"
+			class="org.eclipse.wst.xml.search.editor.internal.preferences.XMLSourcePreferencePage"
+			id="org.eclipse.wst.xml.search.editor.source">
+		</page>	
+		<page category="org.eclipse.wst.xml.search.editor.source"
+			class="org.eclipse.wst.xml.search.editor.internal.preferences.XMLReferencesSyntaxColoringPage"
+			id="org.eclipse.wst.xml.search.editor.internal.preferences.XMLReferencesSyntaxColoringPage" 
+			name="%XML_Syntax_Coloring">
+		</page>	
+	</extension>	     
+	     
+<!-- Define theme -->
+	<extension
+		point="org.eclipse.ui.themes">
+		<theme
+			id="org.eclipse.ui.ide.systemDefault">
+			<colorOverride
+				id="tagReferencedAttributeValue"
+				value="COLOR_LIST_FOREGROUND">
+			</colorOverride>			
+		</theme>
+		<colorDefinition
+			id="tagReferencedAttributeValue"
+			isEditable="false"
+			label="%Colors.tagAttributeValue"
+			value="42, 0, 255">
+		</colorDefinition>
+	</extension>
+	     
+	<extension point="org.eclipse.jdt.ui.javaCompletionProposalComputer"
+			id="SearchJavaNoTypeCompletionProposalComputer"
+			name="SearchJavaNoTypeCompletionProposalComputer">
+		<proposalCategory 
+			icon="jdt_search.png"
+			id="org.eclipse.jdt.search.editor"
+			name="JDT Search" />
+		<javaCompletionProposalComputer
+			class="org.eclipse.wst.xml.search.editor.internal.jdt.search2.SearchJavaNoTypeCompletionProposalComputer"
+			categoryId="org.eclipse.jdt.search.editor">
+			<partition type="__java_string"/>
+		</javaCompletionProposalComputer>
+	</extension>
+		     
+	<extension point="org.eclipse.ui.workbench.texteditor.hyperlinkDetectors">
+		<hyperlinkDetector
+			class="org.eclipse.wst.xml.search.editor.java.hyperlink.Java2XHyperLinkDetectetor"
+			id="org.eclipse.wst.xml.search.editor.java.hyperlink.Java2XHyperLinkDetectetor"
+			name="WTP/XML Search - Java Hyperlinker"
+			targetId="org.eclipse.jdt.ui.javaCode">
+		</hyperlinkDetector>
+	</extension>
+			     
+	<extension point="org.eclipse.jdt.ui.javaEditorTextHovers">
+		<hover
+			class="org.eclipse.wst.xml.search.editor.java.hover.Java2XHover"
+			id="org.eclipse.wst.xml.search.editor.java.hover.Java2XHover"
+			label="WTP/XML Search - Java Hover"/>
+	</extension>
+					     
+</plugin>

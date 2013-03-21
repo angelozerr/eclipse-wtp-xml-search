@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<docflows-config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:noNamespaceSchemaLocation="../../../../sidoc-core/design/persistence/collection/meta/docflow.xsd">
+	<docflows>
+		<docflow uri="d2">
+			<state state-type="s1">
+			</state>
+		</docflow>
+		
+		<docflow uri="d1">
+			<state state-type="s1">
+			</state>
+
+			<transitions>
+				<on-version-type uri="version-reference">
+					<transition from-state="s1" >
+					</transition>
+				</on-version-type>
+
+			</transitions>
+
+		</docflow>
+	</docflows>
+</docflows-config>

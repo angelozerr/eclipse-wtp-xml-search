@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+
+  	<!-- XML Struts2 content type declaration --> 
+	<extension
+         point="org.eclipse.core.contenttype.contentTypes">
+      <content-type 
+            base-type="org.eclipse.core.runtime.xml"
+            file-extensions="xml" 
+            id="org.eclipse.jst.jee.web.xml.contenttype.webXMLConfigFile"
+            name="%configFileContentTypeName"
+            priority="high">
+         <describer
+               class="org.eclipse.core.runtime.content.XMLRootElementContentDescriber2">               
+               <parameter
+                     name="element"
+                     value="web-app">
+               </parameter>               
+         </describer>
+      </content-type>
+    </extension>
+   
+	<!-- Declaration of references between XML nodes --> 
+    <extension
+         point="org.eclipse.wst.xml.search.editor.xmlReferences">
+         <references
+               contentTypeIds="org.eclipse.jst.j2ee.webDD,org.eclipse.jst.jee.ee5webDD,org.eclipse.jst.jee.web.xml.contenttype.webXMLConfigFile">
+            
+            <!-- filter/filter-class => Java class -->
+			<reference>		
+				<from path="/ns:web-app/ns:filter/ns:filter-class"
+					  targetNodes="text()"
+					  querySpecificationId="web.querySpecification" />
+				<toJava />	
+			</reference>
+			<!-- filter-mapping/filter-name => filter/filter-name -->
+			<reference>		
+				<from path="/ns:web-app/ns:filter-mapping/ns:filter-name"
+					  targetNodes="text()" 
+					  querySpecificationId="web.querySpecification" />
+				<to path="/ns:web-app/ns:filter/ns:filter-name"
+					targetNodes="text()" 
+					querySpecificationId="web.querySpecification" />	
+			</reference>
+
+            <!-- listener/listener-class => Java class -->
+			<reference>		
+				<from path="/ns:web-app/ns:listener/ns:listener-class"
+					  targetNodes="text()" 
+					  querySpecificationId="web.querySpecification" />
+				<toJava />	
+			</reference>
+						
+            <!-- servlet/servlet-class => Java class -->
+			<reference>		
+				<from path="/ns:web-app/ns:servlet/ns:servlet-class"
+					  targetNodes="text()"
+					  querySpecificationId="web.querySpecification" />
+				<toJava />	
+			</reference>
+			
+			<!-- servlet-mapping/servlet-name => servlet/servlet-name -->
+			<reference>		
+				<from path="/ns:web-app/ns:servlet-mapping/ns:servlet-name"
+					  targetNodes="text()" 
+					  querySpecificationId="web.querySpecification" />
+				<to path="/ns:web-app/ns:servlet/ns:servlet-name"
+					targetNodes="text()"
+					querySpecificationId="web.querySpecification"
+					additionalProposalInfoProviderId="web.servlet.info" />	
+			</reference>
+			
+			<!-- welcome-file -->
+			<reference>
+			      <from
+			            path="/ns:web-app/ns:welcome-file-list/ns:welcome-file"
+			            targetNodes="text()"
+			            querySpecificationId="web.querySpecification" >
+			      </from>
+			      <toResource querySpecificationId="web.files.querySpecification" />
+			</reference>
+         </references>
+   </extension>
+   
+  	<extension point="org.eclipse.wst.sse.ui.editorConfiguration">
+		<sourceViewerConfiguration
+			class="org.eclipse.wst.xml.search.editor.XMLReferencesStructuredTextViewerConfiguration"
+			target="org.eclipse.jst.j2ee.webDD" />   			
+	</extension>
+	<extension point="org.eclipse.wst.sse.ui.editorConfiguration">
+		<sourceViewerConfiguration
+			class="org.eclipse.wst.xml.search.editor.XMLReferencesStructuredTextViewerConfiguration"
+			target="org.eclipse.jst.jee.ee5webDD" />   			
+	</extension>
+  	<extension point="org.eclipse.wst.sse.ui.editorConfiguration">
+		<sourceViewerConfiguration
+			class="org.eclipse.wst.xml.search.editor.XMLReferencesStructuredTextViewerConfiguration"
+			target="org.eclipse.jst.jee.web.xml.contenttype.webXMLConfigFile" />   			
+	</extension>
+	
+   <!-- Source validation for XML web.xml files  -->
+   <extension point="org.eclipse.wst.sse.ui.sourcevalidation">
+		<validator
+			scope="partial"
+			class="org.eclipse.wst.xml.ui.internal.validation.MarkupValidator"
+			id="org.eclipse.jst.j2ee.webDD.validation.MarkupValidator">
+			<contentTypeIdentifier id="org.eclipse.jst.j2ee.webDD">
+				<partitionType id="org.eclipse.wst.xml.XML_DEFAULT">
+				</partitionType>
+			</contentTypeIdentifier>
+			<contentTypeIdentifier id="org.eclipse.jst.jee.ee5webDD" >
+				<partitionType id="org.eclipse.wst.xml.XML_DEFAULT">
+				</partitionType>
+			</contentTypeIdentifier>
+			<contentTypeIdentifier id="org.eclipse.jst.jee.web.xml.contenttype.webXMLConfigFile">
+				<partitionType id="org.eclipse.wst.xml.XML_DEFAULT">
+				</partitionType>
+			</contentTypeIdentifier>			
+		</validator>
+	</extension>
+   <extension point="org.eclipse.wst.sse.ui.sourcevalidation">
+		<validator
+			scope="partial"
+			class="org.eclipse.wst.xml.ui.internal.validation.DelegatingSourceValidatorForXML"
+			id="org.eclipse.jst.j2ee.webDD.validation.DelegatingSourceValidatorForXML">
+			<contentTypeIdentifier id="org.eclipse.jst.j2ee.webDD">
+				<partitionType id="org.eclipse.wst.xml.XML_DEFAULT">
+				</partitionType>
+			</contentTypeIdentifier>
+			<contentTypeIdentifier id="org.eclipse.jst.jee.ee5webDD" >
+				<partitionType id="org.eclipse.wst.xml.XML_DEFAULT">
+				</partitionType>
+			</contentTypeIdentifier>
+			<contentTypeIdentifier id="org.eclipse.jst.jee.web.xml.contenttype.webXMLConfigFile">
+				<partitionType id="org.eclipse.wst.xml.XML_DEFAULT">
+				</partitionType>
+			</contentTypeIdentifier>			
+		</validator>
+	</extension>	
+	   	
+   <extension point="org.eclipse.wst.sse.ui.sourcevalidation">
+		<validator
+			scope="partial"
+			class="org.eclipse.wst.xml.search.editor.validation.XMLReferencesValidator"
+			id="org.eclipse.jst.j2ee.webDD.validation.Validator">
+			<contentTypeIdentifier id="org.eclipse.jst.j2ee.webDD">
+				<partitionType id="org.eclipse.wst.xml.XML_DEFAULT">
+				</partitionType>
+			</contentTypeIdentifier>
+			<contentTypeIdentifier id="org.eclipse.jst.jee.ee5webDD" >
+				<partitionType id="org.eclipse.wst.xml.XML_DEFAULT">
+				</partitionType>
+			</contentTypeIdentifier>
+			<contentTypeIdentifier id="org.eclipse.jst.jee.web.xml.contenttype.webXMLConfigFile">
+				<partitionType id="org.eclipse.wst.xml.XML_DEFAULT">
+				</partitionType>
+			</contentTypeIdentifier>			
+		</validator>
+	</extension>
+	
+   <extension
+         point="org.eclipse.wst.xml.search.core.querySpecifications">
+        <querySpecification id="web.querySpecification" 
+        				    class="org.eclipse.jst.jee.web.xml.internal.search.WebXMLQuerySpecification" />
+   </extension>
+   
+   <extension
+         point="org.eclipse.wst.xml.search.core.resourceQuerySpecifications">
+        <querySpecification id="web.files.querySpecification" 
+        				    class="org.eclipse.jst.jee.web.xml.internal.search.WebContentResourcesQuerySpecification" />
+   </extension>		
+   
+	<extension
+         point="org.eclipse.wst.xml.search.editor.contentAssists">
+        <additionalProposalInfoProvider id="web.servlet.info"
+        		  class="org.eclipse.jst.jee.web.xml.internal.search.contentassist.ServletContentAssistAdditionalProposalInfoProvider" >
+        </additionalProposalInfoProvider>
+   </extension>   
+   		
+</plugin>

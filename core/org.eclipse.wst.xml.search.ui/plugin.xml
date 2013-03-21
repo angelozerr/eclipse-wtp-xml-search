@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+
+   <extension
+        point="org.eclipse.search.searchResultViewPages">
+		<viewPage
+			id="org.eclipse.wst.xml.search.ui.XMLSearchResultPage"
+			searchResultClass="org.eclipse.wst.xml.search.ui.internal.XMLSearchResult"
+			class="org.eclipse.wst.xml.search.ui.internal.XMLSearchResultPage">
+		</viewPage>
+   </extension>
+   
+   <extension
+         point="org.eclipse.search.searchPages">
+      <page
+            showScopeSection="true"
+            canSearchEnclosingProjects="true"
+            label="%XMLSearchPage.label"
+            icon="icons/obj16/xmlsearch_obj.gif"
+            extensions="*:1"
+            class="org.eclipse.wst.xml.search.ui.internal.dialog.XMLSearchPage"
+            sizeHint="460,160"
+            id="org.eclipse.wst.xml.search.ui.dialog.XMLSearchPage">
+      </page>
+   </extension>
+      
+   <extension
+         point="org.eclipse.ui.actionSets">
+      <actionSet
+            label="%XMLSearchActionSet.label"
+            description="%XMLSearchActionSet.description"
+            visible="true"
+            id="org.eclipse.wst.xml.search.ui.SearchActionSet">
+<!-- see http://bugs.eclipse.org/bugs/show_bug.cgi?id=15684    -->
+<!-- Note: The menu (re-) definition has to be here due to bug: -->
+<!-- =================================================================== -->
+<!-- Search Menu                                                         -->
+<!-- =================================================================== -->
+         <menu
+               label="%searchMenu.label"
+               path="navigate"
+               id="org.eclipse.search.menu">
+				<groupMarker name="internalDialogGroup"/>   <!-- not to be used by clients  -->
+				<groupMarker name="dialogGroup"/>           <!-- to be used by clients      -->
+				<separator name="fileSearchContextMenuActionsGroup"/> <!-- to be used by clients      -->
+	         	<separator name="contextMenuActionsGroup"/> <!-- to be used by clients -->
+	         	<separator name="occurencesActionsGroup"/> <!-- to be used by clients -->
+	         	<separator name="extraSearchGroup"/> <!-- to be used by clients -->
+         </menu>
+<!-- dialog group  -->
+         <action
+               label="%openXMLSearchPageAction.label"
+               icon="icons/obj16/xmlsearch_obj.gif"
+               helpContextId="org.eclipse.wst.xml.search.ui.dialog.xml_search_action_context"
+               class="org.eclipse.wst.xml.search.ui.internal.dialog.OpenXMLSearchPageAction"
+               menubarPath="org.eclipse.search.menu/dialogGroup"
+               id="org.eclipse.wst.xml.search.ui.dialog.OpenXMLSearchPage">
+         </action>   
+     </actionSet>
+  </extension>
+                           			       
+  <!--<extension
+         point="org.eclipse.ui.actionSetPartAssociations">
+      <actionSetPartAssociation
+            targetID="org.eclipse.wst.xml.search.ui.SearchActionSet">
+         <part
+               id="org.eclipse.jdt.ui.ProjectsView">
+         </part>
+         <part
+               id="org.eclipse.search.SearchResultView">
+         </part>
+      </actionSetPartAssociation>
+   </extension>-->  
+                        
+	<extension point="org.eclipse.ui.preferencePages">
+	  <page
+	        category="org.eclipse.wst.xml.ui.preferences.xml"
+	        class="org.eclipse.wst.xml.search.ui.internal.preferences.XMLSearchPreferencePage"
+	        id="org.eclipse.wst.xml.search.references"
+	        name="%pageNameXMLSearch">
+	  </page>
+		<page category="org.eclipse.wst.xml.search.references"
+			class="org.eclipse.wst.xml.search.ui.internal.preferences.XPathProcessorPreferencePage"
+			id="org.eclipse.wst.xml.search.ui.preferences.XPathProcessorPreferencePage" 
+			name="%pagenameXPathProcessor">
+		</page>	
+	</extension>
+		                            			       
+</plugin>

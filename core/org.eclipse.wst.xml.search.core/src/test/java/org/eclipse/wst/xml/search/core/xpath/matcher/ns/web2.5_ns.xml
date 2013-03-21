@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<javaee:web-app
+  xmlns:javaee="http://java.sun.com/xml/ns/javaee"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+  metadata-complete="true"
+  version="2.5" 
+>
+  <javaee:servlet>
+    <javaee:servlet-name>default</javaee:servlet-name>
+    <javaee:servlet-class>org.eclipse.jetty.servlet.DefaultServlet</javaee:servlet-class>
+  </javaee:servlet>
+
+  <javaee:servlet-mapping>
+    <javaee:servlet-name>default</javaee:servlet-name>
+    <javaee:url-pattern>/</javaee:url-pattern>
+  </javaee:servlet-mapping>
+
+</javaee:web-app>
+

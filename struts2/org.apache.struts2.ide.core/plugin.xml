@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+
+  	<!-- XML Struts2 content type declaration --> 
+	<extension
+         point="org.eclipse.core.contenttype.contentTypes">
+      <content-type 
+            base-type="org.eclipse.core.runtime.xml"
+            file-extensions="xml" 
+            id="org.apache.struts2.ide.contenttype.struts2ConfigFile"
+            name="%configFileContentTypeName"
+            priority="high">
+         <describer
+               class="org.eclipse.core.runtime.content.XMLRootElementContentDescriber2">               
+               <parameter
+                     name="element"
+                     value="struts/http://struts.apache.org/dtds/struts-2.0.dtd">
+               </parameter>
+               <parameter
+                     name="element"
+                     value="struts/http://struts.apache.org/dtds/struts-2.1.dtd">
+               </parameter>
+               <parameter
+                     name="element"
+                     value="struts/http://struts.apache.org/dtds/struts-2.1.7.dtd">
+               </parameter>                             
+         </describer>
+      </content-type>
+    </extension>
+           
+    <!-- Register the DTD Struts2 struts-2.0.dtd in the WTP catalog -->
+	<extension 
+  		point="org.eclipse.wst.xml.core.catalogContributions"> 
+  		<catalogContribution 
+  			id="org.apache.struts2.ide.catalog"> 
+  			<public 
+  				publicId="-//Apache Software Foundation//DTD Struts Configuration 2.0//EN" 
+  				uri="dtds/struts-2.0.dtd"
+  				webURL="http://struts.apache.org/dtds/struts-2.0.dtd" > 
+  			</public>
+  			<public 
+  				publicId="-//Apache Software Foundation//DTD Struts Configuration 2.1//EN" 
+  				uri="dtds/struts-2.1.dtd"
+  				webURL="http://struts.apache.org/dtds/struts-2.1.dtd" > 
+  			</public>
+  			<public 
+  				publicId="-//Apache Software Foundation//DTD Struts Configuration 2.1.7//EN" 
+  				uri="dtds/struts-2.1.7.dtd"
+  				webURL="http://struts.apache.org/dtds/struts-2.1.7.dtd" > 
+  			</public>  			
+  		</catalogContribution> 
+	</extension> 
+   
+<!-- Declaration of references between XML nodes --> 
+    <extension
+         point="org.eclipse.wst.xml.search.editor.xmlReferences">
+         <references
+               contentTypeIds="org.apache.struts2.ide.contenttype.struts2ConfigFile">
+            
+            <!-- struts/include/@file => Java class -->
+			<reference>		
+				<from path="/struts/include"
+					  targetNodes="@file" />
+				<toResource querySpecificationId="struts2.fileQuerySpecification"
+						additionalProposalInfoProviderId="struts2.file.info"/>	
+			</reference>
+			
+            <!-- struts/*/@class => Java class -->
+			<reference>		
+				<from path="/struts//"
+					  targetNodes="@class" />
+				<toJava />	
+			</reference>	
+
+            <!-- action/@method => Java method -->
+			<reference>		
+				<from path="/struts/package/action"
+					  targetNodes="@method" />
+				<toJavaMethod pathForClass="@class" />
+			</reference>
+			
+			<!-- interceptor-ref => interceptor or interceptor-stack -->
+			<reference>
+				<from path="/struts//interceptor-ref"
+					  targetNodes="@name"
+					  querySpecificationId="struts2.querySpecification" />
+				<to path="/struts//interceptor"
+					targetNodes="@name"
+					querySpecificationId="struts2.querySpecification"
+					additionalProposalInfoProviderId="struts2.interceptor.info" />
+				<to path="/struts//interceptor-stack"
+					targetNodes="@name"
+					querySpecificationId="struts2.querySpecification"
+					additionalProposalInfoProviderId="struts2.interceptor-statck.info" />					
+			</reference>
+			
+			 <!-- default-interceptor-ref => interceptor or interceptor-stack -->
+			<reference>
+				<from path="/struts//default-interceptor-ref"
+					  targetNodes="@name"
+					  querySpecificationId="struts2.querySpecification" />
+				<to path="/struts//interceptor"
+					targetNodes="@name"
+					querySpecificationId="struts2.querySpecification"
+					additionalProposalInfoProviderId="struts2.interceptor.info" />
+				<to path="/struts//interceptor-stack"
+					targetNodes="@name"
+					querySpecificationId="struts2.querySpecification"
+					additionalProposalInfoProviderId="struts2.interceptor-statck.info" />					
+			</reference>
+						
+			<!-- package/@extends => package/@name -->
+			<reference>
+				<from path="/struts/package"
+					  targetNodes="@extends"
+					  querySpecificationId="struts2.querySpecification" />
+				<to path="/struts/package"
+					targetNodes="@name"
+					querySpecificationId="struts2.package.querySpecification"
+					additionalProposalInfoProviderId="struts2.package.info" />
+			</reference>
+			
+			<!-- /struts/package/action/result => result-type -->			
+			<reference>
+				<from path="/struts//result"
+					  targetNodes="@type"
+					  querySpecificationId="struts2.querySpecification" />
+				<to path="/struts/package/result-types/result-type"
+					targetNodes="@name"
+					querySpecificationId="struts2.querySpecification"
+					additionalProposalInfoProviderId="struts2.result-type.info" />
+			</reference>						
+											
+			<!-- exception-mapping => Class + result -->
+			<reference>
+				<from path="/struts//exception-mapping"
+					  targetNodes="@exception"
+					  querySpecificationId="struts2.querySpecification" />
+				<toJava />
+			</reference>
+			<reference>
+				<from path="/struts//exception-mapping"
+					  targetNodes="@result"
+					  querySpecificationId="struts2.querySpecification" />			
+				<to path="/struts//result"
+					  targetNodes="@name"
+					  querySpecificationId="struts2.querySpecification" 
+					  additionalProposalInfoProviderId="struts2.result.info" />
+			</reference>
+															
+			<!-- result => files-->
+			<reference>
+				<from path="/struts//result"
+					  targetNodes="text()"
+					  querySpecificationId="struts2.querySpecification" />
+				<toResource querySpecificationId="struts2.webcontent.fileQuerySpecification" />
+			</reference>
+																	
+         </references>
+   </extension>
+   
+   <extension
+         point="org.eclipse.wst.xml.search.core.querySpecifications">
+        <querySpecification id="struts2.querySpecification" 
+        				    class="org.apache.struts2.ide.core.internal.search.Struts2QuerySpecification" />
+		<querySpecification id="struts2.package.querySpecification" 
+        				    class="org.apache.struts2.ide.core.internal.search.Struts2PackageQuerySpecification" />
+		<querySpecification id="struts2.all.querySpecification"
+							class="org.apache.struts2.ide.core.internal.search.all.FindAllStruts2QuerySpecification" />
+   </extension>
+
+	<extension
+         point="org.eclipse.wst.xml.search.core.resourceQuerySpecifications">
+        <querySpecification id="struts2.fileQuerySpecification" 
+							class="org.apache.struts2.ide.core.internal.search.Struts2FileQuerySpecification" />
+        <querySpecification id="struts2.webcontent.fileQuerySpecification" 
+							class="org.apache.struts2.ide.core.internal.search.webcontent.WebContentFileQuerySpecification" />    							    
+   	</extension>
+   	
+   	<extension
+         point="org.eclipse.wst.xml.search.core.propertiesQuerySpecifications">
+        <querySpecification id="struts2.applicationResources.querySpecification" 
+							class="org.apache.struts2.ide.core.internal.search.properties.ApplicationResourcesQuerySpecification" />    
+   	</extension>   		
+</plugin>

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+
+    <extension
+         point="org.eclipse.wst.xml.search.editor.referenceFilters">
+		<filter id="struts2.taglib.filter" 
+			   class="org.apache.struts2.ide.ui.jsp.internal.search.Struts2TaglibReferenceFilter" />		
+	</extension>   
+	
+	<!-- Declaration of references between struts Taglib -> struts.xml --> 
+    <extension
+         point="org.eclipse.wst.xml.search.editor.references">
+          
+         <references
+               contentTypeIds="org.eclipse.jst.jsp.core.jspsource" >
+               
+               <!-- references JSP s:form, s:submit, s:url... @action => struts.xml action/@name -->
+               <reference>
+                  <from
+                        path="//"
+                        targetNodes="@action"
+                        querySpecificationId="struts2.jsp.querySpecification"
+                        filterId="struts2.taglib.filter"  >
+                  </from>
+                  <to path="/struts/package/action"
+					  targetNodes="@name"
+					  querySpecificationId="struts2.all.querySpecification" />
+               </reference>
+                                                    
+		 </references>        
+   </extension>
+  		
+	<extension
+         point="org.eclipse.wst.xml.search.core.querySpecifications">
+        <querySpecification id="struts2.jsp.querySpecification" 
+        				    class="org.apache.struts2.ide.ui.jsp.internal.search.Struts2JSPQuerySpecification" />
+   </extension>  		
+</plugin>

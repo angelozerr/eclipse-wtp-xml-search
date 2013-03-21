@@ -1,0 +1,17 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<artifactId>core</artifactId>
+	<packaging>pom</packaging>
+	<parent>
+		<groupId>org.eclipse.wst.xml.search</groupId>
+		<artifactId>eclipse-wtp-xml-search</artifactId>
+		<version>1.0.0-SNAPSHOT</version>
+	</parent>
+	<modules>	
+		<module>org.eclipse.wst.xml.search.core</module>
+		<module>org.eclipse.wst.xml.search.editor</module>		
+		<module>org.eclipse.wst.xml.search.ui</module>
+		<module>org.eclipse.wst.xml.search.xpath.processors</module>		
+	</modules>
+</project>
