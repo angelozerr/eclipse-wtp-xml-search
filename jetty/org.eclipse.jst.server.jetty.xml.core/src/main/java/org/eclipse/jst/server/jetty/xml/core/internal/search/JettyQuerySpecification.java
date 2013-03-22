@@ -1,22 +1,21 @@
 package org.eclipse.jst.server.jetty.xml.core.internal.search;
 
-import org.eclipse.core.resources.IContainer;
-import org.eclipse.core.resources.IFile;
-import org.eclipse.wst.xml.search.core.IXMLSearchRequestor;
-import org.eclipse.wst.xml.search.core.queryspecifications.FolderContainerProvider;
-import org.eclipse.wst.xml.search.core.queryspecifications.IContainerProvider;
-import org.eclipse.wst.xml.search.core.queryspecifications.IXMLSearchRequestorProvider;
-
+import org.eclipse.core.resources.IResource;
+import org.eclipse.wst.xml.search.core.queryspecifications.container.FolderContainerProvider;
+import org.eclipse.wst.xml.search.core.queryspecifications.container.IResourceProvider;
+import org.eclipse.wst.xml.search.core.queryspecifications.requestor.IXMLSearchRequestor;
+import org.eclipse.wst.xml.search.core.queryspecifications.requestor.IXMLSearchRequestorProvider;
 
 public class JettyQuerySpecification implements IXMLSearchRequestorProvider,
-		IContainerProvider {
+		IResourceProvider {
 
 	public IXMLSearchRequestor getRequestor() {
 		return JettySearchRequestor.INSTANCE;
 	}
 
-	public IContainer getContainer(IFile file) {
-		return FolderContainerProvider.INSTANCE.getContainer(file);
+	public IResource getResource(Object selectedNode, IResource resource) {
+		return FolderContainerProvider.INSTANCE.getResource(selectedNode,
+				resource);
 	}
 
 }

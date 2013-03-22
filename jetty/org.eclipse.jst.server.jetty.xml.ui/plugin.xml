@@ -71,9 +71,9 @@
     <!-- Display info when completion is activated for XML reference (ex : Ref->New) -->		   		   
 	<extension
          point="org.eclipse.wst.xml.search.editor.contentAssists">
-        <additionalProposalInfoProvider referenceId="jetty.querySpecification"
+        <additionalProposalInfoProvider id="jetty.default.info"
         		  class="org.eclipse.jst.server.jetty.xml.ui.internal.contentassist.JettyContentAssistAdditionalProposalInfoProvider" >
         </additionalProposalInfoProvider>
    </extension>
-   		   		
+       		   		
 </plugin>

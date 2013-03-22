@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 import org.eclipse.jst.server.jetty.xml.core.JettyConstants;
-import org.eclipse.wst.xml.search.core.ContentTypeXMLSearchRequestor;
-import org.eclipse.wst.xml.search.core.IXMLSearchRequestor;
+import org.eclipse.wst.xml.search.core.queryspecifications.requestor.ContentTypeXMLSearchRequestor;
+import org.eclipse.wst.xml.search.core.queryspecifications.requestor.IXMLSearchRequestor;
 
 public class JettySearchRequestor extends ContentTypeXMLSearchRequestor
 		implements JettyConstants {
