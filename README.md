@@ -14,7 +14,7 @@ Eclipse WTP/XML Search
 
 Eclipse WTP/XML Search provides several modules: 
  
- * [*core](https://github.com/angelozerr/eclipse-wtp-xml-search/wiki/WTP-XML-Search-Core) : the XML/Search dialog feature and XML/Search editor (to extends your own XML, HTML, JSP files with completion, hyperlink, validation and Ctrl+Shift+G).
+ * [core](https://github.com/angelozerr/eclipse-wtp-xml-search/wiki/WTP-XML-Search-Core) : the XML/Search dialog feature and XML/Search editor (to extends your own XML, HTML, JSP files with completion, hyperlink, validation and Ctrl+Shift+G).
  * [web](https://github.com/angelozerr/eclipse-wtp-xml-search/wiki/XML-web) : manage  completion, hyperlink, validation and (Ctrl+Shift+G) in the web.xml.
  * [jetty](https://github.com/angelozerr/eclipse-wtp-xml-search/wiki/XML-Jetty-Plugins) : manage  completion, hyperlink, validation and (Ctrl+Shift+G) for XML jetty configuration files.
  * [struts2](https://github.com/angelozerr/eclipse-wtp-xml-search/wiki/Struts2-IDE) : manage  completion, hyperlink, validation and (Ctrl+Shift+G) in the struts.xml and JSP.
