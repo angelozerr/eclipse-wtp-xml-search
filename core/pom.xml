@@ -12,6 +12,7 @@
 		<module>org.eclipse.wst.xml.search.core</module>
 		<module>org.eclipse.wst.xml.search.editor</module>		
 		<module>org.eclipse.wst.xml.search.ui</module>
-		<!--  <module>org.eclipse.wst.xml.search.xpath.processors</module> -->		
+		<!--  <module>org.eclipse.wst.xml.search.xpath.processors</module> -->
+		<module>core-feature</module>
 	</modules>
 </project>

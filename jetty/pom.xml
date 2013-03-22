@@ -10,6 +10,7 @@
 	</parent>
 	<modules>	
 		<module>org.eclipse.jst.server.jetty.xml.core</module>
-		<module>org.eclipse.jst.server.jetty.xml.ui</module>		
+		<module>org.eclipse.jst.server.jetty.xml.ui</module>
+		<module>jetty-feature</module>
 	</modules>
 </project>
