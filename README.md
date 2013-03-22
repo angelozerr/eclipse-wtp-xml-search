@@ -13,7 +13,7 @@ Eclipse WTP/XML Search
   custom XML, HTML, JSP files (ex : XML Spring files, web.xml, XML Jetty configuration, etc). The basic idea is to declare your link (ex: XML to XML, XML to Java , etc)
   with XPath Eclipse extension point. For instance XML Jetty file uses @class attributes to declare Java classes. You can declare this XML 2 Java link like this :
 
-        <extension  point="org.eclipse.wst.xml.search.editor.xmlReferences">
+        <extension point="org.eclipse.wst.xml.search.editor.xmlReferences">
                 <references contentTypeIds="org.eclipse.jst.server.jetty.xml.contenttype.jettyConfigFile">            
                         <!-- reference with class attribute -->
                         <reference>			
