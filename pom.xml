@@ -11,7 +11,8 @@
 	</properties>
 	<modules>
 		<module>core</module>
-		<module>jetty</module> <!-- <module>struts2</module> -->
+		<module>jetty</module>
+		<module>struts2</module>
 		<module>web</module>
 	</modules>
 	<dependencies>
