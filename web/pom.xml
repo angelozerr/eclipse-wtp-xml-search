@@ -11,6 +11,7 @@
 	<modules>	
 		<module>org.eclipse.jst.jee.web.xml</module>
 		<module>org.eclipse.jst.jsp.search.editor</module>		
-		<module>org.eclipse.wst.html.search.editor</module>		
+		<module>org.eclipse.wst.html.search.editor</module>
+		<module>web-feature</module>
 	</modules>
 </project>

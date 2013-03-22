@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
-      id="struts2-feature"
-      label="Struts2"
+      id="web-feature"
+      label="Web"
       version="1.0.0.qualifier">
 
    <description url="http://www.example.com/description">
@@ -17,35 +17,21 @@
    </license>
 
    <plugin
-         id="org.apache.struts2.ide.core"
+         id="org.eclipse.jst.jee.web.xml"
          download-size="0"
          install-size="0"
          version="0.0.0"
          unpack="false"/>
 
    <plugin
-         id="org.apache.struts2.ide.jsp.core"
+         id="org.eclipse.jst.jsp.search.editor"
          download-size="0"
          install-size="0"
          version="0.0.0"
          unpack="false"/>
 
    <plugin
-         id="org.apache.struts2.ide.ui"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="org.apache.struts2.ide.validators.core"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="org.apache.struts2.ide.validators.ui"
+         id="org.eclipse.wst.html.search.editor"
          download-size="0"
          install-size="0"
          version="0.0.0"
