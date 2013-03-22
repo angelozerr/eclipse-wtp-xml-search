@@ -24,4 +24,4 @@ TODO : create an update site.
  
  I will hope than one day, **Eclipse WTP/XML Search**  will be host in the Eclipse WTP (see [bug 330576](https://bugs.eclipse.org/bugs/show_bug.cgi?id=330576))
  
- You can read those [articles](http://angelozerr.wordpress.com/about/eclipse-wtp-xml-search/) about Eclipse WTP/XML Search.
+ You can read following [articles](http://angelozerr.wordpress.com/about/eclipse-wtp-xml-search/) about Eclipse WTP/XML Search.
