@@ -17,11 +17,10 @@ Eclipse WTP/XML Search
                 <references contentTypeIds="org.eclipse.jst.server.jetty.xml.contenttype.jettyConfigFile">            
                         <!-- reference with class attribute -->
                         <reference>			
-	  <from path="//"
-	        targetNodes="@class" />
-	    <toJava />
-	</reference>												
-      </references>
+                                <from path="//" targetNodes="@class" />
+                                <toJava />
+                        </reference>												
+                </references>
         </extension>
 
   and Eclipse WT/XML Search willmanages automaticly **completion, hyperlink, validation and Ctrl+Shift+G** for this XML to Java like. Here a screenshot about completion : 
