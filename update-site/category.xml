@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<site>
+   <feature url="features/jetty-feature_1.0.0.qualifier.jar" id="jetty-feature" version="1.0.0.qualifier">
+      <category name="wtp.wml.search"/>
+   </feature>
+   <feature url="features/web-feature_1.0.0.qualifier.jar" id="web-feature" version="1.0.0.qualifier">
+      <category name="wtp.wml.search"/>
+   </feature>
+   <feature url="features/core-feature_1.0.0.qualifier.jar" id="core-feature" version="1.0.0.qualifier">
+      <category name="wtp.wml.search"/>
+   </feature>
+   <feature url="features/struts2-feature_1.0.0.qualifier.jar" id="struts2-feature" version="1.0.0.qualifier">
+      <category name="wtp.wml.search"/>
+   </feature>
+   <category-def name="wtp.wml.search" label="WTP XML Search"/>
+</site>
