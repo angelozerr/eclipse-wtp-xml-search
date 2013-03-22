@@ -14,5 +14,6 @@
 		<module>org.apache.struts2.ide.ui</module>
 		<module>org.apache.struts2.ide.validators.core</module>
 		<module>org.apache.struts2.ide.validators.ui</module>
+		<module>struts-feature</module>
 	</modules>
 </project>
