@@ -10,7 +10,7 @@ Eclipse WTP/XML Search
 ![XML Search dialog](https://github.com/angelozerr/eclipse-wtp-xml-search/wiki/images/JettyXMLSearch2.png)
 
  * develop your own plugin to manage (easily) **completion, hyperlink, validation and Ctrl+Shift+G** (to retrieve referenced nodes) for your 
-  custom XML, HTML, JSP files.
+  custom XML, HTML, JSP files (ex : XML Spring files, web.xml, XML Jetty configuration, etc).
 
 Eclipse WTP/XML Search provides several modules: 
  
