@@ -10,7 +10,62 @@ Eclipse WTP/XML Search
 ![XML Search dialog](https://github.com/angelozerr/eclipse-wtp-xml-search/wiki/images/JettyXMLSearch2.png)
 
  * develop your own plugin to manage (easily) **completion, hyperlink, validation and Ctrl+Shift+G** (to retrieve referenced nodes) for your 
-  custom XML, HTML, JSP files (ex : XML Spring files, web.xml, XML Jetty configuration, etc).
+  custom XML, HTML, JSP files (ex : XML Spring files, web.xml, XML Jetty configuration, etc). Thee basic idea is to declare your link (ex: XML to XML, XML to Java , etc)
+  with XPath Eclipse extension point. Ex for Jetty, the XML Ref/@id attribute references :
+
+   <extension
+         point="org.eclipse.wst.xml.search.editor.xmlReferences">
+         <references
+               contentTypeIds="org.eclipse.jst.server.jetty.xml.contenttype.jettyConfigFile">
+            
+            <!-- reference with class attribute -->
+ 		<reference>			
+				<from path="//"
+					  targetNodes="@class"
+					  querySpecificationId="jetty.querySpecification" />
+				<toJava querySpecificationId="jetty.java.querySpecification"/>
+			</reference>			
+
+			<!-- reference Get => with Java method -->
+			<reference>			
+				<from path="/Configure//Get"
+					  targetNodes="@name"
+					  querySpecificationId="jetty.querySpecification" />
+				<toJavaMethod querySpecificationId="jetty.javamethod.get.querySpecification" />
+			</reference>
+						
+			<!-- reference Set => with Java method -->
+			<reference>			
+				<from path="/Configure//Set"
+					  targetNodes="@name"
+					  querySpecificationId="jetty.querySpecification" />
+				<toJavaMethod querySpecificationId="jetty.javamethod.set.querySpecification" />
+			</reference>
+
+			<!-- reference Call => with Java method -->
+			<reference>			
+				<from path="/Configure//Call"
+					  targetNodes="@name"
+					  querySpecificationId="jetty.querySpecification" />
+				<toJavaMethod querySpecificationId="jetty.javamethod.call.querySpecification" />
+			</reference>
+			
+			<!-- reference with Ref id attribute -->
+			<reference>
+				<from path="/Configure//Ref"
+					  targetNodes="@id"
+					  querySpecificationId="jetty.querySpecification" />
+				<to path="/Configure//" 
+					targetNodes="@id"
+					querySpecificationId="jetty.querySpecificationIgnoreRef"
+					additionalProposalInfoProviderId="jetty.default.info" />							
+			</reference> 		
+  </references>
+   </extension>
+
+  and Eclipse WT/XML Search manages automaticly **completion, hyperlink, validation and Ctrl+Shift+G**
+  
+  JettyXMLRefCompletion.png
 
 Eclipse WTP/XML Search provides several modules: 
  
