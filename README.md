@@ -23,7 +23,7 @@ Eclipse WTP/XML Search
                 </references>
         </extension>
 
-  and Eclipse WT/XML Search manages automaticly **completion, hyperlink, validation and Ctrl+Shift+G** for this XML to Java like. Here a screenshot about completion : 
+  and Eclipse WT/XML Search manages automaticly **completion, hyperlink, validation and Ctrl+Shift+G** for this XML to Java link. Here a screenshot about completion : 
   
 ![Jetty XMl Completion1](https://github.com/angelozerr/eclipse-wtp-xml-search/wiki/images/JettyXMLCompletion.png)    
 
