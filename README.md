@@ -5,7 +5,7 @@ Eclipse WTP/XML Search
 
 **Eclipse WTP/XML Search** is set of plugins which gives you 2 features : 
  
- * it provides a **XML/Search dialog** (like File/Search). You can search XML (HTML, JSP) files of** your workspace with XPath:
+ * it provides a **XML/Search dialog** (like File/Search). You can search XML (HTML, JSP) files from your workspace with XPath:
 
 ![XML Search dialog](https://github.com/angelozerr/eclipse-wtp-xml-search/wiki/images/JettyXMLSearch2.png)
 
