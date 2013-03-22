@@ -4,22 +4,28 @@ import org.eclipse.jst.server.jetty.xml.core.JettyConstants;
 import org.eclipse.jst.server.jetty.xml.ui.internal.ImageResource;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.wst.xml.core.internal.provisional.document.IDOMElement;
-import org.eclipse.wst.xml.search.editor.contentassist.NodeContentAssistAdditionalProposalInfoProvider;
+import org.eclipse.wst.xml.core.internal.provisional.document.IDOMNode;
+import org.eclipse.wst.xml.search.core.util.DOMUtils;
+import org.eclipse.wst.xml.search.editor.contentassist.ElementContentAssistAdditionalProposalInfoProvider;
 import org.w3c.dom.Node;
 
 public class JettyContentAssistAdditionalProposalInfoProvider extends
-		NodeContentAssistAdditionalProposalInfoProvider implements
+		ElementContentAssistAdditionalProposalInfoProvider implements
 		JettyConstants {
+
+	@Override
+	public String getDisplayText(String displayText, Node node) {
+		String fileName = DOMUtils.getFileName((IDOMNode) node);
+		return super
+				.getDisplayText(displayText + " - [" + fileName + "]", node);
+	}
 
 	public Image getImage(Node node) {
 		return ImageResource.getImage(ImageResource.IMG_NEW_ELT);
 	}
 
-	public String getTextInfo(Node node) {
-		if (node.getNodeType() != Node.ELEMENT_NODE) {
-			return null;
-		}
-		IDOMElement element = (IDOMElement) node;
+	@Override
+	protected String doGetTextInfo(IDOMElement element) {
 		StringBuilder buf = new StringBuilder();
 		buf.append("<b>Name:</b> ");
 		buf.append(element.getNodeName());

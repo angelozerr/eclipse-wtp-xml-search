@@ -6,8 +6,11 @@ public interface JettyConstants {
 	
 	// XML Elements 
 	String NEW_ELEMENT = "New";
+	String REF_ELT = "Ref";
+	String GET_ELT = "Get";
 	
 	// XML Attributes
 	String ID_ATTR = "id";
+	String NAME_ATTR = "name";
 	String CLASS_ATTR = "class";
 }

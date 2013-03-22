@@ -1,7 +1,8 @@
 package org.eclipse.jst.server.jetty.xml.core.internal.search;
 
-import org.eclipse.wst.xml.search.core.queryspecifications.EqualsStringQueryBuilder;
-import org.eclipse.wst.xml.search.core.queryspecifications.IStringQueryBuilder;
+import org.eclipse.wst.xml.search.core.queryspecifications.querybuilder.EqualsStringQueryBuilder;
+import org.eclipse.wst.xml.search.core.queryspecifications.querybuilder.IStringQueryBuilder;
+import org.w3c.dom.Node;
 
 public class EqualsStringQueryBuilderIgnoreRef extends EqualsStringQueryBuilder {
 
@@ -13,8 +14,8 @@ public class EqualsStringQueryBuilderIgnoreRef extends EqualsStringQueryBuilder 
 	
 	@Override
 	protected void build(StringBuilder xpath, String[] targetNodes,
-			int startIndex) {		
-		super.build(xpath, targetNodes, startIndex);
+			int startIndex, Object selectedNode) {		
+		super.build(xpath, targetNodes, startIndex, selectedNode);
 		xpath.append("[name() != \"Ref\"]");
 	}
 }

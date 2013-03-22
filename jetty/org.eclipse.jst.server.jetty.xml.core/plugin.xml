@@ -25,37 +25,67 @@
 	<extension 
   		point="org.eclipse.wst.xml.core.catalogContributions"> 
   		<catalogContribution 
-  			id="org.eclipse.wst.xml.examples.shapes.catalog"> 
+  			id="org.eclipse.jst.server.jetty.xml.catalog"> 
   			<public 
-  				publicId="http://www.eclipse.org/jetty/configure.dtd" 
-  				uri="dtd/configure.dtd"> 
+  				publicId="-//Jetty//Configure//EN" 
+  				uri="dtd/configure.dtd"
+  				webURL="http://www.eclipse.org/jetty/configure.dtd" > 
   			</public> 
   		</catalogContribution> 
 	</extension> 
-      
+
    <!-- Declaration of references between XML nodes --> 
    <extension
-         point="org.eclipse.wst.xml.search.core.references">
-         <!-- reference with class attribute -->
-		<reference>			
-			<from path="/Configure//"
-				  targetNodes="@class"
-				  querySpecificationId="jetty.querySpecification" />
-			<toJava />
-		</reference>			
-		<!-- reference with Ref id attribute -->
-		<reference>
-			<from path="/Configure//Ref"
-				  targetNodes="@id"
-				  querySpecificationId="jetty.querySpecification" />
-			<to path="/Configure//" 
-				targetNodes="@id"
-				id="jetty.querySpecification"
-				querySpecificationId="jetty.querySpecificationIgnoreRef" />							
-		</reference> 		
+         point="org.eclipse.wst.xml.search.editor.xmlReferences">
+         <references
+               contentTypeIds="org.eclipse.jst.server.jetty.xml.contenttype.jettyConfigFile">
+            
+            <!-- reference with class attribute -->
+			<reference>			
+				<from path="//"
+					  targetNodes="@class"
+					  querySpecificationId="jetty.querySpecification" />
+				<toJava querySpecificationId="jetty.java.querySpecification"/>
+			</reference>			
+
+			<!-- reference Get => with Java method -->
+			<reference>			
+				<from path="/Configure//Get"
+					  targetNodes="@name"
+					  querySpecificationId="jetty.querySpecification" />
+				<toJavaMethod querySpecificationId="jetty.javamethod.get.querySpecification" />
+			</reference>
+						
+			<!-- reference Set => with Java method -->
+			<reference>			
+				<from path="/Configure//Set"
+					  targetNodes="@name"
+					  querySpecificationId="jetty.querySpecification" />
+				<toJavaMethod querySpecificationId="jetty.javamethod.set.querySpecification" />
+			</reference>
+
+			<!-- reference Call => with Java method -->
+			<reference>			
+				<from path="/Configure//Call"
+					  targetNodes="@name"
+					  querySpecificationId="jetty.querySpecification" />
+				<toJavaMethod querySpecificationId="jetty.javamethod.call.querySpecification" />
+			</reference>
+			
+			<!-- reference with Ref id attribute -->
+			<reference>
+				<from path="/Configure//Ref"
+					  targetNodes="@id"
+					  querySpecificationId="jetty.querySpecification" />
+				<to path="/Configure//" 
+					targetNodes="@id"
+					querySpecificationId="jetty.querySpecificationIgnoreRef"
+					additionalProposalInfoProviderId="jetty.default.info" />							
+			</reference> 		
+         </references>
    </extension>     
-	
-	<!-- Personalisation du containeur dans lequel les fichiers XML docflows doivent être cherché + filtre sur le contentTypes  -->
+   
+   <!-- XML Query specification -->      	
    <extension
          point="org.eclipse.wst.xml.search.core.querySpecifications">
         <querySpecification id="jetty.querySpecification" 
@@ -63,5 +93,26 @@
 		<querySpecification id="jetty.querySpecificationIgnoreRef" 
         				    class="org.eclipse.jst.server.jetty.xml.core.internal.search.JettyQuerySpecificationIgnoreRef" />             				                           
    </extension>
-   		
+
+   <!-- Java Query specification -->
+   <extension
+          point="org.eclipse.wst.xml.search.editor.javaQuerySpecifications">
+		<querySpecification id="jetty.java.querySpecification"
+							class="org.eclipse.jst.server.jetty.xml.core.internal.searcher.java.JavaQuerySpecification" /> 
+	</extension>
+	
+   <!-- JavaMethod Query specification -->   		
+   <extension
+          point="org.eclipse.wst.xml.search.editor.javaMethodQuerySpecifications">
+		<querySpecification
+       		 id="jetty.javamethod.get.querySpecification"
+             class="org.eclipse.jst.server.jetty.xml.core.internal.searcher.javamethod.get.GetJavaMethodQuerySpecification" />          
+       <querySpecification
+       		 id="jetty.javamethod.set.querySpecification"
+             class="org.eclipse.jst.server.jetty.xml.core.internal.searcher.javamethod.set.SetJavaMethodQuerySpecification" />
+       <querySpecification
+       		 id="jetty.javamethod.call.querySpecification"
+             class="org.eclipse.jst.server.jetty.xml.core.internal.searcher.javamethod.call.CallJavaMethodQuerySpecification" />              
+    </extension>
+       		
 </plugin>

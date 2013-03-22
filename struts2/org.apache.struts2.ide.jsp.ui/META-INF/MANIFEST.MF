@@ -4,7 +4,7 @@ Bundle-Name: %pluginName
 Bundle-Vendor: %providerName
 Bundle-Localization: plugin
 Bundle-SymbolicName: org.apache.struts2.ide.jsp.ui;singleton:=true
-Bundle-Version: 1.0.0
+Bundle-Version: 1.0.0.qualifier
 Bundle-Activator: org.apache.struts2.ide.ui.jsp.internal.Struts2JSPUIPlugin
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.wst.xml.search.core;bundle-version="1.0.0",

@@ -1,7 +1,7 @@
 package org.eclipse.jst.server.jetty.xml.core.internal.search;
 
-import org.eclipse.wst.xml.search.core.queryspecifications.IStringQueryBuilder;
-import org.eclipse.wst.xml.search.core.queryspecifications.IStringQueryBuilderProvider;
+import org.eclipse.wst.xml.search.core.queryspecifications.querybuilder.IStringQueryBuilder;
+import org.eclipse.wst.xml.search.core.queryspecifications.querybuilder.IStringQueryBuilderProvider;
 
 public class JettyQuerySpecificationIgnoreRef extends JettyQuerySpecification
 		implements IStringQueryBuilderProvider {

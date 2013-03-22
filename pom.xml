@@ -9,12 +9,19 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<tycho-version>0.15.0</tycho-version>
 	</properties>
-	<modules> 
+	<modules>
 		<module>core</module>
-		<!-- <module>jetty</module>
-		<module>struts2</module>-->
+		<module>jetty</module> <!-- <module>struts2</module> -->
 		<module>web</module>
 	</modules>
+	<dependencies>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.10</version>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
 	<build>
 		<defaultGoal>install</defaultGoal>
 		<plugins>
@@ -32,17 +39,17 @@
 					<resolver>p2</resolver>
 					<pomDependencies>consider</pomDependencies>
 					<environments>
-			        	<environment>
-          			   		<os>win32</os>
-          	   				<ws>win32</ws>
-          	   				<arch>x86</arch>
-        				</environment>
-        				<environment>
-          	   				<os>macosx</os>
-          	   				<ws>cocoa</ws>
-          	   				<arch>x86_64</arch>
-        				</environment>
-      				</environments>
+						<environment>
+							<os>win32</os>
+							<ws>win32</ws>
+							<arch>x86</arch>
+						</environment>
+						<environment>
+							<os>macosx</os>
+							<ws>cocoa</ws>
+							<arch>x86_64</arch>
+						</environment>
+					</environments>
 				</configuration>
 			</plugin>
 		</plugins>
