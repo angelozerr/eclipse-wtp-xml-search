@@ -7,7 +7,7 @@ Eclipse WTP/XML Search
  
  * it provides a **XML/Search dialog** (like File/Search). You can search XML (HTML, JSP) files from your workspace with XPath:
 
-![XML Search dialog](https://github.com/angelozerr/eclipse-wtp-xml-search/wiki/images/JettyXMLSearch2.png)
+![XML Search dialog](https://github.com/angelozerr/eclipse-wtp-xml-search/wiki/images/jetty/JettyXMLSearch2.png)
 
  * develop your own plugin to manage (easily) **completion, hyperlink, validation and Ctrl+Shift+G** (to retrieve referenced nodes) for your 
   custom XML, HTML, JSP files (ex : XML Spring files, web.xml, XML Jetty configuration, etc). The basic idea is to declare your link (ex: XML to XML, XML to Java , etc)
@@ -25,7 +25,7 @@ Eclipse WTP/XML Search
 
   and Eclipse WT/XML Search manages automaticly **completion, hyperlink, validation and Ctrl+Shift+G** for this XML to Java link. Here a screenshot about completion : 
   
-![Jetty XMl Completion1](https://github.com/angelozerr/eclipse-wtp-xml-search/wiki/images/JettyXMLCompletion.png)    
+![Jetty XMl Completion1](https://github.com/angelozerr/eclipse-wtp-xml-search/wiki/images/jetty/JettyXMLCompletion.png)    
 
 Eclipse WTP/XML Search provides several modules: 
  
