@@ -38,6 +38,10 @@ Eclipse WTP/XML Search provides several modules:
 
 TODO : create an update site.
 
+# Build
+
+See cloudbees job: [https://opensagres.ci.cloudbees.com/job/eclipse-wtp-xml-search/](https://opensagres.ci.cloudbees.com/job/eclipse-wtp-xml-search/)
+
 # Articles
  
  I will hope than one day, **Eclipse WTP/XML Search**  will be host in the Eclipse WTP (see [bug 330576](https://bugs.eclipse.org/bugs/show_bug.cgi?id=330576)).
