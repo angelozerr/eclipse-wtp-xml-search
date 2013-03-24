@@ -12,5 +12,9 @@
    <feature url="features/struts2-feature_1.0.0.qualifier.jar" id="struts2-feature" version="1.0.0.qualifier">
       <category name="wtp.wml.search"/>
    </feature>
-   <category-def name="wtp.wml.search" label="WTP XML Search"/>
+   <category-def name="wtp.wml.search" label="WTP XML Search">
+      <description>
+         WTP XML Search provides XML Search dialog to search your workspaces files with XPath and editor extension to manage completion, hyperlink, validation, text hover and referenced nodes in your custom XML files with simple XPath.
+      </description>
+   </category-def>
 </site>
