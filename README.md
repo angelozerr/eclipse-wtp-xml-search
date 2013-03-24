@@ -36,7 +36,9 @@ Eclipse WTP/XML Search provides several modules:
 
 # Installation
 
-TODO : create an update site.
+Use the update site [https://opensagres.ci.cloudbees.com/job/eclipse-wtp-xml-search/ws/update-site/target/repository/
+](https://opensagres.ci.cloudbees.com/job/eclipse-wtp-xml-search/ws/update-site/target/repository/) to install Eclipse WTP/XML Search 
+and read [Installation Guide](https://github.com/angelozerr/eclipse-wtp-xml-search/wiki/Installation-Guide) for more information.
 
 # Build
 
