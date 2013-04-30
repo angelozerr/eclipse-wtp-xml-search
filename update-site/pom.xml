@@ -27,7 +27,7 @@
 			<properties>
 				<!-- Properties relative to the distant host where to upload the repo -->
 				<ftp.url>ftp://ftp.online.net</ftp.url>
-				<!-- <ftp.toDir>/yourpath</ftp.toDir> -->
+				<ftp.toDir>/eclipse-wtp-xml-search/${project.version}</ftp.toDir>
 				<!-- Relative path to the repo being uploaded -->
 				<repo.path>${project.build.directory}/repository/</repo.path>
 			</properties>
@@ -49,7 +49,7 @@
 								<configuration>
 									<fromDir>${repo.path}</fromDir>
 									<includes>**</includes>
-									<!-- <toDir>${ftp.toDir}</toDir> -->
+									<toDir>${ftp.toDir}</toDir> 
 									<url>${ftp.url}</url>
 									<serverId>p2Repo</serverId>
 									<!-- Points to your settings.xml where the connection settings are 
