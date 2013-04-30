@@ -27,7 +27,7 @@
 			<properties>
 				<!-- Properties relative to the distant host where to upload the repo -->
 				<ftp.url>ftp://ftp.online.net</ftp.url>
-				<ftp.toDir>/eclipse-wtp-xml-search/${project.version}</ftp.toDir>
+				<ftp.toDir>/oss/eclipse-wtp-xml-search/${project.version}</ftp.toDir>
 				<!-- Relative path to the repo being uploaded -->
 				<repo.path>${project.build.directory}/repository/</repo.path>
 			</properties>
