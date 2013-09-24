@@ -11,6 +11,8 @@
 package org.eclipse.wst.xml.search.editor.internal.jdt.search;
 
 import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
@@ -165,7 +167,8 @@ public class XMLReferenceJavaSearchParticipant implements IQueryParticipant {
 			if (references.size() < 1) {
 				return;
 			}
-			XMLReferencesIndexManager.getDefault().flushIndexedFiles(javaProject);
+			XMLReferencesIndexManager.getDefault().flushIndexedFiles(
+					javaProject);
 			searchXMLReferences(query.getScope(), requestor, className,
 					methodName, javaProject, references, toType,
 					new SubProgressMonitor(monitor, 7));
@@ -188,10 +191,12 @@ public class XMLReferenceJavaSearchParticipant implements IQueryParticipant {
 			String methodName, IProject project,
 			Collection<IXMLReference> references, ToType toType,
 			IProgressMonitor monitor) {
-
 		IXMLSearchDOMNodeCollector collector = null;
 		String contentTypeId = null;
 		String javaTypeName = null;
+		// Create list of projects
+		Set<IProject> projects = createProjects(project);
+		// loop for each references with to type.
 		for (IXMLReference reference : references) {
 			String[] contentTypeIds = reference.getContentTypeIds();
 			for (int i = 0; i < contentTypeIds.length; i++) {
@@ -205,13 +210,33 @@ public class XMLReferenceJavaSearchParticipant implements IQueryParticipant {
 				collector = search(requestor, javaTypeName, monitor, project,
 						collector, contentTypeId, reference);
 
-				IProject[] referencingProjects = project
-						.getReferencingProjects();
-				for (IProject referencingProject : referencingProjects) {
-					collector = search(requestor, javaTypeName, monitor,
-							referencingProject, collector, contentTypeId,
-							reference);
+				for (IProject p : projects) {
+					collector = search(requestor, javaTypeName, monitor, p,
+							collector, contentTypeId, reference);
 				}
+			}
+		}
+	}
+
+	/**
+	 * Returns a set of projects which reference the given project.
+	 * 
+	 * @param project
+	 * @return
+	 * @throws CoreException
+	 */
+	private Set<IProject> createProjects(IProject project) {
+		Set<IProject> projects = new HashSet<IProject>();
+		addProjects(projects, project);
+		return projects;
+	}
+
+	private void addProjects(Set<IProject> projects, IProject project) {
+		if (!projects.contains(project)) {
+			projects.add(project);
+			IProject[] referencingProjects = project.getReferencingProjects();
+			for (int i = 0; i < referencingProjects.length; i++) {
+				addProjects(projects, referencingProjects[i]);
 			}
 		}
 	}
