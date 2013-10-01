@@ -33,6 +33,7 @@ import org.eclipse.wst.xml.core.internal.provisional.document.IDOMElement;
 import org.eclipse.wst.xml.core.internal.provisional.document.IDOMNode;
 import org.eclipse.wst.xml.core.internal.regions.DOMRegionContext;
 import org.w3c.dom.Attr;
+import org.w3c.dom.CDATASection;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
@@ -557,6 +558,8 @@ public class DOMUtils {
 			return ((Attr) node).getOwnerElement();
 		case Node.TEXT_NODE:
 			return (Element) ((Text) node).getParentNode();
+		case Node.CDATA_SECTION_NODE:
+			return (Element) ((CDATASection) node).getParentNode();
 		case Node.ELEMENT_NODE:
 			return (Element) node;
 		}
