@@ -31,6 +31,7 @@ import org.eclipse.wst.xml.search.core.queryspecifications.IXMLQuerySpecificatio
 import org.eclipse.wst.xml.search.core.reporter.IXMLSearchReporter;
 import org.eclipse.wst.xml.search.ui.internal.Messages;
 import org.eclipse.wst.xml.search.ui.internal.XMLSearchQuery;
+import org.eclipse.wst.xml.search.ui.internal.participant.SearchParticipantDescriptor;
 
 /**
  * Utility class for Search UI.
@@ -119,6 +120,7 @@ public class SearchUtil {
 	 *            the parent shell.
 	 * @param querySpecificationRegistry
 	 *            registry of the XML query specification to execute.
+	 * @param participantDescriptors 
 	 * @param reporter
 	 *            XML search reporter.
 	 * @throws InterruptedException
@@ -126,11 +128,11 @@ public class SearchUtil {
 	 */
 	public static void performNewSearch(Shell shell,
 			IXMLQuerySpecificationRegistry querySpecificationRegistry,
-			IXMLSearchReporter reporter) throws InterruptedException,
+			SearchParticipantDescriptor[] participantDescriptors, IXMLSearchReporter reporter) throws InterruptedException,
 			CoreException {
 
 		XMLSearchQuery query = new XMLSearchQuery(querySpecificationRegistry,
-				XMLSearchEngine2.getDefault(), reporter);
+				participantDescriptors, XMLSearchEngine2.getDefault(), reporter);
 		if (query.canRunInBackground()) {
 			/*
 			 * This indirection with Object as parameter is needed to prevent

@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.eclipse.wst.xml.search.ui.internal;
 
+import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.jface.viewers.ILabelProvider;
 import org.eclipse.jface.viewers.IStructuredSelection;
@@ -20,9 +21,12 @@ import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.viewers.ViewerComparator;
 import org.eclipse.search.ui.text.AbstractTextSearchViewPage;
+import org.eclipse.search.ui.text.Match;
+import org.eclipse.ui.PartInitException;
 import org.eclipse.wst.xml.core.internal.provisional.document.IDOMNode;
 import org.eclipse.wst.xml.search.ui.DecoratingXMLSearchLabelProvider;
 import org.eclipse.wst.xml.search.ui.XMLLabelProvider;
+import org.eclipse.wst.xml.search.ui.participant.IMatchPresentation;
 import org.eclipse.wst.xml.search.ui.util.EditorOpener;
 
 /**
@@ -73,7 +77,7 @@ public class XMLSearchResultPage extends AbstractTextSearchViewPage {
 	@Override
 	protected void configureTableViewer(TableViewer viewer) {
 		viewer.setUseHashlookup(true);
-		XMLLabelProvider innerLabelProvider = new XMLLabelProvider();
+		XMLLabelProvider innerLabelProvider = new XMLLabelProvider(this);
 		viewer.setLabelProvider(new DecoratingXMLSearchLabelProvider(
 				innerLabelProvider));
 		viewer.setContentProvider(new XMLSearchTableContentProvider(this));
@@ -86,7 +90,7 @@ public class XMLSearchResultPage extends AbstractTextSearchViewPage {
 	@Override
 	protected void configureTreeViewer(TreeViewer viewer) {
 		viewer.setUseHashlookup(true);
-		XMLLabelProvider innerLabelProvider = new XMLLabelProvider();
+		XMLLabelProvider innerLabelProvider = new XMLLabelProvider(this);
 		viewer.setLabelProvider(new DecoratingXMLSearchLabelProvider(
 				innerLabelProvider));
 		viewer.setContentProvider(new XMLSearchTreeContentProvider(this, viewer));
@@ -121,6 +125,23 @@ public class XMLSearchResultPage extends AbstractTextSearchViewPage {
 		return super.getViewer();
 	}
 
+
+	@Override
+	public void showMatch(Match match, int offset, int length, boolean activate) throws PartInitException {
+
+		Object element= match.getElement();
+		if (element instanceof IDOMNode) {
+			IDOMNode node = (IDOMNode) element;
+			EditorOpener.openDOMNode(getSite().getPage(), node,
+					fEditorOpener, getSite().getShell());
+		} else 	if (getInput() instanceof XMLSearchResult) {
+			XMLSearchResult result= (XMLSearchResult) getInput();
+			IMatchPresentation participant= result.getSearchParticpant(element);
+			if (participant != null)
+				participant.showMatch(match, offset, length, activate);
+		}
+	}
+
 	@Override
 	protected void handleOpen(OpenEvent event) {
 		Object firstElement = ((IStructuredSelection) event.getSelection())
@@ -138,8 +159,4 @@ public class XMLSearchResultPage extends AbstractTextSearchViewPage {
 		super.handleOpen(event);
 	}
 
-	@Override
-	public int getDisplayedMatchCount(Object element) {
-		return 0;
-	}
 }

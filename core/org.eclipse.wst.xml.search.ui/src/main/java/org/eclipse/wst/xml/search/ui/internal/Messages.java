@@ -17,7 +17,6 @@ import org.eclipse.osgi.util.NLS;
  * 
  */
 public class Messages extends NLS {
-
 	// Search query
 	public static String XMLSearchQuery_label;
 	public static String XMLSearchQuery_status_ok_message;
@@ -65,6 +64,13 @@ public class Messages extends NLS {
 	public static String XPathProcessorPreferencePage_0;
 	public static String XPathProcessorPreferencePage_1;
 	public static String XPathProcessorPreferencePage_2;
+	
+	public static String SearchParticipant_error_noID;
+	public static String SearchParticipant_error_noClass;
+	public static String SearchParticipant_error_classCast;
+	
+	protected static String XMLSearchQuery_error_participant_estimate;
+	protected static String XMLSearchQuery_error_participant_search;
 
 	static {
 		NLS.initializeMessages(XMLSearchUIPlugin.PLUGIN_ID

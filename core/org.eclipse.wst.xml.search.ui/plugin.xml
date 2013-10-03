@@ -2,6 +2,9 @@
 <?eclipse version="3.4"?>
 <plugin>
 
+   <extension-point id="queryParticipants" name="%queryParticipantsContributionName"
+		schema="schema/queryParticipants.exsd" />
+		
    <extension
         point="org.eclipse.search.searchResultViewPages">
 		<viewPage

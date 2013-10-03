@@ -10,8 +10,13 @@
  *******************************************************************************/
 package org.eclipse.wst.xml.search.ui.internal;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.IAdaptable;
+import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Status;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.search.ui.ISearchQuery;
 import org.eclipse.search.ui.text.AbstractTextSearchResult;
@@ -22,6 +27,7 @@ import org.eclipse.ui.IEditorPart;
 import org.eclipse.wst.sse.core.internal.provisional.IStructuredModel;
 import org.eclipse.wst.xml.core.internal.provisional.document.IDOMNode;
 import org.eclipse.wst.xml.search.core.util.DOMUtils;
+import org.eclipse.wst.xml.search.ui.participant.IMatchPresentation;
 
 /**
  * {@link AbstractTextSearchResult} implementation for DOM-SSE.
@@ -33,9 +39,11 @@ public class XMLSearchResult extends AbstractTextSearchResult implements
 	protected static final Match[] NO_MATCHES = new Match[0];
 
 	private XMLSearchQuery fQuery;
+	private final Map<Object, IMatchPresentation> fElementsToParticipants;
 
 	public XMLSearchResult(XMLSearchQuery query) {
 		fQuery = query;
+		fElementsToParticipants = new HashMap<Object, IMatchPresentation>();
 	}
 
 	@Override
@@ -147,4 +155,25 @@ public class XMLSearchResult extends AbstractTextSearchResult implements
 		return null;
 	}
 
+	public synchronized IMatchPresentation getSearchParticpant(Object element) {
+		return fElementsToParticipants.get(element);
+	}
+
+	boolean addMatch(Match match, IMatchPresentation participant) {
+		Object element = match.getElement();
+		if (fElementsToParticipants.get(element) != null) {
+			// TODO must access the participant id / label to properly report
+			// the error.
+			XMLSearchUIPlugin
+					.log(new Status(
+							IStatus.WARNING,
+							XMLSearchUIPlugin.PLUGIN_ID,
+							0,
+							"A second search participant was found for an element", null)); //$NON-NLS-1$
+			return false;
+		}
+		fElementsToParticipants.put(element, participant);
+		addMatch(match);
+		return true;
+	}
 }

@@ -30,6 +30,8 @@ import org.eclipse.wst.xml.search.editor.references.IXMLReferencePath;
 import org.eclipse.wst.xml.search.editor.references.XMLReferencePathResult;
 import org.eclipse.wst.xml.search.editor.references.XMLReferencesUtil;
 import org.eclipse.wst.xml.search.editor.util.XMLQuerySpecificationUtil;
+import org.eclipse.wst.xml.search.ui.internal.participant.SearchParticipantDescriptor;
+import org.eclipse.wst.xml.search.ui.internal.participant.SearchParticipantsExtensionPoint;
 import org.eclipse.wst.xml.search.ui.util.DOMUtils;
 import org.eclipse.wst.xml.search.ui.util.SearchUtil;
 
@@ -71,11 +73,15 @@ public class ReferencesInContainerHandler extends AbstractHandler {
 			return null;
 		}
 
-		// 3) Get list of XML reference path to execute to retrieve referenced
+		// 4) Get list of XML reference path to execute to retrieve referenced
 		// nodes of the selected node.
 		XMLReferencePathResult result = XMLReferencesUtil.getReferencePath(
 				selectedNode, file);
-		if (result == null) {
+
+		SearchParticipantDescriptor[] participantDescriptors = SearchParticipantsExtensionPoint
+				.getInstance().getSearchParticipants(selectedNode);
+
+		if (result == null && (participantDescriptors == null || participantDescriptors.length < 1)) {
 			showOperationUnavailableDialog(
 					XMLSearchEditorPlugin.getActiveWorkbenchShell(),
 					Messages.ReferencesInContainerHandler_operationUnavailable_noReferencesDefined);
@@ -84,16 +90,18 @@ public class ReferencesInContainerHandler extends AbstractHandler {
 
 		IXMLQuerySpecificationRegistry querySpecificationRegistry = new XMLQuerySpecificationRegistry(
 				file, selectedNode);
-		for (IXMLReferencePath referencePath : result) {
-			IXMLQuerySpecification querySpecification = XMLQuerySpecificationUtil
-					.getQuerySpecification(referencePath);
-			if (querySpecification != null) {
-				String query = referencePath.getQuery(selectedNode, null,
-						querySpecification.getEqualsStringQueryBuilder(),
-						result.isReversed());
-				if (query != null) {
-					querySpecificationRegistry.register(querySpecification,
-							query, null);
+		if (result != null) {
+			for (IXMLReferencePath referencePath : result) {
+				IXMLQuerySpecification querySpecification = XMLQuerySpecificationUtil
+						.getQuerySpecification(referencePath);
+				if (querySpecification != null) {
+					String query = referencePath.getQuery(selectedNode, null,
+							querySpecification.getEqualsStringQueryBuilder(),
+							result.isReversed());
+					if (query != null) {
+						querySpecificationRegistry.register(querySpecification,
+								query, null);
+					}
 				}
 			}
 		}
@@ -101,6 +109,7 @@ public class ReferencesInContainerHandler extends AbstractHandler {
 		// will return true except for debugging purposes.
 		try {
 			SearchUtil.performNewSearch(shell, querySpecificationRegistry,
+					participantDescriptors, 
 					XMLSearchReporterManager.getDefault());
 		} catch (InterruptedException e) {
 			// cancelled

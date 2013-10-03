@@ -64,10 +64,10 @@ import org.eclipse.wst.xml.search.core.queryspecifications.requestor.IXMLSearchR
 import org.eclipse.wst.xml.search.core.queryspecifications.visitor.IXMLSearchDOMDocumentVisitor;
 import org.eclipse.wst.xml.search.core.queryspecifications.visitor.XPathNodeSetSearchVisitor;
 import org.eclipse.wst.xml.search.core.util.StringUtils;
+import org.eclipse.wst.xml.search.core.xpath.DefaultXPathProcessor;
 import org.eclipse.wst.xml.search.core.xpath.IXPathProcessorType;
 import org.eclipse.wst.xml.search.core.xpath.NamespaceInfos;
 import org.eclipse.wst.xml.search.core.xpath.XPathManager;
-import org.eclipse.wst.xml.search.core.xpath.DefaultXPathProcessor;
 import org.eclipse.wst.xml.search.core.xpath.XPathProcessorManager;
 import org.eclipse.wst.xml.search.ui.internal.Messages;
 import org.eclipse.wst.xml.search.ui.internal.XMLSearchQuery;

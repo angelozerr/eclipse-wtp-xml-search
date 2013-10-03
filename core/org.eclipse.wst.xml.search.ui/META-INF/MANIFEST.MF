@@ -20,4 +20,6 @@ Require-Bundle: org.eclipse.core.runtime,
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
 Export-Package: org.eclipse.wst.xml.search.ui,
+ org.eclipse.wst.xml.search.ui.internal.participant;x-friends:="org.eclipse.wst.xml.search.editor",
+ org.eclipse.wst.xml.search.ui.participant,
  org.eclipse.wst.xml.search.ui.util

@@ -104,4 +104,9 @@ public class XMLSearchUIPlugin extends AbstractUIPlugin {
 		}
 		return section;
 	}
+
+	public static void log(IStatus status) {
+		getDefault().getLog().log(status);
+	}
+
 }

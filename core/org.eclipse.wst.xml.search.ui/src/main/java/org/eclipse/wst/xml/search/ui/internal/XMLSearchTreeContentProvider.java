@@ -23,6 +23,7 @@ import java.util.Set;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
+import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.jface.viewers.AbstractTreeViewer;
 import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.Viewer;
@@ -226,6 +227,18 @@ public class XMLSearchTreeContentProvider implements ITreeContentProvider,
 	}
 
 	public Object getParent(Object element) {
+		Object parent = internalGetParent(element);
+		if (parent == null && element instanceof IAdaptable) {
+			IAdaptable adaptable = (IAdaptable) element;
+			Object resource = adaptable.getAdapter(IResource.class);
+			if (resource != null) {
+				parent = internalGetParent(resource);
+			}
+		}
+		return parent;
+	}
+
+	private Object internalGetParent(Object element) {
 		if (element instanceof IProject)
 			return null;
 		if (element instanceof IResource) {

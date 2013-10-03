@@ -25,7 +25,7 @@ public class XMLUIParticipant implements IMatchPresentation {
 	private EditorOpener fEditorOpener = new EditorOpener();
 
 	public ILabelProvider createLabelProvider() {
-		return new DecoratingXMLSearchLabelProvider((new XMLLabelProvider()));
+		return new DecoratingXMLSearchLabelProvider((new XMLLabelProvider(null)));
 	}
 
 	public void showMatch(Match match, int currentOffset, int currentLength,
