@@ -18,6 +18,10 @@ public class HTMLResourceURIResolver extends AbstractWebResourceURIResolver {
 
 	private static final Set<String> EXTENSIONS;
 
+	public HTMLResourceURIResolver() {
+		super(false);
+	}
+	
 	static {
 		EXTENSIONS = new HashSet<String>();
 		EXTENSIONS.add("htm");

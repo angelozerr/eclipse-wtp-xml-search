@@ -12,7 +12,6 @@ package com.liferay.ide.xml.internal.search;
 
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IResource;
-import org.eclipse.wst.xml.core.internal.provisional.document.IDOMNode;
 import org.eclipse.wst.xml.search.core.resource.DefaultResourceRequestor;
 import org.eclipse.wst.xml.search.core.resource.IResourceRequestor;
 import org.eclipse.wst.xml.search.core.resource.IURIResolver;

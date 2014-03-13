@@ -18,6 +18,10 @@ public class CSSResourceURIResolver extends AbstractWebResourceURIResolver {
 
 	private static final Set<String> EXTENSIONS;
 
+	public CSSResourceURIResolver() {
+		super(false);
+	}
+	
 	static {
 		EXTENSIONS = new HashSet<String>();
 		EXTENSIONS.add("css");

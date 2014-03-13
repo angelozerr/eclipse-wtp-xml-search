@@ -17,6 +17,12 @@ import org.eclipse.wst.xml.search.core.resource.ResourceBaseURIResolver;
 public abstract class AbstractWebResourceURIResolver extends
 		ResourceBaseURIResolver {
 
+	private final boolean canStartsWithoutSlash;
+
+	public AbstractWebResourceURIResolver(boolean canStartsWithoutSlash) {
+		this.canStartsWithoutSlash = canStartsWithoutSlash;
+	}
+
 	@Override
 	public String resolve(Object selectedNode, IResource rootContainer,
 			IResource file) {
@@ -29,6 +35,13 @@ public abstract class AbstractWebResourceURIResolver extends
 		String extension = file.getFileExtension();
 		if (!getExtensions().contains(extension)) {
 			return false;
+		}
+		if (fullMatch) {
+			if (canStartsWithoutSlash) {
+				String uri = resolve(selectedNode, rootContainer, file);
+				return (uri.equals(matching) || uri.equals("/" + matching));
+			}
+			return resolve(selectedNode, rootContainer, file).equals(matching);
 		}
 		return super.accept(selectedNode, rootContainer, file, matching,
 				fullMatch);

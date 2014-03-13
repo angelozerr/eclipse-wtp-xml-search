@@ -3,6 +3,8 @@ package com.liferay.ide.xml.internal.search;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.eclipse.core.resources.IResource;
+
 /**
  * Extension of WTP/XML Search resources uri resolver for Liferay to manage css,
  * js, icons used in the descriptor of lifreay which starts with "/". Ex :
@@ -21,6 +23,10 @@ public class ImageResourceURIResolver extends AbstractWebResourceURIResolver {
 	static {
 		EXTENSIONS = new HashSet<String>();
 		EXTENSIONS.add("png");
+	}
+
+	public ImageResourceURIResolver() {
+		super(true);
 	}
 
 	@Override

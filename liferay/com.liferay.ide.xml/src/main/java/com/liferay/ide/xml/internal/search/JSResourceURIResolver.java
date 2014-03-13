@@ -23,6 +23,10 @@ public class JSResourceURIResolver extends AbstractWebResourceURIResolver {
 		EXTENSIONS.add("js");
 	}
 
+	public JSResourceURIResolver() {
+		super(false);
+	}
+
 	@Override
 	protected Set<String> getExtensions() {
 		return EXTENSIONS;
