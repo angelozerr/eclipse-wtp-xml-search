@@ -27,7 +27,8 @@ public class LiferayXMLPlugin extends AbstractUIPlugin {
 	// The shared instance
 	private static LiferayXMLPlugin plugin;
 
-	public static String SERVLET_IMG = "servlet";
+	// Images
+	public static String PORTLET_IMG = "portlet";
 
 	/**
 	 * The constructor
@@ -47,9 +48,9 @@ public class LiferayXMLPlugin extends AbstractUIPlugin {
 		plugin = this;
 
 		URL baseIconsURL = getBundle().getEntry("icons/");
-		ImageDescriptor servletImage = ImageDescriptor.createFromURL(new URL(
-				baseIconsURL, "servlet.gif"));
-		//getImageRegistry().put(SERVLET_IMG, servletImage);
+		ImageDescriptor portletImage = ImageDescriptor.createFromURL(new URL(
+				baseIconsURL, "portlet.png"));
+		getImageRegistry().put(PORTLET_IMG, portletImage);
 	}
 
 	/*

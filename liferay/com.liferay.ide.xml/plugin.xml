@@ -56,7 +56,8 @@
 					  querySpecificationId="liferay.liferayportletxml.querySpecification" />
 				<to path="//ns:portlet-name"
 					targetNodes="text()"
-					querySpecificationId="liferay.portletxml.querySpecification"  />	
+					querySpecificationId="liferay.portletxml.querySpecification"
+					additionalProposalInfoProviderId="contentAssist.portlet.info"  />	
 			</reference>
 										
          </references>
@@ -176,6 +177,12 @@
         <querySpecification id="liferay.portletxml.querySpecification" 
         				    class="com.liferay.ide.xml.internal.search.PortletQuerySpecification" />         
    </extension>
+
+   <extension 
+   		point="org.eclipse.wst.xml.search.editor.contentAssists">
+  			<additionalProposalInfoProvider id="contentAssist.portlet.info" 
+  											class="com.liferay.ide.xml.internal.search.contentassist.PortletContentAssistAdditionalProposalInfoProvider" />  
+  </extension>
    	   		
     <!--==================== liferay-portlet.xml ====================--> 
 
@@ -192,7 +199,8 @@
 					  querySpecificationId="liferay.liferaydisplayxml.querySpecification" />
 				<to path="//ns:portlet-name"
 					targetNodes="text()"
-					querySpecificationId="liferay.portletxml.querySpecification"  />	
+					querySpecificationId="liferay.portletxml.querySpecification"
+					additionalProposalInfoProviderId="contentAssist.portlet.info"  />	
 			</reference>
 							
          </references>
