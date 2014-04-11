@@ -1,6 +1,8 @@
 Eclipse WTP/XML Search
 ======================
 
+[![Build Status](https://secure.travis-ci.org/angelozerr/eclipse-wtp-xml-search.png)](http://travis-ci.org/angelozerr/eclipse-wtp-xml-search)
+
 # Overview
 
 **Eclipse WTP/XML Search** is set of plugins which gives you 2 features : 
