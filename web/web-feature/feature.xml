@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
-      id="web-feature"
+      id="org.eclipse.wst.xml.search.web-feature"
       label="%featureName"
       version="1.0.0.qualifier"
       provider-name="%providerName">
