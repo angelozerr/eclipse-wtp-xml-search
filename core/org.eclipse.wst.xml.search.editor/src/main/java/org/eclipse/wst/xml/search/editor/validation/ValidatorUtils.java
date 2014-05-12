@@ -13,6 +13,7 @@ package org.eclipse.wst.xml.search.editor.validation;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.Path;
+import org.eclipse.jdt.core.IType;
 import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.osgi.util.NLS;
@@ -24,8 +25,12 @@ import org.eclipse.wst.xml.core.internal.provisional.document.IDOMText;
 import org.eclipse.wst.xml.search.core.util.DOMUtils;
 import org.eclipse.wst.xml.search.editor.internal.Messages;
 import org.eclipse.wst.xml.search.editor.internal.Trace;
+import org.eclipse.wst.xml.search.editor.internal.references.XMLReferenceToJava;
+import org.eclipse.wst.xml.search.editor.references.IReference;
 import org.eclipse.wst.xml.search.editor.references.IXMLReference;
 import org.eclipse.wst.xml.search.editor.references.IXMLReferenceTo;
+import org.eclipse.wst.xml.search.editor.references.IXMLReferenceToJava;
+import org.w3c.dom.Node;
 
 public class ValidatorUtils {
 
@@ -63,6 +68,34 @@ public class ValidatorUtils {
 			return IMessage.HIGH_SEVERITY;
 		}
 		return IMessage.NORMAL_SEVERITY;
+	}
+
+	public static String getMessageText(IXMLReference reference,
+			int nbElements, String textContent, Node node, IFile file) {
+		if (nbElements < 0) {
+			for (IXMLReferenceTo to : reference.getTo()) {
+				if (to.getType() == IXMLReferenceTo.ToType.JAVA) {
+					IType[] superTypes = ((IXMLReferenceToJava) to).getExtends(node, file);
+					if (superTypes != null && superTypes.length > 0) {
+						StringBuilder sb = new StringBuilder();
+						for (IType type : superTypes ){
+							sb.append(type.getFullyQualifiedName());
+							sb.append(", ");
+						}
+						String superTypeNames = sb.toString().replaceAll(", $", "");
+						return NLS.bind(ValidatorUtils.getTypeHierarchyIncorrectMessage(),textContent, superTypeNames);
+					}
+				}
+			}
+		} if (nbElements < 1) {
+			return NLS.bind(ValidatorUtils.getNotFoundedMessage(reference
+					.getTo().get(0)), textContent, nbElements);
+		} else if(nbElements > 1) {
+			return NLS.bind(ValidatorUtils.getNonUniqueMessage(reference
+					.getTo().get(0)), textContent, nbElements);
+		} else {
+			return NLS.bind(ValidatorUtils.getDefaultMessage(), textContent);
+		}
 	}
 
 	public static String getMessageText(IXMLReference reference,
@@ -128,5 +161,13 @@ public class ValidatorUtils {
 			return Messages.Validation_ElementNonUnique;
 		}
 		return Messages.Validation_ElementNonUnique;
+	}
+
+	public static String getTypeHierarchyIncorrectMessage() {
+		return Messages.Validation_ClassHierarchyIncorrect;
+	}
+
+	private static String getDefaultMessage() {
+		return Messages.Validation_ElementInvalid;
 	}
 }

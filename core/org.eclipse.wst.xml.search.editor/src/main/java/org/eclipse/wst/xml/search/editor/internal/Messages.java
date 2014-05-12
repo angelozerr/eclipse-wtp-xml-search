@@ -29,9 +29,11 @@ public class Messages extends NLS {
 	public static String ExceptionDialog_seeErrorLogMessage;
 
 	public static String Validation_ClassNotFounded;
+	public static String Validation_ClassHierarchyIncorrect;
 	public static String Validation_FileNotFounded;
 	public static String Validation_ElementNotFounded;
 	public static String Validation_ElementNonUnique;
+	public static String Validation_ElementInvalid;
 
 	// JDT search particpant
 	public static String ClassSearchParticipant_taskMessage;

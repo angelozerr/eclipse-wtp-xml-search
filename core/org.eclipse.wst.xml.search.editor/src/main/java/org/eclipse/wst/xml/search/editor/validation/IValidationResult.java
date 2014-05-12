@@ -12,26 +12,6 @@ package org.eclipse.wst.xml.search.editor.validation;
 
 public interface IValidationResult {
 
-	public static final IValidationResult OK = new AbstractValidationResult() {
-		public int getNbElements() {
-			return 1;
-		}
-
-		public void setNbElements(int nbElements) {
-
-		}
-	};
-
-	public static final IValidationResult NOK = new AbstractValidationResult() {
-		public int getNbElements() {
-			return 0;
-		}
-
-		public void setNbElements(int nbElements) {
-
-		}
-	};
-
 	String getValue();
 
 	int getStartIndex();

@@ -35,7 +35,7 @@ import org.w3c.dom.Text;
 
 public class XMLReferencesHyperlinkDetector extends AbstractHyperlinkDetector {
 
-	public static final IHyperlink[] EMPTY_HYPERLINK = new IHyperlink[0];
+	public static final IHyperlink[] EMPTY_HYPERLINK = null;
 
 	public IHyperlink[] detectHyperlinks(ITextViewer textViewer,
 			IRegion region, boolean canShowMultipleHyperlinks) {

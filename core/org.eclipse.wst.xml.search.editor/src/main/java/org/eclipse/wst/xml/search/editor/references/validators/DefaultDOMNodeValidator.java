@@ -10,9 +10,14 @@
  *******************************************************************************/
 package org.eclipse.wst.xml.search.editor.references.validators;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
+import org.eclipse.core.internal.utils.StringPool;
 import org.eclipse.core.resources.IFile;
+import org.eclipse.jdt.core.IType;
+import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.wst.sse.core.internal.provisional.text.IStructuredDocument;
 import org.eclipse.wst.sse.ui.internal.reconcile.validator.AnnotationInfo;
 import org.eclipse.wst.sse.ui.internal.reconcile.validator.IncrementalReporter;
@@ -22,10 +27,13 @@ import org.eclipse.wst.xml.core.internal.provisional.document.IDOMAttr;
 import org.eclipse.wst.xml.core.internal.provisional.document.IDOMNode;
 import org.eclipse.wst.xml.search.core.util.DOMUtils;
 import org.eclipse.wst.xml.search.editor.internal.Trace;
+import org.eclipse.wst.xml.search.editor.internal.references.XMLReferenceToJava;
 import org.eclipse.wst.xml.search.editor.references.IXMLReference;
 import org.eclipse.wst.xml.search.editor.references.IXMLReferenceTo;
 import org.eclipse.wst.xml.search.editor.references.IXMLReferenceToExpression;
+import org.eclipse.wst.xml.search.editor.references.IXMLReferenceToJava;
 import org.eclipse.wst.xml.search.editor.searchers.IXMLSearcher;
+import org.eclipse.wst.xml.search.editor.searchers.java.XMLSearcherForJava;
 import org.eclipse.wst.xml.search.editor.validation.IMultiValidationResult;
 import org.eclipse.wst.xml.search.editor.validation.IValidationResult;
 import org.eclipse.wst.xml.search.editor.validation.LocalizedMessage;
@@ -52,33 +60,20 @@ public class DefaultDOMNodeValidator implements IXMLReferenceValidator {
 		return node.getStartOffset();
 	}
 
-	protected int getNbElements(IXMLReference reference, IFile file,
-			IDOMNode node) {
-		int nbElements = 0;
-		List<IXMLReferenceTo> to = reference.getTo();
-		for (IXMLReferenceTo referenceTo : to) {
-			IXMLSearcher searcher = referenceTo.getSearcher();
-			if (searcher != null) {
-				try {
-					IValidationResult result = searcher.searchForValidation(
-							node, DOMUtils.getNodeValue(node), -1, -1, file,
-							referenceTo);
-					if (result != null) {
-						nbElements += result.getNbElements();
-					}
-				} catch (Throwable e) {
-					Trace.trace(Trace.SEVERE, e.getMessage(), e);
-				}
-			}
-		}
-		return nbElements;
-	}
-
 	protected int getSeverity(IXMLReference reference, int nbElements,
 			IFile file, IDOMNode node) {
 		return ValidatorUtils.getSeverity(reference, nbElements);
 	}
 
+	protected String getMessageText(IXMLReference reference, int nbElements,
+			String textContent, Node node, IFile file) {
+		if (textContent == null) {
+			return null;
+		}
+		return ValidatorUtils
+				.getMessageText(reference, nbElements, textContent, node, file);
+	}
+	
 	protected String getMessageText(IXMLReference reference, int nbElements,
 			Node node, String textContent) {
 		if (textContent == null) {
@@ -114,7 +109,7 @@ public class DefaultDOMNodeValidator implements IXMLReferenceValidator {
 							int nbElements = r.getNbElements();
 							if (nbElements != 1) {
 								String messageText = getMessageText(reference,
-										nbElements, node, r.getValue());
+										nbElements, r.getValue(), node, file);
 								if (messageText != null) {
 									int severity = getSeverity(reference,
 											nbElements, file, node);
@@ -135,21 +130,47 @@ public class DefaultDOMNodeValidator implements IXMLReferenceValidator {
 			return;
 		}
 
-		int nbElements = getNbElements(reference, file, node);
-		if (nbElements == 1) {
-			return;
+		int nonNegativeElements = 0;
+		for (IXMLReferenceTo referenceTo : reference.getTo()) {
+			IXMLSearcher searcher = referenceTo.getSearcher();
+			if (searcher != null) {
+				try {
+					IValidationResult result = searcher.searchForValidation(
+							node, DOMUtils.getNodeValue(node), -1, -1, file, referenceTo);
+					if (result != null) {
+						if (result.getNbElements() < 0) {
+							String textContent = DOMUtils.getNodeValue(node);
+							String messageText = getMessageText(reference,
+									result.getNbElements(), textContent, node, file);
+							if (messageText != null) {
+								int severity = getSeverity(reference, result.getNbElements(), file, node);
+								int startOffset = getStartOffset(node);
+								int length = textContent.trim().length() + 2;
+								addMessage(node, file, validator, reporter, batchMode,
+										messageText, severity, startOffset, length);
+							}
+							return;
+						} else if (result.getNbElements() > 0) {
+							nonNegativeElements += result.getNbElements();
+						}
+					}
+				} catch (Throwable e) {
+					Trace.trace(Trace.SEVERE, e.getMessage(), e);
+				}
+			}
 		}
-		String textContent = DOMUtils.getNodeValue(node);
-		String messageText = getMessageText(reference, nbElements, node,
-				textContent);
-		if (messageText == null) {
-			return;
+
+		if (nonNegativeElements != 1) {
+			String textContent = DOMUtils.getNodeValue(node);
+			String messageText = getMessageText(reference, nonNegativeElements, textContent, node, file);
+			if (messageText != null) {
+				int severity = getSeverity(reference, nonNegativeElements, file, node);
+				int startOffset = getStartOffset(node);
+				int length = textContent.trim().length() + 2;
+				addMessage(node, file, validator, reporter, batchMode,
+						messageText, severity, startOffset, length);
+			}
 		}
-		int severity = getSeverity(reference, nbElements, file, node);
-		int startOffset = getStartOffset(node);
-		int length = textContent.trim().length() + 2;
-		addMessage(node, file, validator, reporter, batchMode, messageText,
-				severity, startOffset, length);
 	}
 
 	private void addMessage(IDOMNode node, IFile file, IValidator validator,
