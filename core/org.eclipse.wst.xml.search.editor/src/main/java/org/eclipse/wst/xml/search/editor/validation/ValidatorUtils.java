@@ -129,4 +129,8 @@ public class ValidatorUtils {
 		}
 		return Messages.Validation_ElementNonUnique;
 	}
+	
+	public static String getTypeHierarchyIncorrectMessage(String className, String superTypeNames) {
+		return NLS.bind(Messages.Validation_ClassHierarchyIncorrect, className, superTypeNames);
+	}
 }

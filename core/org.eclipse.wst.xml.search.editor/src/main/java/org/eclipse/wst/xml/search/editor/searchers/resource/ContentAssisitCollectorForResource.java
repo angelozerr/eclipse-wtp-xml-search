@@ -37,7 +37,7 @@ public class ContentAssisitCollectorForResource<T> implements IResourceCollector
 	public boolean add(IResource file, IResource rootContainer,
 			IURIResolver resolver) {
 		Image image = null;
-		int relevance = 1;
+		int relevance = 1000;
 		String value = resolver.resolve(selectedNode, rootContainer, file);
 		String displayText = value;
 		String replaceText = value;

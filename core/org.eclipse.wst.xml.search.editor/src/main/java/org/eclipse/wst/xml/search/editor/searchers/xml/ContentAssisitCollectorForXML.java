@@ -72,7 +72,7 @@ public class ContentAssisitCollectorForXML extends
 		}
 
 		Image image = null;
-		int relevance = 1;
+		int relevance = 1000;
 		String displayText = value;
 		String replaceText = getReplaceText(value);
 
