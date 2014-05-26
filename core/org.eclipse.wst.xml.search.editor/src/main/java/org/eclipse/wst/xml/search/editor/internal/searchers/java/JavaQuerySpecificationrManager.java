@@ -29,7 +29,7 @@ public class JavaQuerySpecificationrManager extends AbstractRegistryManager {
 	private static final String ID_ATTR = "id";
 	private static final String QUERY_SPECIFICATION_ELT = "querySpecification";
 	public static final JavaQuerySpecificationrManager INSTANCE = new JavaQuerySpecificationrManager();
-	private static final String JAVA_METHOD_QUERY_SPECIFICATIONS_EXTENSION_POINT = "javaQuerySpecifications";
+	private static final String JAVA_QUERY_SPECIFICATIONS_EXTENSION_POINT = "javaQuerySpecifications";
 
 	private Map<String, IJavaQuerySpecification> querySpecificationById = null;
 
@@ -95,7 +95,7 @@ public class JavaQuerySpecificationrManager extends AbstractRegistryManager {
 		if (registry != null) {
 			IConfigurationElement[] cf = registry.getConfigurationElementsFor(
 					XMLSearchEditorPlugin.PLUGIN_ID,
-					JAVA_METHOD_QUERY_SPECIFICATIONS_EXTENSION_POINT);
+					JAVA_QUERY_SPECIFICATIONS_EXTENSION_POINT);
 			querySpecificationById = new HashMap<String, IJavaQuerySpecification>(
 					cf.length);
 			addJavaFilter(querySpecificationById, cf);
@@ -109,7 +109,7 @@ public class JavaQuerySpecificationrManager extends AbstractRegistryManager {
 
 	@Override
 	protected String getExtensionPoint() {
-		return JAVA_METHOD_QUERY_SPECIFICATIONS_EXTENSION_POINT;
+		return JAVA_QUERY_SPECIFICATIONS_EXTENSION_POINT;
 	}
 
 	@Override
