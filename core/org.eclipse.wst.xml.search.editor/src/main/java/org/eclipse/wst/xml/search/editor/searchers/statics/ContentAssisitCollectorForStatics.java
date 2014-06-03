@@ -42,7 +42,7 @@ public class ContentAssisitCollectorForStatics extends
 		}
 
 		Image image = null;
-		int relevance = 1;
+		int relevance = 1000;
 		String displayText = value;
 		String replaceText = getReplaceText(value);
 		Object proposedObject = staticValue.getDescription();

@@ -59,7 +59,7 @@
                   
                </documentation>
                <appinfo>
-                  <meta.attribute kind="java" basedOn=":org.eclipse.wst.xml.search.editor.parsers.IXMLExpressionParser"/>
+                  <meta.attribute kind="java" basedOn=":org.eclipse.wst.xml.search.editor.searchers.expressions.IXMLExpressionParser"/>
                </appinfo>
             </annotation>
          </attribute>

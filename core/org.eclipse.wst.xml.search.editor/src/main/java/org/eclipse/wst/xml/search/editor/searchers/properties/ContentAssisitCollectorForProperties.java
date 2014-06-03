@@ -36,7 +36,7 @@ public class ContentAssisitCollectorForProperties implements
 	public boolean add(IStorage propertiesFile, String key, String name) {
 		// TODO Auto-generated method stub
 		Image image = null;
-		int relevance = 1;
+		int relevance = 1000;
 		String value = key;// resolver.resolve(selectedNode, rootContainer,
 							// file);
 		String displayText = value;
