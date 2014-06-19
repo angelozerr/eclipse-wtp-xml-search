@@ -82,24 +82,26 @@ public class XMLSearcherForJava implements IXMLSearcher {
 		IValidationResult result = new ValidationResultForJava();
 		IType type = JdtUtils.getJavaType(file.getProject(), mathingString);
 		if (type != null ) {
+			result.setNbElements(1);
 			IType[] superTypes = ((IXMLReferenceToJava) referenceTo).getExtends(selectedNode, file);
-			for (IType superType : superTypes) {
-				try {
-					if (JdtUtils.hierarchyContainsComponent(type,superType.getFullyQualifiedName())) {
-						result.setNbElements(1);
-						return result;
+			if (superTypes != null && superTypes.length > 0) {
+				boolean isHierarchyCorrect = false;
+				for (IType superType : superTypes) {
+					try {
+						if (JdtUtils.hierarchyContainsComponent(type,superType.getFullyQualifiedName())) {
+							isHierarchyCorrect = true;
+							break;
+						}
+					} catch(JavaModelException e){
+						Trace.trace(Trace.SEVERE, e.getMessage(), e);
 					}
-				} catch(JavaModelException e){
-					Trace.trace(Trace.SEVERE, e.getMessage(), e);
+				}
+				if (!isHierarchyCorrect) {
+					result.setNbElements(-1);
 				}
 			}
-			result.setNbElements(-1);
-			return result;
 		}
-		else {
-			result.setNbElements(0);
-			return result;
-		}
+		return result;
 	}
 
 	// ----------------- Text info
