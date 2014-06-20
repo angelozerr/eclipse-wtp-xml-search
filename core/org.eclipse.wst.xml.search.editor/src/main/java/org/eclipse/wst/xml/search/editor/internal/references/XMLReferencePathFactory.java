@@ -252,7 +252,7 @@ public class XMLReferencePathFactory {
 			String extendsClass = element.getAttribute("extends");
 			if (!StringUtils.isEmpty(extendsClass)) {
 				DefaultExtendedClassProvider implementsClassProvider = new DefaultExtendedClassProvider(
-						extendsClass.split(","));
+						extendsClass.replaceAll("\\s+", "").split(","));
 				return new JavaQuerySpecification(implementsClassProvider);
 			}
 			return null;
