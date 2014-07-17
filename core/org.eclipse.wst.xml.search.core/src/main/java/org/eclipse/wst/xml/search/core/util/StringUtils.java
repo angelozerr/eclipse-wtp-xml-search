@@ -71,7 +71,7 @@ public class StringUtils {
 		
 		boolean parse = true;
 		char c;
-		while (parse) {
+		while (parse && (off + st) < count) {
 			c = val[off + st];
 			parse = isParse(len, st, c);
 			if (parse) {
