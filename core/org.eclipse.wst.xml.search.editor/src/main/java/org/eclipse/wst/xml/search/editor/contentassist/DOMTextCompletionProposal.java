@@ -116,50 +116,55 @@ public class DOMTextCompletionProposal implements ICompletionProposal,
 	public void apply(ITextViewer viewer, char trigger, int stateMask,
 			int offset) {
 		IDocument document = viewer.getDocument();
-		int caretOffset = viewer.getTextWidget().getCaretOffset();
-		if (viewer instanceof ITextViewerExtension5) {
-			ITextViewerExtension5 extension = (ITextViewerExtension5) viewer;
-			caretOffset = extension.widgetOffset2ModelOffset(caretOffset);
-		} else {
-			caretOffset = viewer.getTextWidget().getCaretOffset()
-					+ viewer.getVisibleRegion().getOffset();
-		}
-		if (caretOffset == getReplacementOffset())
+		try {
+			document.replace(getReplacementOffset(), getReplacementLength(), getReplacementString());
+		} catch (BadLocationException e) {
 			apply(document);
-		else
-			try {
-				int endOffsetOfChanges = getReplacementString().length()
-						+ getReplacementOffset();
-				if (endOffsetOfChanges >= caretOffset) {
-					int postCaretReplacementLength = (getReplacementOffset() + getReplacementLength())
-							- caretOffset;
-					int preCaretReplacementLength = getReplacementString()
-							.length()
-							- (endOffsetOfChanges - caretOffset);
-					if (postCaretReplacementLength < 0)
-						postCaretReplacementLength = 0;
-					// String charAfterCursor = document.get(caretOffset, 1);
-					// if ("\"".equals(charAfterCursor))
-					document.replace(caretOffset, postCaretReplacementLength,
-							getReplacementString().substring(
-									preCaretReplacementLength));
-					// else
-					// document.replace(caretOffset,
-					// postCaretReplacementLength,
-					// getReplacementString());
-				}
-				// if (caretOffset > getReplacementOffset()) {
-				// int preCaretTextLength = caretOffset
-				// - getReplacementOffset();
-				// document.replace(getReplacementOffset(),
-				// preCaretTextLength, getReplacementString()
-				// .substring(0, preCaretTextLength));
-				// }
-			} catch (BadLocationException _ex) {
-				apply(document);
-			} catch (StringIndexOutOfBoundsException _ex) {
-				apply(document);
-			}
+		}
+//		int caretOffset = viewer.getTextWidget().getCaretOffset();
+//		if (viewer instanceof ITextViewerExtension5) {
+//			ITextViewerExtension5 extension = (ITextViewerExtension5) viewer;
+//			caretOffset = extension.widgetOffset2ModelOffset(caretOffset);
+//		} else {
+//			caretOffset = viewer.getTextWidget().getCaretOffset()
+//					+ viewer.getVisibleRegion().getOffset();
+//		}
+//		if (caretOffset == getReplacementOffset())
+//			apply(document);
+//		else
+//			try {
+//				int endOffsetOfChanges = getReplacementString().length()
+//						+ getReplacementOffset();
+//				if (endOffsetOfChanges >= caretOffset) {
+//					int postCaretReplacementLength = (getReplacementOffset() + getReplacementLength())
+//							- caretOffset;
+//					int preCaretReplacementLength = getReplacementString()
+//							.length()
+//							- (endOffsetOfChanges - caretOffset);
+//					if (postCaretReplacementLength < 0)
+//						postCaretReplacementLength = 0;
+//					// String charAfterCursor = document.get(caretOffset, 1);
+//					// if ("\"".equals(charAfterCursor))
+//					document.replace(caretOffset, postCaretReplacementLength,
+//							getReplacementString().substring(
+//									preCaretReplacementLength));
+//					// else
+//					// document.replace(caretOffset,
+//					// postCaretReplacementLength,
+//					// getReplacementString());
+//				}
+//				// if (caretOffset > getReplacementOffset()) {
+//				// int preCaretTextLength = caretOffset
+//				// - getReplacementOffset();
+//				// document.replace(getReplacementOffset(),
+//				// preCaretTextLength, getReplacementString()
+//				// .substring(0, preCaretTextLength));
+//				// }
+//			} catch (BadLocationException _ex) {
+//				apply(document);
+//			} catch (StringIndexOutOfBoundsException _ex) {
+//				apply(document);
+//			}
 	}
 
 	public String getAdditionalProposalInfo() {
