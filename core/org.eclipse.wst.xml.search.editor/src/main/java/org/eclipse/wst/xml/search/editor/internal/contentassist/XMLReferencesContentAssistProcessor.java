@@ -42,7 +42,13 @@ public class XMLReferencesContentAssistProcessor extends
 		ContentAssistRequest request = super.computeEndTagOpenProposals(
 				documentPosition, matchString, completionRegion, nodeAtOffset,
 				node);
-		doEntityProposalIfNeeded(request);
+		// the cursor in the end-tag-open position, if matchString is "", that 
+		// means actually the cursor is at the end of xml content, only in this case 
+		// we need to handle the proposals
+		// ignore when the matchString is "<" and "</"
+		if(matchString.equals("")) {
+			doEntityProposalIfNeeded(request);
+		}
 		return request;
 	}
 
