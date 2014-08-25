@@ -16,7 +16,8 @@ import org.eclipse.wst.xml.search.core.properties.IPropertiesCollector;
 import org.eclipse.wst.xml.search.core.util.StringUtils;
 import org.eclipse.wst.xml.search.editor.contentassist.IContentAssistAdditionalProposalInfoProvider;
 import org.eclipse.wst.xml.search.editor.contentassist.IContentAssistProposalRecorder;
-import org.eclipse.wst.xml.search.editor.references.IXMLReferenceToProperty;
+import org.eclipse.wst.xml.search.editor.core.references.IXMLReferenceToProperty;
+import org.eclipse.wst.xml.search.editor.internal.contentassist.ContentAssistBindingsManager;
 
 public class ContentAssisitCollectorForProperties implements
 		IPropertiesCollector {
@@ -43,8 +44,8 @@ public class ContentAssisitCollectorForProperties implements
 		String replaceText = value;
 		Object proposedObject = null;
 
-		IContentAssistAdditionalProposalInfoProvider<PropertyInfo> provider = (IContentAssistAdditionalProposalInfoProvider<PropertyInfo>) referenceToProperty
-				.getAdditionalProposalInfoProvider();
+		IContentAssistAdditionalProposalInfoProvider<PropertyInfo> provider = (IContentAssistAdditionalProposalInfoProvider<PropertyInfo>) 
+				ContentAssistBindingsManager.getDefault().getProvider(referenceToProperty);
 		if (provider != null) {
 			PropertyInfo info = new PropertyInfo(propertiesFile, key, name);
 			String newDisplayText = provider.getDisplayText(displayText, info);

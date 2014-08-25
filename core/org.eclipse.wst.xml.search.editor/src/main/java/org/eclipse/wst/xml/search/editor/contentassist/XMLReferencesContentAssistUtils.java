@@ -15,10 +15,10 @@ import org.eclipse.wst.xml.core.internal.provisional.document.IDOMAttr;
 import org.eclipse.wst.xml.core.internal.provisional.document.IDOMNode;
 import org.eclipse.wst.xml.core.internal.provisional.document.IDOMText;
 import org.eclipse.wst.xml.search.core.util.DOMUtils;
+import org.eclipse.wst.xml.search.editor.core.references.IXMLReference;
+import org.eclipse.wst.xml.search.editor.core.references.XMLReferencesUtil;
 import org.eclipse.wst.xml.search.editor.internal.contentassist.XMLReferencesContentAssistCalculator;
 import org.eclipse.wst.xml.search.editor.internal.util.EditorUtils;
-import org.eclipse.wst.xml.search.editor.references.IXMLReference;
-import org.eclipse.wst.xml.search.editor.references.XMLReferencesUtil;
 import org.eclipse.wst.xml.ui.internal.contentassist.ContentAssistRequest;
 import org.w3c.dom.Node;
 

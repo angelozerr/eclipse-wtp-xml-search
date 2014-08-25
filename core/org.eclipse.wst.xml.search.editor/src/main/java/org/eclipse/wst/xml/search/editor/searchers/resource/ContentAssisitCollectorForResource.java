@@ -18,7 +18,7 @@ import org.eclipse.wst.xml.search.core.resource.IURIResolver;
 import org.eclipse.wst.xml.search.core.util.StringUtils;
 import org.eclipse.wst.xml.search.editor.contentassist.IContentAssistAdditionalProposalInfoProvider;
 import org.eclipse.wst.xml.search.editor.contentassist.IContentAssistProposalRecorder;
-import org.eclipse.wst.xml.search.editor.references.IXMLReferenceToResource;
+import org.eclipse.wst.xml.search.editor.core.references.IXMLReferenceToResource;
 
 public class ContentAssisitCollectorForResource<T> implements IResourceCollector {
 

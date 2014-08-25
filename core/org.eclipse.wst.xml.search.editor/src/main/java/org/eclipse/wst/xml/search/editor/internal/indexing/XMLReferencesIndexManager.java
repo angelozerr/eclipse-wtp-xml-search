@@ -25,6 +25,8 @@ import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.jdt.core.IJavaProject;
+import org.eclipse.wst.xml.search.editor.internal.indexing.XMLReferencesFileVisitor;
+import org.eclipse.wst.xml.search.editor.internal.indexing.XMLReferencesIndexManager;
 
 public class XMLReferencesIndexManager {
 
@@ -32,7 +34,7 @@ public class XMLReferencesIndexManager {
 	static final boolean DEBUG;
 	static {
 		String value = Platform
-				.getDebugOption("org.eclipse.wst.xml.search.editor/debug/indexmanager"); //$NON-NLS-1$
+				.getDebugOption("org.eclipse.wst.xml.search.editor.ui/debug/indexmanager"); //$NON-NLS-1$
 		DEBUG = value != null && value.equalsIgnoreCase("true"); //$NON-NLS-1$
 	}
 

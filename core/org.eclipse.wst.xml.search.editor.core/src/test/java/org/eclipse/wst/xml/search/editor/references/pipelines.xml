@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pipelines>
+
+	<pipeline uri="p1">
+		<transformer type="xslt" src="file1.xsl" />
+	</pipeline>
+
+	<pipeline uri="p2">
+		<transformer type="xslt" src="file2.xsl" />
+		<transformer type="pipeline" src="p1" />
+	</pipeline>
+	
+	<pipeline uri="p3">
+	</pipeline>
+	
+</pipelines>

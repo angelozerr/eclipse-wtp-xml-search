@@ -27,15 +27,17 @@ import org.eclipse.wst.xml.core.internal.provisional.document.IDOMNode;
 import org.eclipse.wst.xml.core.internal.regions.DOMRegionContext;
 import org.eclipse.wst.xml.search.core.util.DOMUtils;
 import org.eclipse.wst.xml.search.core.util.StringUtils;
-import org.eclipse.wst.xml.search.editor.internal.references.XMLReferencesManager;
-import org.eclipse.wst.xml.search.editor.references.IXMLReference;
-import org.eclipse.wst.xml.search.editor.references.IXMLReferenceTo;
-import org.eclipse.wst.xml.search.editor.references.IXMLReferenceToExpression;
-import org.eclipse.wst.xml.search.editor.searchers.IXMLSearcher;
+import org.eclipse.wst.xml.search.editor.core.references.IXMLReference;
+import org.eclipse.wst.xml.search.editor.core.references.IXMLReferenceTo;
+import org.eclipse.wst.xml.search.editor.core.references.IXMLReferenceToExpression;
+import org.eclipse.wst.xml.search.editor.core.references.XMLReferencesManager;
+import org.eclipse.wst.xml.search.editor.searchers.IXMLAssistSearcher;
+import org.eclipse.wst.xml.search.editor.searchers.XMLAssistSearcherBindingsManager;
 import org.eclipse.wst.xml.ui.internal.Logger;
 import org.eclipse.wst.xml.ui.internal.taginfo.XMLTagInfoHoverProcessor;
 import org.w3c.dom.Node;
 
+@SuppressWarnings("restriction")
 public class XMLReferencesInfoHoverProcessor extends XMLTagInfoHoverProcessor {
 
 	/**
@@ -176,7 +178,8 @@ public class XMLReferencesInfoHoverProcessor extends XMLTagInfoHoverProcessor {
 			IFile file = DOMUtils.getFile(selectedNode);
 			if (reference.isExpression()) {
 				IXMLReferenceToExpression expression = (IXMLReferenceToExpression) reference;
-				IXMLSearcher searcher = expression.getSearcher();
+				IXMLAssistSearcher searcher = XMLAssistSearcherBindingsManager.getDefault().
+				                getXMLAssistSearcher(reference);
 				if (searcher != null) {
 					String textInfo = searcher.searchForTextHover(selectedNode,
 							-1, DOMUtils.getNodeValue(selectedNode), -1, -1,
@@ -186,7 +189,8 @@ public class XMLReferencesInfoHoverProcessor extends XMLTagInfoHoverProcessor {
 			} else {
 				Collection<IXMLReferenceTo> to = reference.getTo();
 				for (IXMLReferenceTo referenceTo : to) {
-					IXMLSearcher searcher = referenceTo.getSearcher();
+					IXMLAssistSearcher searcher = XMLAssistSearcherBindingsManager.
+					                getDefault().getXMLAssistSearcher(referenceTo);
 					if (searcher != null) {
 						String textInfo = searcher.searchForTextHover(
 								selectedNode, -1,

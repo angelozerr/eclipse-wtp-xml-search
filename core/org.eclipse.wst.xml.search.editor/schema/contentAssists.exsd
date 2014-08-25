@@ -1,9 +1,9 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <!-- Schema file written by PDE -->
-<schema targetNamespace="org.eclipse.wst.xml.search.editor" xmlns="http://www.w3.org/2001/XMLSchema">
+<schema targetNamespace="org.eclipse.wst.xml.search.editor.ui" xmlns="http://www.w3.org/2001/XMLSchema">
 <annotation>
       <appinfo>
-         <meta.schema plugin="org.eclipse.wst.xml.search.editor" id="contentAssisits" name="XML Editor Content Assist Contribution"/>
+         <meta.schema plugin="org.eclipse.wst.xml.search.editor.ui" id="contentAssisits" name="XML Editor Content Assist Contribution"/>
       </appinfo>
       <documentation>
          Extension point for provide XML Editor Content Assist.
@@ -77,6 +77,19 @@
       </documentation>
    </annotation>
 
+   <annotation>
+      <appinfo>
+         <meta.section type="examples"/>
+      </appinfo>
+      <documentation>
+         &lt;extension point=&quot;org.eclipse.wst.xml.search.editor.ui.contentAssists&quot;&gt;
+ &lt;additionalProposalInfoProvider id=&quot;com.myCompany.anAdditionalProposalInfoProviderId&quot;
+         class=&quot;com.myCompany.adAdditionProposalInfoProviderClass&quot;/&gt;
+ &lt;additionalProposalInfoProvider id=&quot;com.myCompany.anotherAdditionalProposalInfoProviderId&quot;
+         class=&quot;com.myCompany.anotherAdditionProposalInfoProviderClass&quot;/&gt;
+&lt;/extension&gt;
+      </documentation>
+   </annotation>
 
 
    <annotation>

@@ -15,19 +15,11 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
-import org.eclipse.wst.xml.search.core.storage.StructuredStorageModelManager;
+import org.eclipse.wst.xml.search.editor.internal.contentassist.ContentAssistBindingsManager;
 import org.eclipse.wst.xml.search.editor.internal.contentassist.ContentAssistsManager;
 import org.eclipse.wst.xml.search.editor.internal.indexing.XMLReferencesIndexManager;
-import org.eclipse.wst.xml.search.editor.internal.jdt.JDTStorageLocationProvider;
-import org.eclipse.wst.xml.search.editor.internal.references.XMLReferencesManager;
-import org.eclipse.wst.xml.search.editor.internal.references.filters.XMLReferenceFiltersManager;
-import org.eclipse.wst.xml.search.editor.internal.references.validators.XMLReferenceValidatorsManager;
-import org.eclipse.wst.xml.search.editor.internal.reporter.XMLSearchReporterManager;
-import org.eclipse.wst.xml.search.editor.internal.searchers.expressions.XMLExpressionParserManager;
-import org.eclipse.wst.xml.search.editor.internal.searchers.java.JavaQuerySpecificationrManager;
-import org.eclipse.wst.xml.search.editor.internal.searchers.javamethod.JavaMethodQuerySpecificationrManager;
-import org.eclipse.wst.xml.search.editor.java.JavaReferencesManager;
-import org.eclipse.wst.xml.search.editor.java.JavaReferencesMatchersManager;
+import org.eclipse.wst.xml.search.editor.searchers.XMLAssistSearcherBindingsManager;
+import org.eclipse.wst.xml.search.editor.searchers.XMLAssistSearchersManager;
 import org.osgi.framework.BundleContext;
 
 /**
@@ -59,20 +51,12 @@ public class XMLSearchEditorPlugin extends AbstractUIPlugin {
 	public void start(BundleContext context) throws Exception {
 		super.start(context);
 		plugin = this;
-		XMLSearchReporterManager.getDefault().initialize();
-		XMLReferenceFiltersManager.getDefault().initialize();
-		XMLReferenceValidatorsManager.getDefault().initialize();
-		XMLReferencesManager.getInstance().initialize();
-		JavaReferencesMatchersManager.getInstance().initialize();
-		JavaReferencesManager.getInstance().initialize();
 		ContentAssistsManager.getDefault().initialize();
-		JavaQuerySpecificationrManager.getDefault().initialize();
-		JavaMethodQuerySpecificationrManager.getDefault().initialize();
+		ContentAssistBindingsManager.getDefault().initialize();
+		XMLAssistSearchersManager.getDefault().initialize();
+		XMLAssistSearcherBindingsManager.getDefault().initialize();
 		XMLReferencesIndexManager.getDefault().initialize();
 		javaElementLabelProvider = new JavaElementImageProvider();
-		StructuredStorageModelManager.getModelManager()
-				.setStorageLocationProvider(new JDTStorageLocationProvider());
-		XMLExpressionParserManager.getDefault().initialize();
 	}
 
 	/*
@@ -85,17 +69,11 @@ public class XMLSearchEditorPlugin extends AbstractUIPlugin {
 	public void stop(BundleContext context) throws Exception {
 		plugin = null;
 		super.stop(context);
-		XMLSearchReporterManager.getDefault().destroy();
-		XMLReferenceFiltersManager.getDefault().destroy();
-		XMLReferenceValidatorsManager.getDefault().destroy();
-		XMLReferencesManager.getInstance().destroy();
-		JavaReferencesMatchersManager.getInstance().destroy();
-		JavaReferencesManager.getInstance().destroy();
+		ContentAssistBindingsManager.getDefault().destroy();
 		ContentAssistsManager.getDefault().destroy();
-		JavaQuerySpecificationrManager.getDefault().destroy();
-		JavaMethodQuerySpecificationrManager.getDefault().destroy();
+		XMLAssistSearcherBindingsManager.getDefault().destroy();
+		XMLAssistSearchersManager.getDefault().destroy();
 		XMLReferencesIndexManager.getDefault().destroy();
-		XMLExpressionParserManager.getDefault().destroy();
 		javaElementLabelProvider = null;
 	}
 

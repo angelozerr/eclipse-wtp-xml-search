@@ -16,12 +16,14 @@ import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.IRegion;
 import org.eclipse.jface.text.contentassist.ICompletionProposal;
+import org.eclipse.wst.xml.search.editor.core.java.IJavaReference;
+import org.eclipse.wst.xml.search.editor.core.java.JavaReferencesManager;
+import org.eclipse.wst.xml.search.editor.core.references.IXMLReferenceTo;
 import org.eclipse.wst.xml.search.editor.internal.util.DocumentHelper;
 import org.eclipse.wst.xml.search.editor.internal.util.DocumentHelper.StringArgument;
-import org.eclipse.wst.xml.search.editor.java.IJavaReference;
-import org.eclipse.wst.xml.search.editor.java.JavaReferencesManager;
-import org.eclipse.wst.xml.search.editor.references.IXMLReferenceTo;
-import org.eclipse.wst.xml.search.editor.searchers.IXMLSearcher;
+import org.eclipse.wst.xml.search.editor.searchers.IXMLAssistSearcher;
+import org.eclipse.wst.xml.search.editor.searchers.XMLAssistSearcherBindingsManager;
+;
 
 public class SearchJavaNoTypeCompletionProposalComputer extends
 		JavaNoTypeCompletionProposalComputer {
@@ -63,7 +65,8 @@ public class SearchJavaNoTypeCompletionProposalComputer extends
 									: null;
 							List<IXMLReferenceTo> tos = javaReference.getTo();
 							for (IXMLReferenceTo to : tos) {
-								IXMLSearcher searcher = to.getSearcher();
+								IXMLAssistSearcher searcher = XMLAssistSearcherBindingsManager.
+								                getDefault().getXMLAssistSearcher(to);
 								if (searcher != null) {
 									searcher.searchForCompletion(
 											element,
