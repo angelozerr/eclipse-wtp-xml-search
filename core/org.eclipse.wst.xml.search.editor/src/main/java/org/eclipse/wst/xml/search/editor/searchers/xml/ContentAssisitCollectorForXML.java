@@ -88,9 +88,7 @@ public class ContentAssisitCollectorForXML extends
 			image = provider.getImage(node);
 			proposedObject = provider.getTextInfo(node);
 		}
-		int cursorPosition = getCursorPosition(value);
-		recorder.recordProposal(image, relevance, displayText, replaceText,
-				cursorPosition, proposedObject);
+		recorder.recordProposal(image, relevance, displayText, replaceText, proposedObject);
 	}
 
 }
