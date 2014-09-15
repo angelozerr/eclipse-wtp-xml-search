@@ -17,8 +17,6 @@ public interface IStorageModelManager {
 
 	IStructuredModel getModel(IStorage storage);
 	
-	IStructuredModel loadModel(IStorage storage);
-	
 	IStorage getStorage(IStructuredModel model);
 	
 	void setStorageLocationProvider(IStorageLocationProvider locationProvider);

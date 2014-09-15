@@ -64,7 +64,7 @@ public class StorageModelManager implements IStorageModelManager {
 		return null;
 	}
 
-	public IStructuredModel loadModel(IStorage storage) {
+	private IStructuredModel loadModel(IStorage storage) {
 		String id = calculateID(storage);
 		if (id == null) {
 			return null;
@@ -81,7 +81,7 @@ public class StorageModelManager implements IStorageModelManager {
 		IStructuredModel model = null;
 		try {
 			// first parameter must be unique
-			model = StructuredModelManager.getModelManager().getModelForEdit(
+			model = StructuredModelManager.getModelManager().getModelForRead(
 					id, contents, null);
 			model.setBaseLocation(calculateBaseLocation(storage));
 		} catch (IOException e) {
