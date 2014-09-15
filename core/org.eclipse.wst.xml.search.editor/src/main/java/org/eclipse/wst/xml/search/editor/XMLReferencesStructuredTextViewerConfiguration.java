@@ -17,17 +17,14 @@ import org.eclipse.jface.text.ITextHover;
 import org.eclipse.jface.text.contentassist.IContentAssistProcessor;
 import org.eclipse.jface.text.hyperlink.IHyperlinkDetector;
 import org.eclipse.jface.text.source.ISourceViewer;
-import org.eclipse.wst.sse.core.StructuredModelManager;
 import org.eclipse.wst.sse.core.text.IStructuredPartitions;
 import org.eclipse.wst.sse.ui.internal.ExtendedConfigurationBuilder;
 import org.eclipse.wst.sse.ui.internal.SSEUIPlugin;
-import org.eclipse.wst.sse.ui.internal.StructuredTextViewer;
 import org.eclipse.wst.sse.ui.internal.provisional.style.LineStyleProvider;
 import org.eclipse.wst.sse.ui.internal.taginfo.AnnotationHoverProcessor;
 import org.eclipse.wst.sse.ui.internal.taginfo.BestMatchHover;
 import org.eclipse.wst.sse.ui.internal.taginfo.ProblemAnnotationHoverProcessor;
 import org.eclipse.wst.sse.ui.internal.taginfo.TextHoverManager;
-import org.eclipse.wst.xml.core.internal.provisional.document.IDOMModel;
 import org.eclipse.wst.xml.core.text.IXMLPartitions;
 import org.eclipse.wst.xml.search.editor.hover.XMLReferencesInfoHoverProcessor;
 import org.eclipse.wst.xml.search.editor.hyperlink.XMLReferencesHyperlinkDetector;
@@ -152,12 +149,7 @@ public class XMLReferencesStructuredTextViewerConfiguration extends
 			ISourceViewer sourceViewer) {
 		if (fLineStyleProviderForXML == null) {
 			if (isColorReferencedNodes()) {
-				IDOMModel model = (IDOMModel) StructuredModelManager
-						.getModelManager().getExistingModelForRead(
-								((StructuredTextViewer) sourceViewer)
-										.getDocument());
-				fLineStyleProviderForXML = new LineStyleProviderForXMLReferences(
-						model);
+				fLineStyleProviderForXML = new LineStyleProviderForXMLReferences( sourceViewer );
 			} else {
 				fLineStyleProviderForXML = new LineStyleProviderForXML();
 			}
