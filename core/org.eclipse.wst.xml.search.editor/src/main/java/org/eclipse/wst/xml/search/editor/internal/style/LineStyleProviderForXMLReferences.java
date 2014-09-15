@@ -12,11 +12,14 @@ package org.eclipse.wst.xml.search.editor.internal.style;
 
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.text.TextAttribute;
+import org.eclipse.jface.text.source.ISourceViewer;
 import org.eclipse.jface.util.PropertyChangeEvent;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.RGB;
+import org.eclipse.wst.sse.core.StructuredModelManager;
 import org.eclipse.wst.sse.core.internal.provisional.text.ITextRegion;
 import org.eclipse.wst.sse.core.internal.provisional.text.ITextRegionCollection;
+import org.eclipse.wst.sse.ui.internal.StructuredTextViewer;
 import org.eclipse.wst.sse.ui.internal.preferences.ui.ColorHelper;
 import org.eclipse.wst.xml.core.internal.provisional.document.IDOMAttr;
 import org.eclipse.wst.xml.core.internal.provisional.document.IDOMModel;
@@ -32,10 +35,10 @@ import org.w3c.dom.Node;
 
 public class LineStyleProviderForXMLReferences extends LineStyleProviderForXML implements IReferencesStyleConstantsXML {
 
-	private IDOMModel model;
+	private final ISourceViewer sourceViewer;
 
-	public LineStyleProviderForXMLReferences(IDOMModel model) {
-		this.model = model;
+	public LineStyleProviderForXMLReferences(ISourceViewer sourceViewer) {
+		this.sourceViewer = sourceViewer;
 	}
 
 	@Override
@@ -50,37 +53,49 @@ public class LineStyleProviderForXMLReferences extends LineStyleProviderForXML i
 					IStyleConstantsXML.CDATA_TEXT);
 		}
 		String type = region.getType();
-		if ((type == DOMRegionContext.XML_TAG_ATTRIBUTE_VALUE)) {
-			IDOMNode node = DOMUtils.getNodeByOffset(model, collection
-					.getStart());
-			if (node != null) {
-				IDOMAttr attr = DOMUtils.getAttrByOffset(node, collection
-						.getStart()
-						+ region.getStart());
-				if (attr != null) {
-					IXMLReference reference = XMLReferencesUtil
-							.getXMLReference(attr, model
-									.getContentTypeIdentifier());
+		final IDOMModel model = (IDOMModel) StructuredModelManager
+						.getModelManager().getExistingModelForRead(
+								((StructuredTextViewer) sourceViewer)
+										.getDocument());
+		try
+		{
+			if ((type == DOMRegionContext.XML_TAG_ATTRIBUTE_VALUE)) {
+				IDOMNode node = DOMUtils.getNodeByOffset(model, collection
+						.getStart());
+				if (node != null) {
+					IDOMAttr attr = DOMUtils.getAttrByOffset(node, collection
+							.getStart()
+							+ region.getStart());
+					if (attr != null) {
+						IXMLReference reference = XMLReferencesUtil
+								.getXMLReference(attr, model
+										.getContentTypeIdentifier());
+						if (reference != null) {
+							return (TextAttribute) getTextAttributes()
+									.get(
+											TAG_REFERENCED_ATTRIBUTE_VALUE);
+						}
+					}
+				}
+			} else if ((type == DOMRegionContext.XML_CONTENT)) {
+				IDOMNode node = DOMUtils.getNodeByOffset(model, collection
+						.getStart());
+				if (node != null && node.getNodeType() == Node.TEXT_NODE) {
+					IXMLReference reference = XMLReferencesUtil.getXMLReference(
+							node, model.getContentTypeIdentifier());
 					if (reference != null) {
 						return (TextAttribute) getTextAttributes()
 								.get(
-										TAG_REFERENCED_ATTRIBUTE_VALUE);
+										XML_REFERENCED_CONTENT);
 					}
 				}
 			}
-		} else if ((type == DOMRegionContext.XML_CONTENT)) {
-			IDOMNode node = DOMUtils.getNodeByOffset(model, collection
-					.getStart());
-			if (node != null && node.getNodeType() == Node.TEXT_NODE) {
-				IXMLReference reference = XMLReferencesUtil.getXMLReference(
-						node, model.getContentTypeIdentifier());
-				if (reference != null) {
-					return (TextAttribute) getTextAttributes()
-							.get(
-									XML_REFERENCED_CONTENT);
-				}
+		} finally {
+			if( model != null ) {
+				model.releaseFromRead();
 			}
 		}
+
 		return super.getAttributeFor(collection, region);
 	}
 
