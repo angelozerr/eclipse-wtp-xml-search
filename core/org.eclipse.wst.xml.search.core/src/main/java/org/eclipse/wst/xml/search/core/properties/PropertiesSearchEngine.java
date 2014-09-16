@@ -4,13 +4,14 @@
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- * 
- * Contributors:      
+ *
+ * Contributors:
  *     Angelo Zerr <angelo.zerr@gmail.com> - initial API and implementation
  *******************************************************************************/
 package org.eclipse.wst.xml.search.core.properties;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Map.Entry;
 import java.util.Properties;
 import java.util.Set;
@@ -26,7 +27,7 @@ import org.eclipse.wst.xml.search.core.internal.Trace;
 
 /**
  * {@link IPropertiesSearchEngine} implementation.
- * 
+ *
  */
 public class PropertiesSearchEngine implements IPropertiesSearchEngine {
 
@@ -111,7 +112,11 @@ public class PropertiesSearchEngine implements IPropertiesSearchEngine {
 			String matching, boolean fullMatch) {
 		try {
 			Properties properties = new Properties();
-			properties.load(file.getContents());
+
+			InputStream contents = file.getContents();
+
+			properties.load(contents);
+
 			if (fullMatch) {
 				if (properties.containsKey(matching)) {
 					String value = properties.getProperty(matching);
@@ -131,6 +136,7 @@ public class PropertiesSearchEngine implements IPropertiesSearchEngine {
 				}
 			}
 
+			contents.close();
 		} catch (CoreException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
