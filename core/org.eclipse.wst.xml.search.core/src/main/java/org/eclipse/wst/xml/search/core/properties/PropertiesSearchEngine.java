@@ -11,6 +11,7 @@
 package org.eclipse.wst.xml.search.core.properties;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Map.Entry;
 import java.util.Properties;
 import java.util.Set;
@@ -109,9 +110,15 @@ public class PropertiesSearchEngine implements IPropertiesSearchEngine {
 
 	private void processFile(IFile file, IPropertiesCollector collector,
 			String matching, boolean fullMatch) {
+		InputStream contents = null;
+
 		try {
 			Properties properties = new Properties();
-			properties.load(file.getContents());
+
+			contents = file.getContents();
+
+			properties.load(contents);
+
 			if (fullMatch) {
 				if (properties.containsKey(matching)) {
 					String value = properties.getProperty(matching);
@@ -137,6 +144,15 @@ public class PropertiesSearchEngine implements IPropertiesSearchEngine {
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		} finally {
+			if(contents != null) {
+				try {
+					contents.close();
+				}
+				catch(IOException e) {
+					e.printStackTrace();
+				}
+			}
 		}
 	}
 }
