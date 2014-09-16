@@ -24,11 +24,12 @@ import org.eclipse.ui.texteditor.ITextEditor;
 import org.eclipse.wst.xml.core.internal.provisional.document.IDOMAttr;
 import org.eclipse.wst.xml.core.internal.provisional.document.IDOMNode;
 import org.eclipse.wst.xml.search.core.util.DOMUtils;
-import org.eclipse.wst.xml.search.editor.references.IXMLReference;
-import org.eclipse.wst.xml.search.editor.references.IXMLReferenceTo;
-import org.eclipse.wst.xml.search.editor.references.IXMLReferenceToExpression;
-import org.eclipse.wst.xml.search.editor.references.XMLReferencesUtil;
-import org.eclipse.wst.xml.search.editor.searchers.IXMLSearcher;
+import org.eclipse.wst.xml.search.editor.core.references.IXMLReference;
+import org.eclipse.wst.xml.search.editor.core.references.IXMLReferenceTo;
+import org.eclipse.wst.xml.search.editor.core.references.IXMLReferenceToExpression;
+import org.eclipse.wst.xml.search.editor.core.references.XMLReferencesUtil;
+import org.eclipse.wst.xml.search.editor.searchers.IXMLAssistSearcher;
+import org.eclipse.wst.xml.search.editor.searchers.XMLAssistSearcherBindingsManager;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.Text;
@@ -100,7 +101,8 @@ public class XMLReferencesHyperlinkDetector extends AbstractHyperlinkDetector {
 
 		if (reference.isExpression()) {
 			IXMLReferenceToExpression expression = (IXMLReferenceToExpression) reference;
-			IXMLSearcher searcher = expression.getSearcher();
+			IXMLAssistSearcher searcher = XMLAssistSearcherBindingsManager.
+			                getDefault().getXMLAssistSearcher(reference);
 			if (searcher != null) {
 				searcher.searchForHyperlink(selectedNode, offset,
 						DOMUtils.getNodeValue(selectedNode), -1, -1, file,
@@ -110,7 +112,8 @@ public class XMLReferencesHyperlinkDetector extends AbstractHyperlinkDetector {
 
 			Collection<IXMLReferenceTo> toPath = reference.getTo();
 			for (IXMLReferenceTo referenceTo : toPath) {
-				IXMLSearcher searcher = referenceTo.getSearcher();
+				IXMLAssistSearcher searcher = XMLAssistSearcherBindingsManager.
+				                getDefault().getXMLAssistSearcher(referenceTo);
 				if (searcher != null) {
 					searcher.searchForHyperlink(selectedNode, offset,
 							DOMUtils.getNodeValue(selectedNode), -1, -1, file,

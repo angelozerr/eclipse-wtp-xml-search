@@ -17,10 +17,11 @@ import org.eclipse.wst.xml.core.internal.provisional.document.IDOMNode;
 import org.eclipse.wst.xml.search.editor.contentassist.IContentAssistCalculator;
 import org.eclipse.wst.xml.search.editor.contentassist.IContentAssistContext;
 import org.eclipse.wst.xml.search.editor.contentassist.IContentAssistProposalRecorder;
-import org.eclipse.wst.xml.search.editor.references.IXMLReference;
-import org.eclipse.wst.xml.search.editor.references.IXMLReferenceTo;
-import org.eclipse.wst.xml.search.editor.references.IXMLReferenceToExpression;
-import org.eclipse.wst.xml.search.editor.searchers.IXMLSearcher;
+import org.eclipse.wst.xml.search.editor.core.references.IXMLReference;
+import org.eclipse.wst.xml.search.editor.core.references.IXMLReferenceTo;
+import org.eclipse.wst.xml.search.editor.core.references.IXMLReferenceToExpression;
+import org.eclipse.wst.xml.search.editor.searchers.IXMLAssistSearcher;
+import org.eclipse.wst.xml.search.editor.searchers.XMLAssistSearcherBindingsManager;
 
 public class XMLReferencesContentAssistCalculator implements
 		IContentAssistCalculator {
@@ -39,7 +40,8 @@ public class XMLReferencesContentAssistCalculator implements
 		IFile file = context.getFile();
 		if (reference.isExpression()) {
 			IXMLReferenceToExpression expression = (IXMLReferenceToExpression) reference;
-			IXMLSearcher searcher = expression.getSearcher();
+			IXMLAssistSearcher searcher = XMLAssistSearcherBindingsManager.
+			                getDefault().getXMLAssistSearcher(reference);
 			if (searcher != null) {
 				searcher.searchForCompletion(selectedNode, context
 						.getMatchString(), null, null, file, expression,
@@ -49,7 +51,8 @@ public class XMLReferencesContentAssistCalculator implements
 		} else {
 			Collection<IXMLReferenceTo> toPath = reference.getTo();
 			for (IXMLReferenceTo referenceTo : toPath) {
-				IXMLSearcher searcher = referenceTo.getSearcher();
+				IXMLAssistSearcher searcher = XMLAssistSearcherBindingsManager.
+				                getDefault().getXMLAssistSearcher(referenceTo);
 				if (searcher != null) {
 					searcher.searchForCompletion(selectedNode, context
 							.getMatchString(), null, null, file, referenceTo,

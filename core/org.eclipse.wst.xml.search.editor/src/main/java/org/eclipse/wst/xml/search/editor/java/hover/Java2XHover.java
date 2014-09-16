@@ -8,20 +8,21 @@ import org.eclipse.jdt.core.ICompilationUnit;
 import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.jdt.internal.ui.javaeditor.EditorUtility;
-import org.eclipse.jdt.internal.ui.javaeditor.JavaEditor;
 import org.eclipse.jdt.ui.text.java.hover.IJavaEditorTextHover;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.IRegion;
 import org.eclipse.jface.text.ITextViewer;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.wst.xml.search.core.util.StringUtils;
+import org.eclipse.wst.xml.search.editor.core.java.IJavaReference;
+import org.eclipse.wst.xml.search.editor.core.java.JavaReferencesManager;
+import org.eclipse.wst.xml.search.editor.core.references.IXMLReference;
+import org.eclipse.wst.xml.search.editor.core.references.IXMLReferenceTo;
+import org.eclipse.wst.xml.search.editor.core.references.IXMLReferenceToExpression;
 import org.eclipse.wst.xml.search.editor.internal.util.DocumentHelper;
 import org.eclipse.wst.xml.search.editor.internal.util.DocumentHelper.StringArgument;
-import org.eclipse.wst.xml.search.editor.java.IJavaReference;
-import org.eclipse.wst.xml.search.editor.java.JavaReferencesManager;
-import org.eclipse.wst.xml.search.editor.references.IXMLReferenceTo;
-import org.eclipse.wst.xml.search.editor.references.IXMLReferenceToExpression;
-import org.eclipse.wst.xml.search.editor.searchers.IXMLSearcher;
+import org.eclipse.wst.xml.search.editor.searchers.IXMLAssistSearcher;
+import org.eclipse.wst.xml.search.editor.searchers.XMLAssistSearcherBindingsManager;
 
 public class Java2XHover implements IJavaEditorTextHover {
 
@@ -72,7 +73,8 @@ public class Java2XHover implements IJavaEditorTextHover {
 		StringBuilder infos = null;
 		if (reference.isExpression()) {
 			IXMLReferenceToExpression expression = (IXMLReferenceToExpression) reference;
-			IXMLSearcher searcher = expression.getSearcher();
+			IXMLAssistSearcher searcher = XMLAssistSearcherBindingsManager.
+			                getDefault().getXMLAssistSearcher((IXMLReference)expression);
 			if (searcher != null) {
 				String textInfo = searcher.searchForTextHover(selectedNode,
 						-1, stringArgument.getMatchingString(), -1, -1, file, expression);
@@ -81,7 +83,8 @@ public class Java2XHover implements IJavaEditorTextHover {
 		} else {
 			Collection<IXMLReferenceTo> to = reference.getTo();
 			for (IXMLReferenceTo referenceTo : to) {
-				IXMLSearcher searcher = referenceTo.getSearcher();
+				IXMLAssistSearcher searcher = XMLAssistSearcherBindingsManager.
+				                getDefault().getXMLAssistSearcher(referenceTo);
 				if (searcher != null) {
 					String textInfo = searcher.searchForTextHover(
 							selectedNode, -1, stringArgument.getMatchingString(), -1, -1, file,

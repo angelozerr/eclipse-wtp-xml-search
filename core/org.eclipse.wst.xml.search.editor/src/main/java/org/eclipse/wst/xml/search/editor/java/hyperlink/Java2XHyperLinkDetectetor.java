@@ -19,13 +19,15 @@ import org.eclipse.jface.text.Region;
 import org.eclipse.jface.text.hyperlink.AbstractHyperlinkDetector;
 import org.eclipse.jface.text.hyperlink.IHyperlink;
 import org.eclipse.ui.texteditor.ITextEditor;
+import org.eclipse.wst.xml.search.editor.core.java.IJavaReference;
+import org.eclipse.wst.xml.search.editor.core.java.JavaReferencesManager;
+import org.eclipse.wst.xml.search.editor.core.references.IXMLReference;
+import org.eclipse.wst.xml.search.editor.core.references.IXMLReferenceTo;
+import org.eclipse.wst.xml.search.editor.core.references.IXMLReferenceToExpression;
 import org.eclipse.wst.xml.search.editor.internal.util.DocumentHelper;
 import org.eclipse.wst.xml.search.editor.internal.util.DocumentHelper.StringArgument;
-import org.eclipse.wst.xml.search.editor.java.IJavaReference;
-import org.eclipse.wst.xml.search.editor.java.JavaReferencesManager;
-import org.eclipse.wst.xml.search.editor.references.IXMLReferenceTo;
-import org.eclipse.wst.xml.search.editor.references.IXMLReferenceToExpression;
-import org.eclipse.wst.xml.search.editor.searchers.IXMLSearcher;
+import org.eclipse.wst.xml.search.editor.searchers.IXMLAssistSearcher;
+import org.eclipse.wst.xml.search.editor.searchers.XMLAssistSearcherBindingsManager;
 
 public class Java2XHyperLinkDetectetor extends AbstractHyperlinkDetector {
 
@@ -80,7 +82,8 @@ public class Java2XHyperLinkDetectetor extends AbstractHyperlinkDetector {
 		String matchingString = stringArgument.getMatchingString();
 		if (reference.isExpression()) {
 			IXMLReferenceToExpression expression = (IXMLReferenceToExpression) reference;
-			IXMLSearcher searcher = expression.getSearcher();
+			IXMLAssistSearcher searcher = XMLAssistSearcherBindingsManager
+			                .getDefault().getXMLAssistSearcher((IXMLReference)expression);
 			if (searcher != null) {
 				searcher.searchForHyperlink(selectedNode, offset,
 						matchingString, -1, -1, file, expression,
@@ -90,7 +93,8 @@ public class Java2XHyperLinkDetectetor extends AbstractHyperlinkDetector {
 
 			Collection<IXMLReferenceTo> toPath = reference.getTo();
 			for (IXMLReferenceTo referenceTo : toPath) {
-				IXMLSearcher searcher = referenceTo.getSearcher();
+				IXMLAssistSearcher searcher = XMLAssistSearcherBindingsManager
+				                .getDefault().getXMLAssistSearcher(referenceTo);
 				if (searcher != null) {
 					searcher.searchForHyperlink(selectedNode, offset,
 							matchingString, -1, -1, file, referenceTo,

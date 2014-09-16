@@ -42,9 +42,9 @@ import org.eclipse.jface.text.contentassist.ICompletionProposal;
 import org.eclipse.jface.viewers.ILabelProvider;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.wst.xml.search.editor.contentassist.IContentAssistProposalRecorder;
-import org.eclipse.wst.xml.search.editor.internal.jdt.SuperTypeHierarchyCache;
+import org.eclipse.wst.xml.search.editor.core.jdt.SuperTypeHierarchyCache;
+import org.eclipse.wst.xml.search.editor.core.util.JdtUtils;
 import org.eclipse.wst.xml.search.editor.internal.util.EditorUtils;
-import org.eclipse.wst.xml.search.editor.util.JdtUtils;
 
 public class JavaCompletionUtils {
 

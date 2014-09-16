@@ -16,7 +16,8 @@ import org.eclipse.wst.xml.search.core.statics.IStaticValueCollector;
 import org.eclipse.wst.xml.search.core.util.StringUtils;
 import org.eclipse.wst.xml.search.editor.contentassist.IContentAssistAdditionalProposalInfoProvider;
 import org.eclipse.wst.xml.search.editor.contentassist.IContentAssistProposalRecorder;
-import org.eclipse.wst.xml.search.editor.references.IXMLReferenceToStatic;
+import org.eclipse.wst.xml.search.editor.core.references.IXMLReferenceToStatic;
+import org.eclipse.wst.xml.search.editor.internal.contentassist.ContentAssistBindingsManager;
 import org.eclipse.wst.xml.search.editor.searchers.AbstractContentAssisitCollector;
 
 public class ContentAssisitCollectorForStatics extends
@@ -47,8 +48,8 @@ public class ContentAssisitCollectorForStatics extends
 		String replaceText = getReplaceText(value);
 		Object proposedObject = staticValue.getDescription();
 
-		IContentAssistAdditionalProposalInfoProvider provider = referenceToStatic
-				.getAdditionalProposalInfoProvider();
+		IContentAssistAdditionalProposalInfoProvider provider =
+            ContentAssistBindingsManager.getDefault().getProvider(referenceToStatic);
 		if (provider != null) {
 			String newDisplayText = provider.getDisplayText(displayText,
 					staticValue);

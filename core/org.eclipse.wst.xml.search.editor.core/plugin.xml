@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+
+	<extension-point id="xmlReferences" name="%referencesContributionName"
+		schema="schema/xml2x/xmlReferences.exsd" />
+	<extension-point id="referenceFilters" name="%referenceFiltersContributionName"
+		schema="schema/referenceFilters.exsd" />
+	<extension-point id="referenceValidators" name="%referenceValidatorsContributionName"
+		schema="schema/referenceValidators.exsd" />
+	<extension-point id="javaQuerySpecifications" name="%javaQuerySpecificationsContributionName"
+		schema="schema/javaQuerySpecifications.exsd" />
+	<extension-point id="javaMethodQuerySpecifications" name="%javaMethodQuerySpecificationsContributionName"
+		schema="schema/javaMethodQuerySpecifications.exsd" />
+	<extension-point id="expressionParsers" name="%expressionParsersContributionName"
+		schema="schema/expressionParsers.exsd" />
+	<extension-point id="javaReferences" name="%javaReferencesContributionName"
+		schema="schema/javaReferences.exsd" />
+	<extension-point id="javaReferencesMatchers" name="%javaReferencesMatchersContributionName"
+		schema="schema/javaReferencesMatchers.exsd" />
+	<extension-point id="validationSearchers" name="%validationSearchersContributionName"
+		schema="schema/validationSearchers.exsd"/>
+	<extension-point id="validationSearcherBindings" name="%validationSearcherBindingsContributionName"
+		schema="schema/validationSearcherBindings.exsd"/>
+
+   <extension point="org.eclipse.wst.xml.search.editor.core.expressionParsers">
+	 <parser id="org.eclipse.wst.xml.search.editor.core.expressions.multiattrvalues"
+		class="org.eclipse.wst.xml.search.editor.core.searchers.expressions.MultiAttrValuesExpressionParser">
+	 </parser>
+   </extension>
+
+	<!-- XML Validation Searchers -->
+	<extension
+         point="org.eclipse.wst.xml.search.editor.core.validationSearchers">
+         <searcher
+               id="org.eclipse.wst.xml.search.editor.core.validation.searcher.resource"
+               class="org.eclipse.wst.xml.search.editor.core.searchers.resource.XMLValidationSearcherForResource" >
+         </searcher>
+         <searcher
+               id="org.eclipse.wst.xml.search.editor.core.validation.searcher.java"
+               class="org.eclipse.wst.xml.search.editor.core.searchers.java.XMLValidationSearcherForJava" >
+         </searcher>
+         <searcher
+               id="org.eclipse.wst.xml.search.editor.core.validation.searcher.javamethod"
+               class="org.eclipse.wst.xml.search.editor.core.searchers.javamethod.XMLValidationSearcherForJavaMethod" >
+         </searcher>
+         <searcher
+               id="org.eclipse.wst.xml.search.editor.core.validation.searcher.properties"
+               class="org.eclipse.wst.xml.search.editor.core.searchers.properties.XMLValidationSearcherForProperties" >
+         </searcher>
+         <searcher
+               id="org.eclipse.wst.xml.search.editor.core.validation.searcher.statics"
+               class="org.eclipse.wst.xml.search.editor.core.searchers.statics.XMLValidationSearcherForStatic" >
+         </searcher>
+         <searcher
+               id="org.eclipse.wst.xml.search.editor.core.validation.searcher.xml"
+               class="org.eclipse.wst.xml.search.editor.core.searchers.xml.XMLValidationSearcherForXML" >
+         </searcher>
+       	<searcher
+               id="org.eclipse.wst.xml.search.editor.core.validation.searcher.expression"
+               class="org.eclipse.wst.xml.search.editor.core.searchers.expressions.XMLValidationSearcherForExpression" >
+         </searcher>
+   </extension>
+
+	<extension point="org.eclipse.wst.xml.search.editor.core.referenceValidators">
+         <validator
+	           id="org.eclipse.wst.xml.search.editor.referenceValidators.default"
+	           class="org.eclipse.wst.xml.search.editor.core.references.validators.DefaultDOMNodeValidator" >
+         </validator>
+   </extension>
+
+ 	<!-- XML references batch validator -->
+	<extension id="validationMarker"
+	    name="%_validationMarker.name"
+	    point="org.eclipse.core.resources.markers">
+	    <super type="org.eclipse.wst.validation.problemmarker"/>
+	    <persistent value="true"/>
+	</extension>
+
+	<extension id="xmlReferncesBatchValidator" name="%XMLReferencesBatchValidator_description" point="org.eclipse.wst.validation.validatorV2">
+      <validator
+            build="true"
+            class="org.eclipse.wst.xml.search.editor.core.validation.XMLReferencesBatchValidator"
+            manual="true"
+            version="1"
+            markerId="org.eclipse.wst.xml.search.editor.validationMarker">
+         <include>
+            <rules>
+               <fileext
+                     caseSensitive="false"
+                     ext="xml">
+               </fileext>
+            </rules>
+         </include>
+         <exclude>
+            <rules>
+				<projectNature id="org.eclipse.jst.j2ee.ejb.EJBNature"/>
+				<projectNature id="org.eclipse.jst.j2ee.EARNature"/>
+    			<file caseSensitive="true" name=".project" type="file"/>
+    			<file caseSensitive="true" name=".classpath" type="file"/>
+    			<file caseSensitive="true" name=".settings"  type="folder"/>
+            </rules>
+         </exclude>
+      </validator>
+   </extension>
+
+</plugin>

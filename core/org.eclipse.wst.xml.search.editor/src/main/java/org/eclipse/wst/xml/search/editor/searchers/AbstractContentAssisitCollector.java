@@ -11,7 +11,7 @@
 package org.eclipse.wst.xml.search.editor.searchers;
 
 import org.eclipse.wst.xml.search.editor.contentassist.IContentAssistProposalRecorder;
-import org.eclipse.wst.xml.search.editor.references.IXMLReferenceTo;
+import org.eclipse.wst.xml.search.editor.core.references.IXMLReferenceTo;
 
 public class AbstractContentAssisitCollector<T extends IXMLReferenceTo> {
 

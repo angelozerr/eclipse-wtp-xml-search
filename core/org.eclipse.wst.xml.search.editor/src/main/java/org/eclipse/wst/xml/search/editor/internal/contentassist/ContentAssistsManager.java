@@ -20,14 +20,14 @@ import org.eclipse.core.runtime.Platform;
 import org.eclipse.wst.xml.search.core.AbstractRegistryManager;
 import org.eclipse.wst.xml.search.core.util.StringUtils;
 import org.eclipse.wst.xml.search.editor.contentassist.IContentAssistAdditionalProposalInfoProvider;
+import org.eclipse.wst.xml.search.editor.core.references.IXMLReference;
 import org.eclipse.wst.xml.search.editor.internal.Trace;
 import org.eclipse.wst.xml.search.editor.internal.XMLSearchEditorPlugin;
-import org.eclipse.wst.xml.search.editor.references.IXMLReference;
 
 public class ContentAssistsManager extends AbstractRegistryManager {
 
-	private static final String CLASS_ATTR = "class";
 	private static final String ID_ATTR = "id";
+	private static final String CLASS_ATTR = "class";
 	private static final String ADDITIONAL_PROPOSAL_INFO_PROVIDER_ELT = "additionalProposalInfoProvider";
 	public static final ContentAssistsManager INSTANCE = new ContentAssistsManager();
 	private static final String CONTENT_ASSISTS_EXTENSION_POINT = "contentAssists";
@@ -74,15 +74,15 @@ public class ContentAssistsManager extends AbstractRegistryManager {
 	}
 
 	public IContentAssistAdditionalProposalInfoProvider getProvider(
-			String referenceId) {
-		if (StringUtils.isEmpty(referenceId)) {
+			String providerId) {
+		if (StringUtils.isEmpty(providerId)) {
 			return null;
 		}
 		if (providersById == null) {
 			loadContentAssists();
 		}
 
-		return providersById.get(referenceId);
+		return providersById.get(providerId);
 	}
 
 	private synchronized void loadContentAssists() {

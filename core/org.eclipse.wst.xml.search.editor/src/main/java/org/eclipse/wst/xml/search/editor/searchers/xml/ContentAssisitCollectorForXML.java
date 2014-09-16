@@ -17,7 +17,8 @@ import org.eclipse.wst.xml.search.core.util.DOMUtils;
 import org.eclipse.wst.xml.search.core.util.StringUtils;
 import org.eclipse.wst.xml.search.editor.contentassist.IContentAssistAdditionalProposalInfoProvider;
 import org.eclipse.wst.xml.search.editor.contentassist.IContentAssistProposalRecorder;
-import org.eclipse.wst.xml.search.editor.references.IXMLReferenceToXML;
+import org.eclipse.wst.xml.search.editor.core.references.IXMLReferenceToXML;
+import org.eclipse.wst.xml.search.editor.internal.contentassist.ContentAssistBindingsManager;
 import org.eclipse.wst.xml.search.editor.searchers.AbstractContentAssisitCollector;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Element;
@@ -78,8 +79,8 @@ public class ContentAssisitCollectorForXML extends
 
 		Object proposedObject = null;
 
-		IContentAssistAdditionalProposalInfoProvider provider = referencePath
-				.getAdditionalProposalInfoProvider();
+		IContentAssistAdditionalProposalInfoProvider provider =
+                ContentAssistBindingsManager.getDefault().getProvider(referencePath);
 		if (provider != null) {
 			String newDisplayText = provider.getDisplayText(displayText, node);
 			if (!StringUtils.isEmpty(newDisplayText)) {

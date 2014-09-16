@@ -22,7 +22,8 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.wst.xml.search.core.util.DOMUtils;
 import org.eclipse.wst.xml.search.core.util.FileUtils;
-import org.eclipse.wst.xml.search.editor.internal.references.XMLReferencesManager;
+import org.eclipse.wst.xml.search.editor.core.references.XMLReferencesManager;
+import org.eclipse.wst.xml.search.editor.internal.indexing.XMLReferencesIndexManager;
 
 /**
  * Visitor which retrieves XML references files.

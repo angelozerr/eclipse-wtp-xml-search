@@ -38,12 +38,12 @@ import org.eclipse.wst.xml.search.core.IXMLSearchDOMNodeCollector;
 import org.eclipse.wst.xml.search.core.SimpleXMLSearchEngine;
 import org.eclipse.wst.xml.search.core.queryspecifications.IXMLQuerySpecification;
 import org.eclipse.wst.xml.search.core.util.StringUtils;
+import org.eclipse.wst.xml.search.editor.core.references.IXMLReference;
+import org.eclipse.wst.xml.search.editor.core.references.IXMLReferencePath;
+import org.eclipse.wst.xml.search.editor.core.references.IXMLReferenceTo.ToType;
+import org.eclipse.wst.xml.search.editor.core.references.XMLReferencesManager;
+import org.eclipse.wst.xml.search.editor.core.util.XMLQuerySpecificationUtil;
 import org.eclipse.wst.xml.search.editor.internal.indexing.XMLReferencesIndexManager;
-import org.eclipse.wst.xml.search.editor.internal.references.XMLReferencesManager;
-import org.eclipse.wst.xml.search.editor.references.IXMLReference;
-import org.eclipse.wst.xml.search.editor.references.IXMLReferencePath;
-import org.eclipse.wst.xml.search.editor.references.IXMLReferenceTo.ToType;
-import org.eclipse.wst.xml.search.editor.util.XMLQuerySpecificationUtil;
 
 /**
  * JDT {@link IQueryParticipant} implementation to give the capability to search

@@ -1,4 +1,4 @@
-org.eclipse.wst.xml.search.editor/debug/reporter=false
-org.eclipse.wst.xml.search.editor/debug/validator=false
-org.eclipse.wst.xml.search.editor/debug/indexmanager=false
-org.eclipse.wst.xml.search.editor/debug/search=false
+org.eclipse.wst.xml.search.editor.ui/debug/reporter=false
+org.eclipse.wst.xml.search.editor.ui/debug/validator=false
+org.eclipse.wst.xml.search.editor.ui/debug/indexmanager=false
+org.eclipse.wst.xml.search.editor.ui/debug/search=false
