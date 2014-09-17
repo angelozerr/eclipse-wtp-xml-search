@@ -25,8 +25,8 @@ public interface IXMLReferenceToJavaMethod extends IXMLReferenceTo,
 	String getFindByAttrName();
 
 	boolean isFindByParentNode();
-	
-	String extractClassName(Node selectedNode, IFile file,
+
+	String[] extractClassNames(Node selectedNode, IFile file,
 			String xpathFactoryProviderId, NamespaceInfos namespaceInfo)
 			throws XPathExpressionException;
 

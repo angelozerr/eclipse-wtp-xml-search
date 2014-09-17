@@ -76,7 +76,7 @@ public class XMLReferenceToJavaMethod extends AbstractXMLReferenceTo implements
 		return null;
 	}
 
-	public String extractClassName(Node selectedNode, IFile file,
+	public String[] extractClassNames(Node selectedNode, IFile file,
 			String xpathFactoryProviderId, NamespaceInfos namespaceInfo)
 			throws XPathExpressionException {
 		IClassNameExtractor extractor = getClassNameExtractor(selectedNode,
@@ -85,7 +85,7 @@ public class XMLReferenceToJavaMethod extends AbstractXMLReferenceTo implements
 			extractor = XPathClassNameExtractor.INSTANCE;
 		}
 		if (extractor != null) {
-			return extractor.extractClassName(selectedNode, file, pathForClass,
+			return extractor.extractClassNames(selectedNode, file, pathForClass,
 					findByAttrName, findByParentNode, xpathFactoryProviderId,
 					namespaceInfo);
 		}
