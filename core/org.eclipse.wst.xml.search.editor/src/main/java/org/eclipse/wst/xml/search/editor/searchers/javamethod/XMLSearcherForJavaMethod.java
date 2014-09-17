@@ -24,8 +24,6 @@ import org.eclipse.jdt.internal.ui.text.java.ProposalInfo;
 import org.eclipse.jface.text.IRegion;
 import org.eclipse.jface.text.hyperlink.IHyperlink;
 import org.eclipse.ui.texteditor.ITextEditor;
-import org.eclipse.wst.xml.core.internal.provisional.document.IDOMNode;
-import org.eclipse.wst.xml.search.core.util.DOMUtils;
 import org.eclipse.wst.xml.search.editor.contentassist.IContentAssistProposalRecorder;
 import org.eclipse.wst.xml.search.editor.internal.Trace;
 import org.eclipse.wst.xml.search.editor.internal.XMLSearchEditorPlugin;
@@ -52,27 +50,29 @@ public class XMLSearcherForJavaMethod implements IXMLSearcher {
 			IContentAssistProposalRecorder recorder) {
 		IXMLReferenceToJavaMethod toJavaMethod = (IXMLReferenceToJavaMethod) referenceTo;
 		try {
-			String className = getClassName(selectedNode, file, referenceTo);
-			if (className == null) {
+			String[] classNames = getClassNames(selectedNode, file, referenceTo);
+			if (classNames == null || classNames.length == 0) {
 				return;
 			}
-			IType type = JdtUtils.getJavaType(file.getProject(), className);
-			if (type == null) {
-				return;
-			}
-			IJavaMethodRequestor filter = toJavaMethod.getRequestor(
-					selectedNode, file);
-			if (filter == null) {
-				return;
-			}
-			try {
-				createCompletion(selectedNode, mathingString, recorder, type,
-						filter);
-			} catch (JavaModelException e) {
-				Trace
-						.trace(Trace.SEVERE,
-								"Error while getting methods for class="
-										+ className, e);
+			for ( String className : classNames ) {
+				IType type = JdtUtils.getJavaType(file.getProject(), className);
+				if (type == null) {
+					return;
+				}
+				IJavaMethodRequestor filter = toJavaMethod.getRequestor(
+						selectedNode, file);
+				if (filter == null) {
+					return;
+				}
+				try {
+					createCompletion(selectedNode, mathingString, recorder, type,
+							filter);
+				} catch (JavaModelException e) {
+					Trace
+							.trace(Trace.SEVERE,
+									"Error while getting methods for class="
+											+ className, e);
+				}
 			}
 		} catch (XPathExpressionException e) {
 			e.printStackTrace();
@@ -105,28 +105,30 @@ public class XMLSearcherForJavaMethod implements IXMLSearcher {
 			List<IHyperlink> hyperLinks, ITextEditor textEditor) {
 		IXMLReferenceToJavaMethod toJavaMethod = (IXMLReferenceToJavaMethod) referenceTo;
 		try {
-			String className = getClassName(selectedNode, file, referenceTo);
-			if (className == null) {
+			String[] classNames = getClassNames(selectedNode, file, referenceTo);
+			if (classNames == null || classNames.length == 0) {
 				return;
 			}
-			IType type = JdtUtils.getJavaType(file.getProject(), className);
-			if (type == null) {
-				return;
-			}
-			IJavaMethodRequestor filter = toJavaMethod.getRequestor(
-					selectedNode, file);
-			if (filter == null) {
-				return;
-			}
-			try {
-				String matching = mathingString;
-				createHyperlink(selectedNode, matching, hyperlinkRegion,
-						hyperLinks, type, filter);
-			} catch (JavaModelException e) {
-				Trace
-						.trace(Trace.SEVERE,
-								"Error while getting methods for class="
-										+ className, e);
+			for (String className : classNames) {
+				IType type = JdtUtils.getJavaType(file.getProject(), className);
+				if (type == null) {
+					return;
+				}
+				IJavaMethodRequestor filter = toJavaMethod.getRequestor(
+						selectedNode, file);
+				if (filter == null) {
+					return;
+				}
+				try {
+					String matching = mathingString;
+					createHyperlink(selectedNode, matching, hyperlinkRegion,
+							hyperLinks, type, filter);
+				} catch (JavaModelException e) {
+					Trace
+							.trace(Trace.SEVERE,
+									"Error while getting methods for class="
+											+ className, e);
+				}
 			}
 		} catch (XPathExpressionException e) {
 			e.printStackTrace();
@@ -160,26 +162,28 @@ public class XMLSearcherForJavaMethod implements IXMLSearcher {
 		IXMLReferenceToJavaMethod toJavaMethod = (IXMLReferenceToJavaMethod) referenceTo;
 		DefaultValidationResult result = new DefaultValidationResult();
 		try {
-			String className = getClassName(selectedNode, file, referenceTo);
-			if (className == null) {
+			String[] classNames = getClassNames(selectedNode, file, referenceTo);
+			if (classNames == null || classNames.length == 0) {
 				return null;
 			}
-			IType type = JdtUtils.getJavaType(file.getProject(), className);
-			if (type == null) {
-				return null;
-			}
-			IJavaMethodRequestor filter = toJavaMethod.getRequestor(
-					selectedNode, file);
-			if (filter == null) {
-				return null;
-			}
-			try {
-				createValidation(selectedNode, matchingString, result, type, filter);
-			} catch (JavaModelException e) {
-				Trace
-						.trace(Trace.SEVERE,
-								"Error while getting methods for class="
-										+ className, e);
+			for (String className : classNames) {
+				IType type = JdtUtils.getJavaType(file.getProject(), className);
+				if (type == null) {
+					return null;
+				}
+				IJavaMethodRequestor filter = toJavaMethod.getRequestor(
+						selectedNode, file);
+				if (filter == null) {
+					return null;
+				}
+				try {
+					createValidation(selectedNode, matchingString, result, type, filter);
+				} catch (JavaModelException e) {
+					Trace
+							.trace(Trace.SEVERE,
+									"Error while getting methods for class="
+											+ className, e);
+				}
 			}
 		} catch (XPathExpressionException e) {
 			e.printStackTrace();
@@ -207,10 +211,10 @@ public class XMLSearcherForJavaMethod implements IXMLSearcher {
 				.getSuperType(type), requestor);
 	}
 
-	private String getClassName(Object selectedNode, IFile file,
+	private String[] getClassNames(Object selectedNode, IFile file,
 			IXMLReferenceTo referenceTo) throws XPathExpressionException {
 		IXMLReferenceToJavaMethod toJavaMethod = (IXMLReferenceToJavaMethod) referenceTo;
-		return toJavaMethod.extractClassName(getOwnerNode((Node)selectedNode), file,
+		return toJavaMethod.extractClassNames(getOwnerNode((Node)selectedNode), file,
 				null, null);
 	}
 
@@ -279,26 +283,28 @@ public class XMLSearcherForJavaMethod implements IXMLSearcher {
 		IXMLReferenceToJavaMethod toJavaMethod = (IXMLReferenceToJavaMethod) referenceTo;
 		StringBuilder result = new StringBuilder();
 		try {
-			String className = getClassName(selectedNode, file, referenceTo);
-			if (className == null) {
+			String[] classNames = getClassNames(selectedNode, file, referenceTo);
+			if (classNames == null || classNames.length == 0) {
 				return null;
 			}
-			IType type = JdtUtils.getJavaType(file.getProject(), className);
-			if (type == null) {
-				return null;
-			}
-			IJavaMethodRequestor filter = toJavaMethod.getRequestor(
-					selectedNode, file);
-			if (filter == null) {
-				return null;
-			}
-			try {
-				createTextInfo(selectedNode, mathingString, result, type, filter);
-			} catch (JavaModelException e) {
-				Trace
-						.trace(Trace.SEVERE,
-								"Error while getting methods for class="
-										+ className, e);
+			for (String className : classNames) {
+				IType type = JdtUtils.getJavaType(file.getProject(), className);
+				if (type == null) {
+					return null;
+				}
+				IJavaMethodRequestor filter = toJavaMethod.getRequestor(
+						selectedNode, file);
+				if (filter == null) {
+					return null;
+				}
+				try {
+					createTextInfo(selectedNode, mathingString, result, type, filter);
+				} catch (JavaModelException e) {
+					Trace
+							.trace(Trace.SEVERE,
+									"Error while getting methods for class="
+											+ className, e);
+				}
 			}
 		} catch (XPathExpressionException e) {
 			e.printStackTrace();

@@ -18,18 +18,18 @@ import org.w3c.dom.Node;
 
 public abstract class AbstractClassNameExtractor implements IClassNameExtractor {
 
-	public final String extractClassName(Node node, IFile file,
+	public final String[] extractClassNames(Node node, IFile file,
 			String pathForClass, String findByAttrName,
 			boolean findByParentNode, String xpathFactoryProviderId,
 			NamespaceInfos namespaceInfo) throws XPathExpressionException {
 		if (node == null) {
 			return null;
 		}
-		return doExtractClassName(node, file, pathForClass, findByAttrName,
+		return doExtractClassNames(node, file, pathForClass, findByAttrName,
 				findByParentNode, xpathFactoryProviderId, namespaceInfo);
 	}
 
-	protected abstract String doExtractClassName(Node node, IFile file,
+	protected abstract String[] doExtractClassNames(Node node, IFile file,
 			String pathForClass, String findByAttrName,
 			boolean findByParentNode, String xpathFactoryProviderId,
 			NamespaceInfos namespaceInfo) throws XPathExpressionException;

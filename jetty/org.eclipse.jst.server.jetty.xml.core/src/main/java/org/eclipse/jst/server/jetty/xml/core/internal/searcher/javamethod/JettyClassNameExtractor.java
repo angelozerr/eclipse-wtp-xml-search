@@ -29,7 +29,7 @@ public class JettyClassNameExtractor extends AbstractClassNameExtractor
 	public static final IClassNameExtractor INSTANCE = new JettyClassNameExtractor();
 
 	@Override
-	public String doExtractClassName(Node node, IFile file,
+	public String[] doExtractClassNames(Node node, IFile file,
 			String pathForClass, String findByAttrName,
 			boolean findByParentNode, String xpathFactoryProviderId,
 			NamespaceInfos namespaceInfo) throws XPathExpressionException {
@@ -41,7 +41,7 @@ public class JettyClassNameExtractor extends AbstractClassNameExtractor
 		// 1) Search for class name attribute in the Element
 		String className = element.getAttribute(CLASS_ATTR);
 		if (!isEmpty(className)) {
-			return className;
+			return new String[] { className };
 		}
 
 		// 2) Search into PARENT Element
@@ -54,7 +54,7 @@ public class JettyClassNameExtractor extends AbstractClassNameExtractor
 		// 2.1) Search for class name attribute in the PARENT element
 		className = parentElement.getAttribute(CLASS_ATTR);
 		if (!isEmpty(className)) {
-			return className;
+		    return new String[] { className };
 		}
 
 		String elementName = parentElement.getNodeName();
@@ -80,17 +80,17 @@ public class JettyClassNameExtractor extends AbstractClassNameExtractor
 			if (refElement != null) {
 				className = refElement.getAttribute(CLASS_ATTR);
 				if (!isEmpty(className)) {
-					return className;
+				    return new String[] { className };
 				}
 			}
 			return null;
 		}
 
 		if (GET_ELT.equals(elementName)) {
-			String classNameForGet = doExtractClassName(parentElement, file,
+			String[] classNamesForGet = doExtractClassNames(parentElement, file,
 					pathForClass, findByAttrName, findByParentNode,
 					xpathFactoryProviderId, namespaceInfo);
-			if (isEmpty(classNameForGet)) {
+			if (classNamesForGet == null || classNamesForGet.length == 0) {
 				return null;
 			}
 			String methodNameToFind = parentElement.getAttribute(NAME_ATTR);
@@ -98,7 +98,7 @@ public class JettyClassNameExtractor extends AbstractClassNameExtractor
 				return null;
 			}
 			IType type = JdtUtils.getJavaType(file.getProject(),
-					classNameForGet);
+					classNamesForGet[0]);
 			if (type == null) {
 				return null;
 			}
@@ -115,7 +115,7 @@ public class JettyClassNameExtractor extends AbstractClassNameExtractor
 						returnType = returnType.substring(0, returnType
 								.length() - 1);
 					}
-					return returnType;
+					return new String[] { className };
 				}
 			} catch (JavaModelException e) {
 				e.printStackTrace();

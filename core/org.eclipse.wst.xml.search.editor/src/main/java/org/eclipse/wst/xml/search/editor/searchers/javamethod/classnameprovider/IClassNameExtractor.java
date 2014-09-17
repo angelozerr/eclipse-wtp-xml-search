@@ -18,7 +18,7 @@ import org.w3c.dom.Node;
 
 public interface IClassNameExtractor {
 
-	String extractClassName(Node node, IFile file, String pathForClass,
+	String[] extractClassNames(Node node, IFile file, String pathForClass,
 			String findByAttrName, boolean findByParentNode,
 			String xpathFactoryProviderId, NamespaceInfos namespaceInfo)
 			throws XPathExpressionException;

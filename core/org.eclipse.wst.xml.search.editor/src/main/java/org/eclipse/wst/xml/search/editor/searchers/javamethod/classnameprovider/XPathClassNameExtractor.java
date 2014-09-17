@@ -22,7 +22,7 @@ public class XPathClassNameExtractor extends AbstractClassNameExtractor {
 
 	public static final IClassNameExtractor INSTANCE = new XPathClassNameExtractor();
 
-	public String doExtractClassName(Node node, IFile file,
+	public String[] doExtractClassNames(Node node, IFile file,
 			String pathForClass, String findByAttrName,
 			boolean findByParentNode, String xpathFactoryProviderId,
 			NamespaceInfos namespaceInfo) throws XPathExpressionException {
@@ -33,15 +33,15 @@ public class XPathClassNameExtractor extends AbstractClassNameExtractor {
 			if (findByParentNode) {
 				Node parent = element.getParentNode();
 				if (parent != null && parent.getNodeType() == Node.ELEMENT_NODE) {
-					return ((Element) parent).getAttribute(findByAttrName);
+					return new String[] { ((Element) parent).getAttribute(findByAttrName) };
 				}
 				return null;
 			}
-			return element.getAttribute(findByAttrName);
+			return new String[] { element.getAttribute(findByAttrName) };
 		}
 
-		return XPathManager.getManager().evaluateString(xpathFactoryProviderId,
-				node, pathForClass, namespaceInfo, null);
+		return new String[] { XPathManager.getManager().evaluateString(xpathFactoryProviderId,
+				node, pathForClass, namespaceInfo, null) };
 	}
 
 }
