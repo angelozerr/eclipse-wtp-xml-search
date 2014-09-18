@@ -133,11 +133,10 @@ public abstract class AbstractXMLSearchEngine implements ISimpleXMLSearchEngine 
 							NLS.bind(
 									Messages.searchEngineDOMDocumentVisitedError,
 									file.getLocation().toString()), e));
-				} finally {
-					if (model != null /* && releaseModelForRead */) {
-						model.releaseFromRead();
-					}
 				}
+			}
+			if(model != null) {
+			    model.releaseFromRead();
 			}
 		}
 	}
