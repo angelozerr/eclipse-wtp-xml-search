@@ -10,9 +10,12 @@
  *******************************************************************************/
 package org.eclipse.wst.xml.search.core.internal;
 
+import java.io.IOException;
+
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IStorage;
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.MultiStatus;
@@ -98,47 +101,59 @@ public abstract class AbstractXMLSearchEngine implements ISimpleXMLSearchEngine 
 			IXMLSearchDOMNodeCollector collector, Object selectedNode,
 			MultiStatus status) {
 		if (acceptResource(file, rootResource, requestor)) {
-			boolean hasError = false;
-			// boolean releaseModelForRead = false;
-			// Load DOM Document
-			IStructuredModel model = null;
-			try {
-				// releaseModelForRead = false;
-				model = StructuredModelManager.getModelManager()
-						.getExistingModelForRead(file);
-				if (model == null) {
-					model = StructuredModelManager.getModelManager()
-							.getModelForRead(file);
-					// releaseModelForRead = true;
-				}
-			} catch (Throwable e) {
-				hasError = true;
-				status.add(XMLSearchCorePlugin.createStatus(IStatus.ERROR,
-						e.getMessage(), e));
-			}
-
 			IDOMModel domModel = null;
-			if (model instanceof IDOMModel) {
-				domModel = (IDOMModel) model;
-			}
-			if (!hasError && domModel != null && requestor.accept(domModel)) {
-				// DOM Model was loaded, visit the DOM Document
-				try {
-					process(visitor, query, xpathProcessorId, namespaces,
-							collector, selectedNode, model, domModel);
-				} catch (Throwable e) {
-					// Error while visting DOM Document
-					status.add(XMLSearchCorePlugin.createStatus(
-							IStatus.ERROR,
-							NLS.bind(
-									Messages.searchEngineDOMDocumentVisitedError,
-									file.getLocation().toString()), e));
+			try {
+				// Load DOM Document
+				domModel = getDOMModel(file, status);
+				if (domModel != null && requestor.accept(domModel)) {
+					// DOM Model was loaded, visit the DOM Document
+					try {
+						process(visitor, query, xpathProcessorId, namespaces,
+								collector, selectedNode, domModel, domModel);
+					} catch (Throwable e) {
+						// Error while visting DOM Document
+						status.add(XMLSearchCorePlugin.createStatus(
+								IStatus.ERROR,
+								NLS.bind(
+										Messages.searchEngineDOMDocumentVisitedError,
+										file.getLocation().toString()), e));
+					}
 				}
-			}
-			if(model != null) {
-			    model.releaseFromRead();
+			} finally {
+				if (domModel != null) {
+					domModel.releaseFromRead();
+				}
 			}
 		}
+	}
+
+	/**
+	 * Returns the DOM model for read from the given file.
+	 * 
+	 * @param file
+	 *            the file of the DOM node.
+	 * @param status
+	 *            status errors.
+	 * @return the DOM model for read from the given file.
+	 * @throws IOException
+	 * @throws CoreException
+	 */
+	private IDOMModel getDOMModel(IFile file, MultiStatus status) {
+		try {
+			IStructuredModel model = StructuredModelManager.getModelManager()
+					.getExistingModelForRead(file);
+			if (model == null) {
+				model = StructuredModelManager.getModelManager()
+						.getModelForRead(file);
+			}
+			if (model instanceof IDOMModel) {
+				return (IDOMModel) model;
+			}
+		} catch (Exception e) {
+			status.add(XMLSearchCorePlugin.createStatus(IStatus.ERROR,
+					e.getMessage(), e));
+		}
+		return null;
 	}
 
 	/**
@@ -172,41 +187,46 @@ public abstract class AbstractXMLSearchEngine implements ISimpleXMLSearchEngine 
 			String xpathProcessorId, Namespaces namespaces,
 			IXMLSearchDOMNodeCollector collector, Object selectedNode,
 			MultiStatus status) {
-		// if (acceptStorage(storage, rootStorage, requestor)) {
 		boolean hasError = false;
-		// boolean releaseModelForRead = false;
-		// Load DOM Document
-		IStructuredModel model = null;
-		try {
-			// releaseModelForRead = false;
-			model = StructuredStorageModelManager.getModelManager().getModel(
-					storage);
-		} catch (Throwable e) {
-			hasError = true;
-			status.add(XMLSearchCorePlugin.createStatus(IStatus.ERROR,
-					e.getMessage(), e));
-		}
-
-		IDOMModel domModel = null;
-		if (model instanceof IDOMModel) {
-			domModel = (IDOMModel) model;
-		}
-		if (!hasError && domModel != null /* && requestor.accept(domModel) */) {
+		// Load DOM Document from the storage (JAR)
+		IDOMModel domModel = getDOMModel(storage, status);
+		if (domModel != null) {
 			// DOM Model was loaded, visit the DOM Document
 			try {
 				process(visitor, query, xpathProcessorId, namespaces,
-						collector, selectedNode, model, domModel);
+						collector, selectedNode, domModel, domModel);
 			} catch (Throwable e) {
 				// Error while visting DOM Document
 				status.add(XMLSearchCorePlugin.createStatus(IStatus.ERROR, NLS
 						.bind(Messages.searchEngineDOMDocumentVisitedError,
 								storage.getFullPath().toString()), e));
-			} finally {
-				if (model != null /* && releaseModelForRead */) {
-					model.releaseFromRead();
-				}
 			}
 		}
+	}
+
+	/**
+	 * Returns the DOM model for read from the given storage (ex : JAR).
+	 * 
+	 * @param storage
+	 *            the file of the DOM node.
+	 * @param status
+	 *            status errors.
+	 * @return the DOM model for read from the given file.
+	 * @throws IOException
+	 * @throws CoreException
+	 */
+	private IDOMModel getDOMModel(IStorage storage, MultiStatus status) {
+		try {
+			IStructuredModel model = StructuredStorageModelManager
+					.getModelManager().getModel(storage);
+			if (model instanceof IDOMModel) {
+				return (IDOMModel) model;
+			}
+		} catch (Exception e) {
+			status.add(XMLSearchCorePlugin.createStatus(IStatus.ERROR,
+					e.getMessage(), e));
+		}
+		return null;
 	}
 
 	private void process(IXMLSearchDOMDocumentVisitor visitor, String query,
@@ -216,8 +236,8 @@ public abstract class AbstractXMLSearchEngine implements ISimpleXMLSearchEngine 
 		if (model != null) {
 			IDOMDocument document = domModel.getDocument();
 			if (namespaces != null) {
-				NamespaceInfos namespaceInfos = XPathManager
-						.getManager().getNamespaceInfo(document);
+				NamespaceInfos namespaceInfos = XPathManager.getManager()
+						.getNamespaceInfo(document);
 				query = namespaces.format(query, namespaceInfos);
 			}
 			visitor.visit(document, query, xpathProcessorId, collector,

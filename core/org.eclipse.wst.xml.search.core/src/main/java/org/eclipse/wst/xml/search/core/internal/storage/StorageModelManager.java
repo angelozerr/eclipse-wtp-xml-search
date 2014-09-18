@@ -55,13 +55,12 @@ public class StorageModelManager implements IStorageModelManager {
 		ModelInfo info = getModelInfoFor(storage);
 		if (info != null) {
 			return info.structuredModel;
-		} else {
-			IStructuredModel model = loadModel(storage);
-			if (model != null) {
-				modelInfoMap.put(storage, new ModelInfo(model, storage));
-			}
 		}
-		return null;
+		IStructuredModel model = loadModel(storage);
+		if (model != null) {
+			modelInfoMap.put(storage, new ModelInfo(model, storage));
+		}
+		return model;
 	}
 
 	private IStructuredModel loadModel(IStorage storage) {
@@ -70,21 +69,14 @@ public class StorageModelManager implements IStorageModelManager {
 			return null;
 		}
 		InputStream contents = null;
-		try {
-			contents = storage.getContents();
-		} catch (CoreException noStorageExc) {
-			// if (logExceptions)
-			// Logger.logException(NLS.bind(SSEUIMessages._32concat_EXC_, new
-			// Object[]{input.getName()}), noStorageExc);
-		}
-
 		IStructuredModel model = null;
 		try {
+			contents = storage.getContents();
 			// first parameter must be unique
 			model = StructuredModelManager.getModelManager().getModelForRead(
 					id, contents, null);
 			model.setBaseLocation(calculateBaseLocation(storage));
-		} catch (IOException e) {
+		} catch (Exception e) {
 			// if (logExceptions)
 			// Logger.logException(NLS.bind(SSEUIMessages._32concat_EXC_, new
 			// Object[]{input}), e);
