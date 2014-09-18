@@ -24,7 +24,11 @@
                <parameter
                      name="element"
                      value="struts/http://struts.apache.org/dtds/struts-2.1.7.dtd">
-               </parameter>                             
+               </parameter>
+               <parameter
+                     name="element"
+                     value="struts/http://struts.apache.org/dtds/struts-2.3.dtd">
+               </parameter> 
          </describer>
       </content-type>
     </extension>
@@ -48,7 +52,12 @@
   				publicId="-//Apache Software Foundation//DTD Struts Configuration 2.1.7//EN" 
   				uri="dtds/struts-2.1.7.dtd"
   				webURL="http://struts.apache.org/dtds/struts-2.1.7.dtd" > 
-  			</public>  			
+  			</public>
+  			<public 
+  				publicId="-//Apache Software Foundation//DTD Struts Configuration 2.3//EN" 
+  				uri="dtds/struts-2.3.dtd"
+  				webURL="http://struts.apache.org/dtds/struts-2.3.dtd" > 
+  			</public>   			  			
   		</catalogContribution> 
 	</extension> 
    
