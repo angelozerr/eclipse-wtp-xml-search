@@ -187,7 +187,6 @@ public abstract class AbstractXMLSearchEngine implements ISimpleXMLSearchEngine 
 			String xpathProcessorId, Namespaces namespaces,
 			IXMLSearchDOMNodeCollector collector, Object selectedNode,
 			MultiStatus status) {
-		boolean hasError = false;
 		// Load DOM Document from the storage (JAR)
 		IDOMModel domModel = getDOMModel(storage, status);
 		if (domModel != null) {
