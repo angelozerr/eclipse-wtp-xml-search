@@ -8,7 +8,6 @@ import org.eclipse.jdt.core.ICompilationUnit;
 import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.jdt.internal.ui.javaeditor.EditorUtility;
-import org.eclipse.jdt.internal.ui.javaeditor.JavaEditor;
 import org.eclipse.jdt.ui.text.java.hover.IJavaEditorTextHover;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.IRegion;
@@ -35,6 +34,10 @@ public class Java2XHover implements IJavaEditorTextHover {
 
 		final IDocument document = textViewer.getDocument();
 		if (document == null) {
+			return null;
+		}
+
+		if (editor == null) {
 			return null;
 		}
 
