@@ -20,6 +20,7 @@ import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IExtensionDelta;
 import org.eclipse.core.runtime.IExtensionRegistry;
 import org.eclipse.core.runtime.Platform;
+import org.eclipse.core.runtime.content.IContentType;
 import org.eclipse.wst.xml.search.core.namespaces.Namespaces;
 import org.eclipse.wst.xml.search.core.util.StringUtils;
 import org.eclipse.wst.xml.search.editor.internal.Trace;
@@ -133,8 +134,34 @@ public class XMLReferencesManager extends
 		}
 		XMLReferenceContainer container = referencesContainerByContentTypeId
 				.get(contentTypeId);
+
+		if(container == null) {
+			String id = contentTypeId;
+			while(container == null) {
+				IContentType baseType = getParentType(id);
+				if(baseType != null) {
+					id = baseType.getId();
+					container = referencesContainerByContentTypeId.get(id);
+				}
+				else {
+					break;
+				}
+			}
+		}
+
 		return container == null ? null : container.getXMLReferences(node,
 				direction);
+	}
+
+	private IContentType getParentType( String contentTypeId ) {
+		if (contentTypeId != null) {
+			IContentType type =
+				Platform.getContentTypeManager().getContentType(contentTypeId);
+			if (type != null) {
+				return type.getBaseType();
+			}
+		}
+		return null;
 	}
 
 	// XML reference inversed
