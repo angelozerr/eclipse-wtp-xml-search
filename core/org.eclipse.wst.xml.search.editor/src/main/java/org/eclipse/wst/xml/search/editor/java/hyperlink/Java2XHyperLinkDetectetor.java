@@ -8,6 +8,7 @@ import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.Assert;
 import org.eclipse.jdt.core.ICompilationUnit;
 import org.eclipse.jdt.core.IJavaElement;
+import org.eclipse.jdt.core.ITypeRoot;
 import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.jdt.internal.ui.javaeditor.EditorUtility;
 import org.eclipse.jdt.internal.ui.javaeditor.JavaEditor;
@@ -43,11 +44,12 @@ public class Java2XHyperLinkDetectetor extends AbstractHyperlinkDetector {
 		final JavaEditor editor = (JavaEditor) getAdapter(JavaEditor.class);
 		Assert.isNotNull(editor);
 
-		ICompilationUnit compilationUnit = (ICompilationUnit)EditorUtility.getEditorInputJavaElement(
-				editor, false);
-		if (compilationUnit == null) {
+		final ITypeRoot element = EditorUtility.getEditorInputJavaElement( editor, false);
+		if (!(element instanceof ICompilationUnit)) {
 			return null;
 		}
+
+		ICompilationUnit compilationUnit = (ICompilationUnit)element;
 
 		IFile file = null;
 		IJavaElement selectedNode = null;
