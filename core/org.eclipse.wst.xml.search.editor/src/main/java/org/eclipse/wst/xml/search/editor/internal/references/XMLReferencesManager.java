@@ -132,22 +132,7 @@ public class XMLReferencesManager extends
 			}
 			return references;
 		}
-		XMLReferenceContainer container = referencesContainerByContentTypeId
-				.get(contentTypeId);
-
-		if(container == null) {
-			String id = contentTypeId;
-			while(container == null) {
-				IContentType baseType = getParentType(id);
-				if(baseType != null) {
-					id = baseType.getId();
-					container = referencesContainerByContentTypeId.get(id);
-				}
-				else {
-					break;
-				}
-			}
-		}
+		XMLReferenceContainer container = getXMLReferenceContainer( contentTypeId );
 
 		return container == null ? null : container.getXMLReferences(node,
 				direction);
@@ -380,7 +365,22 @@ public class XMLReferencesManager extends
 
 	public XMLReferenceContainer getXMLReferenceContainer(String contentTypeId) {
 		loadXMLReferencesIfNeeded();
-		return referencesContainerByContentTypeId.get(contentTypeId);
+		XMLReferenceContainer container = referencesContainerByContentTypeId.get(contentTypeId);
+
+		if (container == null) {
+			String id = contentTypeId;
+			while( container == null ) {
+				IContentType baseType = getParentType( id );
+				if( baseType != null ) {
+					id = baseType.getId();
+					container = referencesContainerByContentTypeId.get( id );
+				}
+				else {
+					break;
+				}
+			}
+		}
+		return container;
 	}
 
 	private void loadXMLReferencesIfNeeded() {
