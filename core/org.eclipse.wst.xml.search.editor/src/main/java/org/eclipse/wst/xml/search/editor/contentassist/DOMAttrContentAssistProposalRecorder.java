@@ -11,6 +11,7 @@
 package org.eclipse.wst.xml.search.editor.contentassist;
 
 import org.eclipse.swt.graphics.Image;
+import org.eclipse.wst.xml.core.internal.regions.DOMRegionContext;
 import org.eclipse.wst.xml.ui.internal.contentassist.ContentAssistRequest;
 import org.eclipse.wst.xml.ui.internal.editor.XMLEditorPluginImageHelper;
 
@@ -72,8 +73,33 @@ public class DOMAttrContentAssistProposalRecorder implements
 			image = XMLEditorPluginImageHelper.getInstance().getImage(
 					ICONS_FULL_OBJ16_ENUM_GIF);
 		}
+
+		int replacementLength = request.getReplacementLength();
+
+		if (request.getRegion().getType().equals(DOMRegionContext.XML_TAG_ATTRIBUTE_VALUE)) {
+			// handle the code completion of attribute of jsp file,
+			// because jsp tokenizer doesn't detect the attribute value really well and
+			// causes the code completion proposal to replace more text than it should 
+			String text = request.getText().trim();
+			if (text.length() > 0){
+				if (!text.equals("\"") && !text.equals("\'")) {
+					// Split the text with " ", ":", "\r", "n", "<", ">"
+					final String separators = "[\\s\\<\\>:\"\']";
+					// remove the beginning quote, since the first quote cannot be a separator,
+					// when finished, increase the length by 1 for the quote removed.
+					String[] splittedTexts = text.replaceFirst("^[\"\']", "").split(separators);
+					if (splittedTexts != null && splittedTexts.length > 0) {
+						replacementLength = splittedTexts[0].length() + 1;
+					}
+					else {
+						replacementLength = 0;
+					}
+				}
+			}
+		}
+
 		request.addProposal(new DOMAttrCompletionProposal(replaceText, request
-				.getReplacementBeginPosition(), request.getReplacementLength(),
+				.getReplacementBeginPosition(), replacementLength,
 				cursorPosition, image, displayText, null, relevance,
 				proposedObject));
 	}
