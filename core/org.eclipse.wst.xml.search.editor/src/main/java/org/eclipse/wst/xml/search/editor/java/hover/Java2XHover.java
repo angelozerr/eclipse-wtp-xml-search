@@ -6,6 +6,7 @@ import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.Assert;
 import org.eclipse.jdt.core.ICompilationUnit;
 import org.eclipse.jdt.core.IJavaElement;
+import org.eclipse.jdt.core.ITypeRoot;
 import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.jdt.internal.ui.javaeditor.EditorUtility;
 import org.eclipse.jdt.ui.text.java.hover.IJavaEditorTextHover;
@@ -41,8 +42,10 @@ public class Java2XHover implements IJavaEditorTextHover {
 			return null;
 		}
 
-		ICompilationUnit compilationUnit = (ICompilationUnit)EditorUtility.getEditorInputJavaElement(
-				editor, false);
+		ITypeRoot typeRoot = EditorUtility.getEditorInputJavaElement(editor, false);
+		ICompilationUnit compilationUnit =
+			typeRoot instanceof ICompilationUnit ? (ICompilationUnit)typeRoot : null;
+
 		if (compilationUnit == null) {
 			return null;
 		}
