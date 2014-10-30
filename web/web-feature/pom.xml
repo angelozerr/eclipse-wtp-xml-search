@@ -3,7 +3,7 @@
   <parent>
     <groupId>org.eclipse.wst.xml.search</groupId>
     <artifactId>web</artifactId>
-    <version>1.0.0</version>
+    <version>1.0.1-SNAPSHOT</version>
   </parent>
   <artifactId>org.eclipse.wst.xml.search.web-feature</artifactId>
   <packaging>eclipse-feature</packaging>
