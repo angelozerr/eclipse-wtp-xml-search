@@ -1,19 +1,13 @@
-/*******************************************************************************
- * Copyright (c) 2000, 2008 IBM Corporation and others.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+/**
+ *  Copyright (c) 2013-2014 Angelo ZERR.
+ *  All rights reserved. This program and the accompanying materials
+ *  are made available under the terms of the Eclipse Public License v1.0
+ *  which accompanies this distribution, and is available at
+ *  http://www.eclipse.org/legal/epl-v10.html
  *
- * Contributors:
- *     IBM Corporation - initial API and implementation
- *     Juerg Billeter, juergbi@ethz.ch - 47136 Search view should show match objects
- *     Ulrich Etter, etteru@ethz.ch - 47136 Search view should show match objects
- *     Roman Fuchs, fuchsro@ethz.ch - 47136 Search view should show match objects
- *     Angelo Zerr <angelo.zerr@gmail.com> - adapt it for XML Search.
- *     
- *     Code comes from org.eclipse.search.internal.ui.text.FileTreeContentProvider
- *******************************************************************************/
+ *  Contributors:
+ *  Angelo Zerr <angelo.zerr@gmail.com> - initial API and implementation
+ */
 package org.eclipse.wst.xml.search.ui.internal;
 
 import java.util.HashMap;
