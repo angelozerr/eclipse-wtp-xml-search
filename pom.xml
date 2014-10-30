@@ -81,4 +81,9 @@
 		</repository>
 	</repositories>
 
+	<scm>
+		<url>https://github.com/angelozerr/eclipse-wtp-xml-search</url>
+		<developerConnection>https://github.com/angelozerr/eclipse-wtp-xml-search.git</developerConnection>
+		<connection>https://github.com/angelozerr/eclipse-wtp-xml-search.git</connection>
+	</scm>
 </project>
