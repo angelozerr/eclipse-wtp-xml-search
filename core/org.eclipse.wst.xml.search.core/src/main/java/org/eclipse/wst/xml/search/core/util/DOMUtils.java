@@ -10,7 +10,6 @@
  */
 package org.eclipse.wst.xml.search.core.util;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -23,6 +22,8 @@ import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.wst.sse.core.StructuredModelManager;
+import org.eclipse.wst.sse.core.internal.ltk.modelhandler.IModelHandler;
+import org.eclipse.wst.sse.core.internal.modelhandler.ModelHandlerRegistry;
 import org.eclipse.wst.sse.core.internal.provisional.IStructuredModel;
 import org.eclipse.wst.sse.core.internal.provisional.IndexedRegion;
 import org.eclipse.wst.sse.core.internal.provisional.text.IStructuredDocumentRegion;
@@ -484,25 +485,13 @@ public class DOMUtils {
 	 * @return
 	 */
 	public static String getStructuredModelContentTypeId(IFile file) {
-		IStructuredModel model = null;
 		try {
-			model = StructuredModelManager.getModelManager()
-					.getExistingModelForRead(file);
-			if (model == null) {
-				model = StructuredModelManager.getModelManager()
-						.getModelForRead(file);
+			IModelHandler handler = ModelHandlerRegistry.getInstance().getHandlerFor(file);
+			if(handler != null) {
+				return handler.getAssociatedContentTypeId();
 			}
-			if (model != null) {
-				return model.getContentTypeIdentifier();
-			}
-		} catch (IOException e) {
-			return null;
-		} catch (CoreException e) {
-			return null;
-		} finally {
-			if (model != null) {
-				model.releaseFromRead();
-			}
+		}
+		catch(CoreException e1) {
 		}
 		return null;
 	}
