@@ -10,7 +10,6 @@
  */
 package org.eclipse.wst.xml.search.core.util;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -21,6 +20,9 @@ import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Path;
+import org.eclipse.core.runtime.Platform;
+import org.eclipse.core.runtime.content.IContentDescription;
+import org.eclipse.core.runtime.content.IContentType;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.wst.sse.core.StructuredModelManager;
 import org.eclipse.wst.sse.core.internal.provisional.IStructuredModel;
@@ -484,24 +486,26 @@ public class DOMUtils {
 	 * @return
 	 */
 	public static String getStructuredModelContentTypeId(IFile file) {
-		IStructuredModel model = null;
-		try {
-			model = StructuredModelManager.getModelManager()
-					.getExistingModelForRead(file);
-			if (model == null) {
-				model = StructuredModelManager.getModelManager()
-						.getModelForRead(file);
+		if(file != null) {
+			IContentDescription desc = null;
+			IContentType type = null;
+
+			try {
+				desc = file.getContentDescription();
+
+				if(desc != null) {
+					type = desc.getContentType();
+				}
 			}
-			if (model != null) {
-				return model.getContentTypeIdentifier();
+			catch( CoreException e ) {
 			}
-		} catch (IOException e) {
-			return null;
-		} catch (CoreException e) {
-			return null;
-		} finally {
-			if (model != null) {
-				model.releaseFromRead();
+
+			if(type == null) {
+				type = Platform.getContentTypeManager().findContentTypeFor(file.getName());
+			}
+
+			if(type != null) {
+				return type.getId();
 			}
 		}
 		return null;
