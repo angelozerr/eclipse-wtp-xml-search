@@ -8,12 +8,9 @@
  *  Contributors:
  *  Angelo Zerr <angelo.zerr@gmail.com> - initial API and implementation
  */
-package org.eclipse.wst.xml.search.core.internal.statics;
+package org.eclipse.wst.xml.search.core.statics;
 
 import org.eclipse.core.resources.IFile;
-import org.eclipse.wst.xml.search.core.statics.IStaticValueQuerySpecification;
-import org.eclipse.wst.xml.search.core.statics.IStaticValueVisitor;
-import org.eclipse.wst.xml.search.core.statics.IStaticValueVisitorProvider;
 
 /**
  * 

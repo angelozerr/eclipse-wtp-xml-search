@@ -20,7 +20,6 @@ import org.eclipse.core.runtime.Platform;
 import org.eclipse.wst.xml.search.core.AbstractRegistryManager;
 import org.eclipse.wst.xml.search.core.internal.Trace;
 import org.eclipse.wst.xml.search.core.internal.XMLSearchCorePlugin;
-import org.eclipse.wst.xml.search.core.internal.statics.StaticValueQuerySpecification;
 import org.eclipse.wst.xml.search.core.util.StringUtils;
 
 public class StaticValueQuerySpecificationManager extends
