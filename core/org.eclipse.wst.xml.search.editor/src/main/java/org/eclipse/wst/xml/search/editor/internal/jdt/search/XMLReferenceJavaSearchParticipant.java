@@ -43,6 +43,7 @@ import org.eclipse.wst.xml.search.editor.internal.references.XMLReferencesManage
 import org.eclipse.wst.xml.search.editor.references.IXMLReference;
 import org.eclipse.wst.xml.search.editor.references.IXMLReferencePath;
 import org.eclipse.wst.xml.search.editor.references.IXMLReferenceTo.ToType;
+import org.eclipse.wst.xml.search.editor.references.validators.IXMLReferenceValidator2;
 import org.eclipse.wst.xml.search.editor.util.XMLQuerySpecificationUtil;
 
 /**
@@ -245,6 +246,12 @@ public class XMLReferenceJavaSearchParticipant implements IQueryParticipant {
 			String javaTypeName, IProgressMonitor monitor, IProject project,
 			IXMLSearchDOMNodeCollector collector, String contentTypeId,
 			IXMLReference reference) {
+		if(reference.getValidator() instanceof IXMLReferenceValidator2) {
+			IXMLReferenceValidator2 validator = (IXMLReferenceValidator2)reference.getValidator();
+			if(!validator.isValidTarget(project)) {
+				return collector;
+			}
+		}
 		Collection<IFile> indexedFiles = XMLReferencesIndexManager.getDefault()
 				.getIndexedFiles(project, contentTypeId, monitor);
 		if (indexedFiles != null && indexedFiles.size() > 0) {
