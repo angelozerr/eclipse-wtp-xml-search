@@ -43,12 +43,16 @@ Use the update site [http://oss.opensagres.fr/eclipse-wtp-xml-search/1.0.0//](ht
 ](https://opensagres.ci.cloudbees.com/job/eclipse-wtp-xml-search/ws/update-site/target/repository/) to install Eclipse WTP/XML Search 
 and read [Installation Guide](https://github.com/angelozerr/eclipse-wtp-xml-search/wiki/Installation-Guide) for more information.
 
+# Who is using Eclipse WTP/XML Search?
+
+ * [Liferay IDE](https://github.com/liferay/liferay-ide)
+  
 # Build
 
 See cloudbees job: [https://opensagres.ci.cloudbees.com/job/eclipse-wtp-xml-search/](https://opensagres.ci.cloudbees.com/job/eclipse-wtp-xml-search/)
 
 # Articles
  
- I will hope than one day, **Eclipse WTP/XML Search**  will be host in the Eclipse WTP (see [bug 330576](https://bugs.eclipse.org/bugs/show_bug.cgi?id=330576)).
+I will hope than one day, **Eclipse WTP/XML Search**  will be host in the Eclipse WTP (see [bug 330576](https://bugs.eclipse.org/bugs/show_bug.cgi?id=330576)).
  
  You can read following [articles](http://angelozerr.wordpress.com/about/eclipse-wtp-xml-search/) about Eclipse WTP/XML Search.
