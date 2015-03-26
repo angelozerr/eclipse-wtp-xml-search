@@ -300,8 +300,8 @@ public class XMLReferencesBatchValidator extends AbstractValidator implements
 				String[] targetNodes = from.getTargetNodes();
 				for (String targetNode : targetNodes) {
 					String xpath = EqualsStringQueryBuilder.INSTANCE.build(
-							path, null, null)
-							+ "/" + targetNode;
+						path, null, null) +
+							( targetNode.isEmpty() ? targetNode : "/" + targetNode);
 					try {
 						NodeList list = XPathManager.getManager()
 								.evaluateNodeSet(null, document, xpath,
