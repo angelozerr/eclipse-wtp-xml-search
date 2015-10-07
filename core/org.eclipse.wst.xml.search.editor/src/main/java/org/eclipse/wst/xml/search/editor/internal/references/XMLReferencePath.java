@@ -72,6 +72,8 @@ public class XMLReferencePath extends AbstractXMLReferenceTo implements
 	}
 
 	private String computeXPathWithWildcard(String path) {
+		// replace simple quote with double quote to support from/to path like /a[@name='xxx']
+		path = path.replaceAll("[']", "\"");
 		if (nbWildCard == -1)
 			return path;
 		for (int i = 0; i < nbWildCard + 1; i++) {
